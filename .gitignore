@@ -1,0 +1,14 @@
+/.*
+/*
+
+!.gitignore
+!.gitmodules
+
+!/init.el
+!/install.el
+
+!/config/
+!/vendor/
+
+/config/custom.el
+/vendor/org-mode

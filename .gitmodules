@@ -1,0 +1,42 @@
+[submodule "vendor/popup"]
+	path = vendor/popup
+	url = git://github.com/m2ym/popup-el.git
+[submodule "vendor/fuzzy"]
+	path = vendor/fuzzy
+	url = git://github.com/m2ym/fuzzy-el.git
+[submodule "vendor/auto-complete"]
+	path = vendor/auto-complete
+	url = git://github.com/m2ym/auto-complete.git
+[submodule "vendor/clojure-mode"]
+	path = vendor/clojure-mode
+	url = git://github.com/technomancy/clojure-mode.git
+[submodule "vendor/haskell-mode"]
+	path = vendor/haskell-mode
+	url = git://github.com/haskell/haskell-mode.git
+[submodule "vendor/javascript"]
+	path = vendor/javascript
+	url = git://github.com/mooz/js2-mode.git
+[submodule "vendor/org-mode.full"]
+	path = vendor/org-mode.full
+	url = git://orgmode.org/org-mode.git
+[submodule "vendor/scala-mode"]
+	path = vendor/scala-mode
+	url = git://github.com/haxney/scala-mode.git
+[submodule "vendor/yaml-mode"]
+	path = vendor/yaml-mode
+	url = git://github.com/yoshiki/yaml-mode.git
+[submodule "vendor/magit"]
+	path = vendor/magit
+	url = git://github.com/magit/magit.git
+[submodule "vendor/auctex"]
+	path = vendor/auctex
+	url = git://github.com/jwiegley/auctex.git
+[submodule "vendor/lua-mode"]
+	path = vendor/lua-mode
+	url = git://github.com/immerrr/lua-mode.git
+[submodule "vendor/rainbow-delimiters"]
+	path = vendor/rainbow-delimiters
+	url = git://github.com/jlr/rainbow-delimiters.git
+[submodule "vendor/markdown-mode"]
+	path = vendor/markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
