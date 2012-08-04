@@ -8,6 +8,7 @@
 !/install.el
 
 !/config/
+!/theme/
 !/vendor/
 
 /config/custom.el

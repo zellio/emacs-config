@@ -12,6 +12,7 @@
 
 (load "config/utf-8")
 (load "config/frames")
+(load "config/theme")
 (load "config/tabs")
 (load "config/scratch")
 

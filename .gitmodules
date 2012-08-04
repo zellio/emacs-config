@@ -40,3 +40,6 @@
 [submodule "vendor/markdown-mode"]
 	path = vendor/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
+[submodule "theme/zenburn"]
+	path = theme/zenburn
+	url = git://github.com/bbatsov/zenburn-emacs
