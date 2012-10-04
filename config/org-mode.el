@@ -73,3 +73,5 @@
         ("WAIT"  . (:foreground "goldenrod" :weight bold))
         ("PROJECT"  . (:foreground "steelblue" :weight bold))
         ("MAYBE"  . (:foreground "dimgrey" :weight bold)) ))
+
+(setq org-use-speed-commands t)

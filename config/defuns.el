@@ -33,6 +33,9 @@
 
 ;;; Code:
 
+(defmacro filter (fn list)
+  `(delq nil (mapcar (lambda (l) (and (funcall ,fn l) l)) ,list)))
+
 ;; Taken from https://github.com/rmm5t/dotfiles/blob/master/emacs.d/rmm5t/defuns.el
 (defun vendor (library &rest autoload-functions)
   (let* ((file (symbol-name library))
@@ -67,3 +70,22 @@
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
+
+
+;; This is a very job specific function, will probably be revisited
+(defun org-agenda-insert-project-remedy-ticket ( inc-id )
+  (interactive "MIncident ID: ")
+  (org-agenda-goto)
+  (let* ((file (buffer-file-name))
+         (path (file-name-directory file))
+         (inc-org-file (concat path "docs/remedy/" inc-id ".org")))
+    (goto-char (point-min))
+    (search-forward "* Remedy Tickets" (point-max) nil)
+    (org-insert-todo-heading-respect-content)
+    (org-do-demote)
+    (insert "[[" inc-org-file "][" inc-id "]]")
+    (find-file inc-org-file)
+    (org-insert-time-stamp nil t t)
+    (newline)
+    (save-selected-window
+      (org-agenda-redo))))
