@@ -28,6 +28,7 @@
 (vendor 'clojure-mode)
 (vendor 'haskell-mode)
 (vendor 'javascirpt 'js2-mode)
+(vendor 'j-mode)
 (vendor 'lua-mode)
 (vendor 'magit)
 (vendor 'markdown-mode)

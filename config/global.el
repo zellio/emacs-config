@@ -36,6 +36,7 @@
 (setq-default
  inhibit-startup-message        t
  default-tab-width              2
+ c-basic-offset                 4
  kill-whole-line                t
  truncate-partial-width-windows nil
  fill-column                    80

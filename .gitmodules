@@ -43,3 +43,6 @@
 [submodule "theme/zenburn"]
 	path = theme/zenburn
 	url = git://github.com/bbatsov/zenburn-emacs
+[submodule "vendor/j-mode"]
+	path = vendor/j-mode
+	url = git://github.com/zellio/j-mode.git
