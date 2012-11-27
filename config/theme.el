@@ -40,4 +40,5 @@
           (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))))))
 
 
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
+(load-theme 'birds-of-paradise-plus t)

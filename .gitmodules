@@ -46,3 +46,6 @@
 [submodule "vendor/j-mode"]
 	path = vendor/j-mode
 	url = git://github.com/zellio/j-mode.git
+[submodule "theme/birds-of-paradise-plus"]
+	path = theme/birds-of-paradise-plus
+	url = git://github.com/jimeh/birds-of-paradise-plus-theme.el.git
