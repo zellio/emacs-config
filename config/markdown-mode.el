@@ -31,3 +31,6 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+
+(add-to-list 'auto-mode-alist
+             '("\\.\\(?:md\\|mkdn?\\|mdwn\\|mdown\\|markdown\\)" . markdown-mode))
