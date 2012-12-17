@@ -33,12 +33,23 @@
 
 ;;; Code:
 
+(unless (boundp 'custom-theme-load-path)
+  (defvaralias 'custom-theme-load-path 'load-path))
+
+(unless (boundp 'custom-safe-themes)
+  (setq custom-safe-themes '()))
+
 (let ((theme-dir "~/.emacs.d/theme"))
   (let ((themes (directory-files theme-dir)))
     (dolist (theme themes)
-      (if (not (string= "." (substring theme 0 1)))
-          (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))))))
+      (unless (string= "." (substring theme 0 1))
+        (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))
+        (add-to-list 'custom-safe-themes theme)))))
 
 
-;;(load-theme 'zenburn t)
-(load-theme 'birds-of-paradise-plus t)
+;;(load-theme 'zenburn)
+(load-theme 'birds-of-paradise-plus)
+
+
+
+
