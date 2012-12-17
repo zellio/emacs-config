@@ -43,13 +43,13 @@
   (let ((themes (directory-files theme-dir)))
     (dolist (theme themes)
       (unless (string= "." (substring theme 0 1))
-        (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))
-        (add-to-list 'custom-safe-themes theme)))))
+        (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))))))
+
 
 
 ;;(load-theme 'zenburn)
+
+;; SHA256 for "safe" theme load
+(add-to-list 'custom-safe-themes
+             "8281168b824a806489ca7d22e60bb15020bf6eecd64c25088c85b3fd806fc341")
 (load-theme 'birds-of-paradise-plus)
-
-
-
-
