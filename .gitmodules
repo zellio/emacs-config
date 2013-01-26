@@ -49,3 +49,6 @@
 [submodule "theme/birds-of-paradise-plus"]
 	path = theme/birds-of-paradise-plus
 	url = git://github.com/jimeh/birds-of-paradise-plus-theme.el.git
+[submodule "theme/solarized"]
+	path = theme/solarized
+	url = git://github.com/sellout/emacs-color-theme-solarized.git
