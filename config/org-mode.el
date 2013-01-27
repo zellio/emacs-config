@@ -35,6 +35,8 @@
 
 ;; patch for current version of org as org-agenda-filter is depricaited
 ;; but sill used
+(add-to-list 'load-path "~/.emacs.d/vendor/org-mode.full/lisp")
+
 (setq org-agenda-filter 'org-agenda-tag-filter)
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))

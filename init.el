@@ -16,11 +16,13 @@
 (load "config/tabs")
 (load "config/scratch")
 
+(load "config/org-mode")
 (load "config/ido")
 (load "config/flyspell")
 
 (load "config/erlang")
 (load "config/perl")
+
 
 (vendor 'auctex 'auctex 'preview-latex)
 (vendor 'auto-complete 'auto-complete-config)
@@ -32,7 +34,7 @@
 (vendor 'lua-mode)
 (vendor 'magit)
 (vendor 'markdown-mode)
-(vendor 'org-mode 'org-install)
+;;(vendor 'org-mode)
 (vendor 'rainbow-delimiters)
 (vendor 'scala-mode)
 (vendor 'yaml-mode 'yaml-mode)
