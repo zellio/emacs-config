@@ -53,3 +53,8 @@
 (add-to-list 'custom-safe-themes
              "8281168b824a806489ca7d22e60bb15020bf6eecd64c25088c85b3fd806fc341")
 (load-theme 'birds-of-paradise-plus)
+
+(custom-theme-set-faces
+ 'birds-of-paradise-plus
+ `(default ((t (:background "#2E3436" :foreground "#E6E1C4"))))
+ `(fringe ((t (:background "#2A2C2D" :foreground "#654D4D")))))
