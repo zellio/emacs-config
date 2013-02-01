@@ -2,34 +2,13 @@
 ;;; theme.el --- theme loading for emacs
 
 ;; Copyright (C) 2012 Zachary Elliott
-;;
-;; Authors: Zachary Elliott <ZacharyElliott1@gmail.com>
-;; URL:
-;; Version: 1.0.0
-;; Keywords:
+;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
 ;;
-
-;;; License:
-
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License
-;; as published by the Free Software Foundation; either version 3
-;; of the License, or (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING.  If not, write to the
-;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
 
@@ -46,16 +25,18 @@
         (add-to-list 'custom-theme-load-path (concat theme-dir "/" theme))))))
 
 
-
-;;(load-theme 'zenburn)
-
 ;; SHA256 for "safe" theme load
-;; (add-to-list 'custom-safe-themes
-;;              "8281168b824a806489ca7d22e60bb15020bf6eecd64c25088c85b3fd806fc341")
-;; (load-theme 'birds-of-paradise-plus)
-;;
-;; (custom-theme-set-faces
-;;  'birds-of-paradise-plus
-;;  `(default ((t (:background "#2E3436" :foreground "#E6E1C4"))))
-;;  `(fringe ((t (:background "#2A2C2D" :foreground "#654D4D")))))
+(dolist (hash '(  ;; Birds of paradise
+  "8281168b824a806489ca7d22e60bb15020bf6eecd64c25088c85b3fd806fc341"
+  ;; Solarized Dark
+  "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6"
+  ;; Solarized Light
+  "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365"
+  ;; Zenburn
+  "0bac11bd6a3866c6dee5204f76908ec3bdef1e52f3c247d5ceca82860cccfa9d"))
+  (add-to-list 'custom-safe-themes hash))
+
+
 (load-theme 'wombat)
+
+;; end of theme.el
