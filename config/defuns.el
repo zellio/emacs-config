@@ -1,7 +1,7 @@
 
 ;;; defuns.el --- Personal function definitions
 
-;; Copyright (C) 2012 Zachary Elliott
+;; Copyright (C) 2012,2013 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -71,4 +71,4 @@
 ;;     (save-selected-window
 ;;       (org-agenda-redo))))
 
-;;; end of defuns.el
+;; end of defuns.el

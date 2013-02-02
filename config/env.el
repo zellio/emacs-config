@@ -1,7 +1,7 @@
 
 ;;; env.el --- Setting enviroment
 
-;; Copyright (C) 2012 Zachary Elliott
+;; Copyright (C) 2012,2013 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
