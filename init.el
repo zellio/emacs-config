@@ -19,6 +19,7 @@
 (load "config/org-mode")
 (load "config/ido")
 (load "config/flyspell")
+(load "config/uniquify")
 
 (load "config/erlang")
 (load "config/perl")
