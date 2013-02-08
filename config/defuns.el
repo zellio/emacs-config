@@ -34,21 +34,23 @@
     (when (file-exists-p (concat personal ".el"))
       (load personal))))
 
-
-;; Quickly jump back and forth between matching parens/brackets
 (defun match-paren (arg)
   "Go to the matching parenthesis if on parenthesis."
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))))
 
-;; Make the whole buffer pretty and consistent
 (defun indent-whole-buffer()
   "Indent Whole Buffer"
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
+
+(defun kill-current-buffer ()
+  "Kill the current buffer without prompting the user"
+  (interactive)
+  (kill-buffer (current-buffer)))
 
 
 ;; This functionality is currently being rebuilt into themis.el -- more to come

@@ -39,4 +39,10 @@
 ;; set goto-line to just M-g
 (global-set-key (kbd "M-g") 'goto-line)
 
+;; Auto-kill current buffer, don't prompt
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+
+;; Don't use this anyway
+(global-unset-key (kbd "C-x f"))
+
 ;; end of bindings.el
