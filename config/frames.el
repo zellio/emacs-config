@@ -14,7 +14,7 @@
 
 (setq initial-frame-alist '((vertical-scroll-bars . nil)))
 
-(setq default-frame-alist '((font . "DejaVu Sans Mono-10")
+(setq default-frame-alist '((font . "DejaVu Sans Mono-11")
                             (vertical-scroll-bars . nil)))
 
 ;; end of frames.el
