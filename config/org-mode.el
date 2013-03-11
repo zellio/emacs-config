@@ -15,6 +15,8 @@
 ;; Patch for vendor breaking autoloading new org mode
 (add-to-list 'load-path "~/.emacs.d/vendor/org-mode.full/lisp")
 
+(require 'org-loaddefs)
+
 ;; patch for current version of org as org-agenda-filter is depricaited
 ;; but sill used
 (setq org-agenda-filter 'org-agenda-tag-filter)
