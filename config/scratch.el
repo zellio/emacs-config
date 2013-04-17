@@ -13,7 +13,7 @@
 ;;; Code:
 
 (setq initial-scratch-message "")
-(setq initial-major-mode 'org-mode)
+(setq initial-major-mode 'markdown-mode)
 
 (save-excursion
   (set-buffer (get-buffer-create "*scratch*"))
