@@ -20,8 +20,7 @@
  cperl-invalid-face nil)
 
 (custom-set-faces
- '(cperl-array-face          ((t (:foreground "DarkGreen" :background "Clear"))))
- '(cperl-hash-face           ((t (:foreground "DodgerBlue4" :background "Clear"))))
- '(cperl-nonoverridable-face ((t (:foreground "Black" :background "Clear")))))
+ '(cperl-array-face ((t (:foreground "green" :weight bold))))
+ '(cperl-hash-face ((t (:foreground "purple" :weight bold :slant italic)))))
 
 ;; end of perl.el
