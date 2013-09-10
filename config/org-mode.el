@@ -32,8 +32,7 @@
 
 (setq org-agenda-files
       (append
-       '("~/.emacs.d/org/school.org"
-         "~/.emacs.d/org/work.org")
+       '("~/.emacs.d/org/work.org")
        (delq nil
              (mapcar
               (lambda (s)
@@ -46,7 +45,7 @@
 (define-key global-map "\C-cr" 'org-capture)
 
 (setq org-directory "~/.emacs.d/org")
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
+(setq org-mobile-directory "~/.emacs.d/org")
 (setq org-mobile-inbox-for-pull "~/.emacs.d/org/mobile.org")
 
 (setq org-todo-keywords
@@ -59,5 +58,10 @@
         ("MAYBE"  . (:foreground "dimgrey" :weight bold)) ))
 
 (setq org-use-speed-commands t)
+
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (local-set-key [(control return)] 'org-insert-heading-after-current)))
 
 ;; end of org-mode.el
