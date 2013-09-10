@@ -24,6 +24,9 @@
 (load "config/erlang")
 (load "config/perl")
 
+(load "vendor/git-modes/git-commit-mode")
+(load "vendor/git-modes/git-rebase-mode")
+
 
 (vendor 'auctex 'auctex 'preview-latex)
 (vendor 'auto-complete 'auto-complete-config)
