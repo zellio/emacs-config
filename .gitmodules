@@ -58,3 +58,6 @@
 [submodule "vendor/guru-mode"]
 	path = vendor/guru-mode
 	url = git://github.com/bbatsov/guru-mode.git
+[submodule "vendor/php-mode"]
+	path = vendor/php-mode
+	url = https://github.com/ejmr/php-mode
