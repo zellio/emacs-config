@@ -18,7 +18,7 @@
  c-basic-offset                 4
  kill-whole-line                t
  truncate-partial-width-windows nil
- fill-column                    80
+ fill-column                    78
  indicate-empty-lines           t
  line-number-mode               t
  column-number-mode             t
