@@ -55,3 +55,6 @@
 [submodule "theme/wombat"]
 	path = theme/wombat
 	url = git://gist.github.com/5413503
+[submodule "vendor/guru-mode"]
+	path = vendor/guru-mode
+	url = git://github.com/bbatsov/guru-mode.git

@@ -29,6 +29,7 @@
 (vendor 'auto-complete 'auto-complete-config)
 (vendor 'bnf-mode)
 (vendor 'clojure-mode)
+(vendor 'guru-mode)
 (vendor 'haskell-mode)
 (vendor 'javascirpt 'js2-mode)
 (vendor 'j-mode)
