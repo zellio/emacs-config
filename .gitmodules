@@ -64,3 +64,6 @@
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
 	url = https://github.com/magit/git-modes
+[submodule "vendor/cmake-mode"]
+	path = vendor/cmake-mode
+	url = git@github.com:gist/6543165
