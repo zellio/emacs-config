@@ -24,7 +24,6 @@
  column-number-mode             t
  visible-bell                   t)
 
-
 ;; make sure we have a place to store data
 (make-directory "~/.emacs.d/autosave/" t)
 (make-directory "~/.emacs.d/backup/"   t)
@@ -44,6 +43,8 @@
  kept-old-versions      2
  version-control        t)
 
+;; Set save-place file location
+(setq save-place-file "~/.emacs.d/saved-places")
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
