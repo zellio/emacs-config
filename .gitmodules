@@ -6,7 +6,7 @@
 	url = git://github.com/auto-complete/fuzzy-el.git
 [submodule "vendor/auto-complete"]
 	path = vendor/auto-complete
-	url = https://github.com/auto-complete/auto-complete
+	url = git://github.com/auto-complete/auto-complete.git
 [submodule "vendor/clojure-mode"]
 	path = vendor/clojure-mode
 	url = git://github.com/technomancy/clojure-mode.git
@@ -42,7 +42,7 @@
 	url = git://jblevins.org/git/markdown-mode.git
 [submodule "theme/zenburn"]
 	path = theme/zenburn
-	url = git://github.com/bbatsov/zenburn-emacs
+	url = git://github.com/bbatsov/zenburn-emacs.git
 [submodule "vendor/j-mode"]
 	path = vendor/j-mode
 	url = git://github.com/zellio/j-mode.git
@@ -54,16 +54,16 @@
 	url = git://github.com/sellout/emacs-color-theme-solarized.git
 [submodule "theme/wombat"]
 	path = theme/wombat
-	url = git://gist.github.com/5413503
+	url = git://gist.github.com/5413503.git
 [submodule "vendor/guru-mode"]
 	path = vendor/guru-mode
 	url = git://github.com/bbatsov/guru-mode.git
 [submodule "vendor/php-mode"]
 	path = vendor/php-mode
-	url = https://github.com/ejmr/php-mode
+	url = git://github.com/ejmr/php-mode.git
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
-	url = https://github.com/magit/git-modes
+	url = git://github.com/magit/git-modes.git
 [submodule "vendor/cmake-mode"]
 	path = vendor/cmake-mode
-	url = git@github.com:gist/6543165
+	url = git://github.com/gist/6543165.git
