@@ -23,6 +23,7 @@
 
 (load "config/erlang")
 (load "config/perl")
+(load "config/ruby")
 
 (load "vendor/git-modes/git-commit-mode")
 (load "vendor/git-modes/git-rebase-mode")
