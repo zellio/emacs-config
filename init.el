@@ -45,4 +45,5 @@
 (vendor 'php-mode)
 (vendor 'rainbow-delimiters)
 (vendor 'scala-mode)
+(vendor 'scss-mode)
 (vendor 'yaml-mode 'yaml-mode)

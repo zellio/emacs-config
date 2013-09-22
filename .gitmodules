@@ -67,3 +67,6 @@
 [submodule "vendor/cmake-mode"]
 	path = vendor/cmake-mode
 	url = git://github.com/gist/6543165.git
+[submodule "vendor/scss-mode"]
+	path = vendor/scss-mode
+	url = git://github.com/antonj/scss-mode.git
