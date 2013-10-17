@@ -52,6 +52,10 @@
   (interactive)
   (kill-buffer (current-buffer)))
 
+(defun daily-notes ()
+  (interactive)
+  (find-file (format-time-string "~/.emacs.d/org/daily-notes/%Y-%m-%d.org")))
+
 
 ;; This functionality is currently being rebuilt into themis.el -- more to come
 
