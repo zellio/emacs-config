@@ -43,6 +43,7 @@
 (vendor 'markdown-mode)
 ;;(vendor 'org-mode)
 (vendor 'php-mode)
+(vendor 'puppet-mode)
 (vendor 'rainbow-delimiters)
 (vendor 'scala-mode)
 (vendor 'scss-mode)
