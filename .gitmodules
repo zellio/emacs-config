@@ -73,3 +73,6 @@
 [submodule "vendor/puppet-mode"]
 	path = vendor/puppet-mode
 	url = git://github.com/puppetlabs/puppet-syntax-emacs
+[submodule "vendor/go-mode"]
+	path = vendor/go-mode
+	url = git://github.com/gist/7604398

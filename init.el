@@ -34,6 +34,7 @@
 (vendor 'bnf-mode)
 (vendor 'clojure-mode)
 (vendor 'cmake-mode)
+(vendor 'go-mode)
 (vendor 'guru-mode)
 (vendor 'haskell-mode)
 (vendor 'javascirpt 'js2-mode)
