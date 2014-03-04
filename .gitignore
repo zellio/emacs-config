@@ -1,2 +1,10 @@
-/data
-/config/custom.el
+/*
+!LICENSE
+!README.md
+!init.el
+!/config
+!/data
+/data/*
+!/data/elpa
+/data/elpa/*
+!/data/elpa/pkg.list
