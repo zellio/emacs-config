@@ -1,11 +1,2 @@
-/.*
-/*
-
-!.gitignore
-!.gitmodules
-!LICENSE
-!README.md
-!/init.el
-!/config/
-
+/data
 /config/custom.el
