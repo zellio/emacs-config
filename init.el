@@ -9,7 +9,6 @@
 (load "config/theme")
 (load "config/tabs")
 (load "config/scratch")
-;;(load "config/org-mode")
 (load "config/ido")
 (load "config/flyspell")
 (load "config/uniquify")
