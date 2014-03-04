@@ -1,2 +1,17 @@
 (add-to-list 'load-path "~/.emacs.d/")
 
+(load "config/env")
+(load "config/global")
+(load "config/bindings")
+(load "config/defuns")
+(load "config/utf-8")
+(load "config/frames")
+(load "config/theme")
+(load "config/tabs")
+(load "config/scratch")
+;;(load "config/org-mode")
+(load "config/ido")
+(load "config/flyspell")
+(load "config/uniquify")
+
+
