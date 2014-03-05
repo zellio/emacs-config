@@ -8,6 +8,7 @@ magit
 markdown-mode
 puppet-mode
 rainbow-delimiters
+sass-mode
 scss-mode
 yaml-mode
 )
