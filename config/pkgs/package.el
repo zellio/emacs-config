@@ -37,7 +37,13 @@
 (defun package--user-save-package-list ()
   ""
   (with-temp-buffer
-    (insert (format "%s" package--user-package-list))
+    (insert "(")
+    (newline)
+    (dolist (pkg (sort package--user-package-list 'string<))
+      (insert (symbol-name pkg))
+      (newline))
+    (insert ")")
+    (newline)
     (write-file package--user-package-list-file nil)))
 
 (defcustom package--user-package-list
@@ -61,6 +67,6 @@
 (dolist (pkg package--user-package-list)
   (unless (package-installed-p pkg)
     (when (y-or-n-p (format "Package `%s' is missing. Install it now? " pkg))
-      (package-install package))))
+      (package-install pkg))))
 
 ;; end of package.el
