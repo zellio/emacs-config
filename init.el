@@ -15,4 +15,5 @@
 (load "config/pkgs/flyspell")
 (load "config/pkgs/uniquify")
 
+(load "config/pkgs/auto-complete")
 (load "config/pkgs/perl")
