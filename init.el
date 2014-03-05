@@ -14,3 +14,5 @@
 (load "config/pkgs/ido")
 (load "config/pkgs/flyspell")
 (load "config/pkgs/uniquify")
+
+(load "config/pkgs/perl")
