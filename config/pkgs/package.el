@@ -1,4 +1,3 @@
-
 ;;; package.el --- Setting marmalade extentions to ELPA
 
 ;; Copyright (C) 2012-2014 Zachary Elliott
@@ -7,9 +6,6 @@
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
-
-;; Not sure what the point of this file is, or why it's still here. I'm sure
-;; I'll find a use.
 
 ;;; Code:
 
