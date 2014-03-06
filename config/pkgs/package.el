@@ -12,7 +12,7 @@
 (require 'package)
 
 (setq
- package-user-dir (concat user-emacs-directory "/data/elpa")
+ package-user-dir (expand-file-name "elpa" user-emacs-data-directory)
  package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                     ("marmalade" . "http://marmalade-repo.org/packages/")
                     ("melpa" . "http://melpa.milkbox.net/packages/")))
@@ -59,6 +59,9 @@
   (let ((pkg-sym (intern pkg)))
     (setq package--user-package-list (delete pkg-sym package--user-package-list))
     (package--user-save-package-list)))
+
+(unless (file-exists-p (expand-file-name "archives" package-user-dir))
+  (package-refresh-contents))
 
 (dolist (pkg package--user-package-list)
   (unless (package-installed-p pkg)
