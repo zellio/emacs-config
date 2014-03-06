@@ -17,3 +17,4 @@
 
 (load "config/pkgs/auto-complete")
 (load "config/pkgs/perl")
+(load "config/pkgs/enh-ruby")
