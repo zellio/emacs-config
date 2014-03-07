@@ -16,7 +16,7 @@
 (setq-default standard-indent 2)          ;; Set indent to "  "
 (setq-default tab-width 2)                ;; Set indent to "  "
 
-(defun smart-indent ()
+(defun user:smart-indent ()
   "Indents region if mark is active, or current line otherwise."
   (interactive)
   (if mark-active
@@ -24,6 +24,6 @@
                      (region-end))
     (indent-for-tab-command)))
 
-(global-set-key (kbd "TAB") 'smart-indent)
+(global-set-key (kbd "TAB") 'user:smart-indent)
 
 ;; end of tabs.el

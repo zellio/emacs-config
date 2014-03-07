@@ -34,13 +34,13 @@
 (global-set-key (kbd "M-<f8>") 'align-regexp)
 
 ;; Find matching parens
-(global-set-key (kbd "C-'") 'match-paren)
+(global-set-key (kbd "C-'") 'user:match-paren)
 
 ;; set goto-line to just M-g
 (global-set-key (kbd "M-g") 'goto-line)
 
 ;; Auto-kill current buffer, don't prompt
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-x k") 'user:kill-current-buffer)
 
 ;; Don't use this anyway
 (global-unset-key (kbd "C-x f"))

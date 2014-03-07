@@ -12,29 +12,29 @@
 
 ;;; Code:
 
-(defmacro filter (fn list)
+(defmacro user:filter (fn list)
   `(delq nil (mapcar (lambda (l) (and (funcall ,fn l) l)) ,list)))
 
-(defun match-paren (arg)
+(defun user:match-paren (arg)
   "Go to the matching parenthesis if on parenthesis."
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))))
 
-(defun indent-whole-buffer()
+(defun user:indent-whole-buffer()
   "Indent Whole Buffer"
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
 
-(defun kill-current-buffer ()
+(defun user:kill-current-buffer ()
   "Kill the current buffer without prompting the user"
   (interactive)
   (kill-buffer (current-buffer)))
 
-(defun daily-notes ()
+(defun user:daily-notes ()
   (interactive)
   (find-file (format-time-string "~/.emacs.d/org/daily-notes/%Y-%m-%d.org")))
 
-;; end of defuns.el 
+;; end of defuns.el

@@ -18,15 +18,15 @@
 (save-excursion
   (set-buffer (get-buffer-create "*scratch*"))
   (make-local-variable 'kill-buffer-query-functions)
-  (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer))
+  (add-hook 'kill-buffer-query-functions 'user:kill-scratch-buffer))
 
-(defun kill-scratch-buffer ()
+(defun user:kill-scratch-buffer ()
   (set-buffer (get-buffer-create "*scratch*"))
-  (remove-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
+  (remove-hook 'kill-buffer-query-functions 'user:kill-scratch-buffer)
   (kill-buffer (current-buffer))
   (set-buffer (get-buffer-create "*scratch*"))
   (make-local-variable 'kill-buffer-query-functions)
-  (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
+  (add-hook 'kill-buffer-query-functions 'user:kill-scratch-buffer)
   nil)
 
 ;; end of scratch.el

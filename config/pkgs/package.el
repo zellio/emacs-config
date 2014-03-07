@@ -24,13 +24,13 @@
   :group 'package
   :version "24.x")
 
-(defun package--user-load-package-list ()
+(defun user:package-load-package-list ()
   ""
   (with-temp-buffer
     (insert-file-contents package--user-package-list-file)
     (read (current-buffer))))
 
-(defun package--user-save-package-list ()
+(defun user:package-user-save-package-list ()
   ""
   (with-temp-buffer
     (insert "(")
@@ -43,7 +43,7 @@
     (write-file package--user-package-list-file nil)))
 
 (defcustom package--user-package-list
-  (package--user-load-package-list)
+  (user:package-load-package-list)
   ""
   :group 'package)
 
@@ -52,13 +52,13 @@
 (defadvice package-install (after package-save-name (pkg) activate compile)
   ""
   (add-to-list 'package--user-package-list pkg)
-  (package--user-save-package-list))
+  (user:package-save-package-list))
 
 (defadvice package-delete (after package-rm-name (pkg &rest a) activate compile)
   ""
   (let ((pkg-sym (intern pkg)))
     (setq package--user-package-list (delete pkg-sym package--user-package-list))
-    (package--user-save-package-list)))
+    (user:package-save-package-list)))
 
 (unless (file-exists-p (expand-file-name "archives" package-user-dir))
   (package-refresh-contents))
