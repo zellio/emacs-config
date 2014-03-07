@@ -16,5 +16,5 @@
 (load "config/pkgs/uniquify")
 
 (load "config/pkgs/auto-complete")
-(load "config/pkgs/perl")
 (load "config/pkgs/enh-ruby")
+(load "config/pkgs/perl")
