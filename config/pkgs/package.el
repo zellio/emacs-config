@@ -30,7 +30,7 @@
     (insert-file-contents package--user-package-list-file)
     (read (current-buffer))))
 
-(defun user:package-user-save-package-list ()
+(defun user:package-save-package-list ()
   ""
   (with-temp-buffer
     (insert "(")
