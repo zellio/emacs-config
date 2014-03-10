@@ -9,6 +9,7 @@
 (load "config/emacs/theme")
 (load "config/emacs/tabs")
 (load "config/emacs/scratch")
+(load "config/emacs/save-place")
 
 (load "config/pkgs/package")
 (load "config/pkgs/ido")
