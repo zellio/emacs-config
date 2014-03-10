@@ -17,53 +17,46 @@
                     ("marmalade" . "http://marmalade-repo.org/packages/")
                     ("melpa" . "http://melpa.milkbox.net/packages/")))
 
-(defcustom package--user-package-list-file
-  (expand-file-name "pkg.list" package-user-dir)
-  ""
-  :type 'string
-  :group 'package
-  :version "24.x")
+(defcustom user:package-installed-list-file
+  (expand-file-name "package.list" package-user-dir)
+  "")
 
-(defun user:package-load-package-list ()
+(defun user:package-load-installed-list ()
   ""
   (with-temp-buffer
-    (insert-file-contents package--user-package-list-file)
-    (read (current-buffer))))
+    (insert-file-contents user:package-installed-list-file)
+    (let ((pkg-list (read (current-buffer))))
+      (if (null pkg-list) '() pkg-list))))
 
-(defun user:package-save-package-list ()
-  ""
+(defun user:package-save-installed-list ()
   (with-temp-buffer
-    (insert "(")
-    (newline)
-    (dolist (pkg (sort package--user-package-list 'string<))
-      (insert (symbol-name pkg))
-      (newline))
-    (insert ")")
-    (newline)
-    (write-file package--user-package-list-file nil)))
+    (insert "(") (newline)
+    (dolist (pkg (sort user:package-installed-list 'string<))
+      (insert (symbol-name pkg)) (newline))
+    (insert ")") (newline)
+    (write-file user:package-installed-list-file nil)))
 
-(defcustom package--user-package-list
-  (user:package-load-package-list)
-  ""
-  :group 'package)
+(defcustom user:package-installed-list
+  (user:package-load-installed-list)
+  "")
 
 (package-initialize)
 
 (defadvice package-install (after package-save-name (pkg) activate compile)
   ""
-  (add-to-list 'package--user-package-list pkg)
-  (user:package-save-package-list))
+  (add-to-list 'user:package-installed-list pkg)
+  (user:package-save-installed-list))
 
 (defadvice package-delete (after package-rm-name (pkg &rest a) activate compile)
   ""
-  (let ((pkg-sym (intern pkg)))
-    (setq package--user-package-list (delete pkg-sym package--user-package-list))
-    (user:package-save-package-list)))
+  (let ((psym (intern pkg)))
+    (setq user:package-installed-list (delete psym user:package-installed-list))
+    (user:package-save-installed-list)))
 
 (unless (file-exists-p (expand-file-name "archives" package-user-dir))
   (package-refresh-contents))
 
-(dolist (pkg package--user-package-list)
+(dolist (pkg user:package-installed-list)
   (unless (package-installed-p pkg)
     (when (y-or-n-p (format "Package `%s' is missing. Install it now? " pkg))
       (package-install pkg))))
