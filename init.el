@@ -10,6 +10,7 @@
 (load "config/emacs/tabs")
 (load "config/emacs/scratch")
 (load "config/emacs/save-place")
+(load "config/emacs/disabled.el")
 
 (load "config/pkgs/package")
 (load "config/pkgs/ido")
