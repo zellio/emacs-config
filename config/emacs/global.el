@@ -24,12 +24,7 @@
  column-number-mode             t
  visible-bell                   t)
 
-(defcustom user-emacs-data-directory
-  (expand-file-name "data" user-emacs-directory)
-  ""
-  :type 'string)
-
-(let ((default-directory user-emacs-data-directory))
+(let ((default-directory user:emacs-data-directory))
   (setq
    user-data-directory     (expand-file-name "")
    user-autosave-directory (expand-file-name "autosave")

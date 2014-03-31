@@ -17,6 +17,6 @@
 (setq-default save-place t)
 
 (setq save-place-file
-      (expand-file-name "saved-places" user-emacs-data-directory))
+      (expand-file-name "saved-places" user:emacs-data-directory))
 
 ;; end of save-place.el

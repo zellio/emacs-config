@@ -13,7 +13,7 @@
 ;;; Code:
 
 (setq
- ac-data-directory (expand-file-name "auto-complete" user-emacs-data-directory))
+ ac-data-directory (expand-file-name "auto-complete" user:emacs-data-directory))
 
 (make-directory ac-data-directory t)
 

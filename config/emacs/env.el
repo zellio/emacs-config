@@ -13,6 +13,9 @@
 
 ;;; Code:
 
-;;(setq default-frame-alist '())
+(defcustom user:emacs-data-directory
+  (expand-file-name "data" user-emacs-directory)
+  ""
+  :type 'string)
 
 ;; end of env.el
