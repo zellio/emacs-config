@@ -1,5 +1,6 @@
 (
 auto-complete
+coffee-mode
 enh-ruby-mode
 git-commit-mode
 git-rebase-mode
