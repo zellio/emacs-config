@@ -22,7 +22,8 @@
  indicate-empty-lines           t
  line-number-mode               t
  column-number-mode             t
- visible-bell                   t)
+ visible-bell                   t
+ truncate-lines                 t)
 
 (let ((default-directory user:emacs-data-directory))
   (setq
