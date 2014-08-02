@@ -11,6 +11,7 @@ js2-mode
 lua-mode
 magit
 markdown-mode
+php-mode
 popup
 puppet-mode
 rainbow-delimiters
