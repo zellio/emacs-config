@@ -21,4 +21,5 @@
 
 (load "config/pkgs/auto-complete")
 (load "config/pkgs/enh-ruby")
+(load "config/pkgs/js2")
 (load "config/pkgs/perl")
