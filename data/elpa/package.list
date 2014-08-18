@@ -11,6 +11,7 @@ js2-mode
 lua-mode
 magit
 markdown-mode
+org
 php-mode
 popup
 puppet-mode
