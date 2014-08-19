@@ -1,5 +1,6 @@
 (
 auto-complete
+clojure-mode
 coffee-mode
 enh-ruby-mode
 git-commit-mode
@@ -15,6 +16,7 @@ org
 php-mode
 popup
 puppet-mode
+racket-mode
 rainbow-delimiters
 sass-mode
 scss-mode
