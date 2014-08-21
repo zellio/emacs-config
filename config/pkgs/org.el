@@ -22,13 +22,16 @@
   ""
   :type 'string)
 
+(defun user:daily-notes-file-path (&optional date)
+  (let ((date (or date (current-time))))
+    (expand-file-name
+     (format-time-string "%Y%m%d.org" date) user:org-daily-notes-directory)))
+
 (defun user:find-daily-notes (&optional date)
   (interactive
    (list (org-read-date "" 'totime nil nil (current-time) "")))
   (let* ((date (or date (current-time))))
-    (find-file
-     (expand-file-name
-      (format-time-string "%Y%m%d.org" date) user:org-daily-notes-directory))
+    (find-file (user:daily-notes-file-path date))
     (when (eq 0 (buffer-size))
       (insert (format-time-string "#+TITLE: Notes for %A, %B %e, %Y" date))
       (end-of-buffer)
@@ -45,13 +48,31 @@
  org-directory             user:org-directory
  org-M-RET-may-split-line  nil
  org-log-done              t
- org-default-notes-file    (expand-file-name "notes.org" user:org-directory)
  org-use-speed-commands    t
- org-todo-keywords         '((sequence "TODO" "INPR" "WAIT" "DONE"))
- org-todo-keyword-faces    '(("INPR"  . (:foreground "steelblue" :weight bold))
-                             ("WAIT"  . (:foreground "goldenrod" :weight bold)))
- org-agenda-files          (list user:org-directory
-                                 user:org-daily-notes-directory))
+
+ org-todo-keywords '((sequence "TODO(t)" "INPR(i)" "|" "DONE(d)")
+                     (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)"))
+
+ org-todo-keyword-faces  '(("INPR" . (:foreground "steelblue" :weight bold))
+                           ("WAIT" . (:foreground "goldenrod" :weight bold))
+                           ("HOLD" . (:foreground "dark orange" :weight bold)))
+
+ org-todo-state-tags-triggers '(("OVER" ("OVER" . t))
+                                ("WAIT" ("WAIT" . t))
+                                ("HOLD" ("WAIT") ("HOLD" . t))
+                                (done ("WAIT") ("HOLD"))
+                                ("TODO" ("WAIT") ("OVER") ("HOLD"))
+                                ("INPR" ("WAIT") ("OVER") ("HOLD"))
+                                ("DONE" ("WAIT") ("OVER") ("HOLD")))
+
+ org-agenda-files (list user:org-directory
+                        user:org-daily-notes-directory)
+
+ org-default-notes-file (expand-file-name "scratch.org" user:org-directory)
+
+ org-capture-templates '(("t" "todo" entry
+                          (file (user:daily-notes-file-path)) "* TODO %?\n"))
+ )
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c o n") 'user:find-todays-daily-notes)
