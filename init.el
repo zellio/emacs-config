@@ -24,3 +24,4 @@
 (load "config/pkgs/js2")
 (load "config/pkgs/perl")
 (load "config/pkgs/org")
+(load "config/pkgs/magit")
