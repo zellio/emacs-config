@@ -12,15 +12,8 @@
 
 ;;; Code:
 
-(defun user:switch-to-magit-process-buffer ()
-  (interactive)
-  (let ((buffer (get-buffer "*magit-process*")))
-    (if buffer
-      (switch-to-buffer-other-window buffer)
-      (error "Buffer *magit-process* not found"))))
-
 (global-set-key (kbd "C-c m s") 'magit-status)
 (global-set-key (kbd "C-c m b") 'magit-blame-mode)
-(global-set-key (kbd "C-c m p") 'user:switch-to-magit-process-buffer)
+(global-set-key (kbd "C-c m p") 'magit-process)
 
 ;;; magit.el ends here
