@@ -22,6 +22,11 @@
   ""
   :type 'string)
 
+(defcustom user:org-ticket-directory
+  (expand-file-name "ticket" user:org-directory)
+  ""
+  :type 'string)
+
 (defun user:daily-notes-file-path (&optional date)
   (let ((date (or date (current-time))))
     (expand-file-name
@@ -44,6 +49,21 @@
   (user:find-daily-notes (current-time))
   (end-of-buffer))
 
+(defun user:ticket-file-path (ticket-id)
+  (expand-file-name
+   (format "%s.org" ticket-id) user:org-ticket-directory))
+
+(defun user:find-ticket (ticket-id)
+  (interactive "sTicket ID: ")
+  (find-file (user:ticket-file-path ticket-id))
+  (when (eq 0 (buffer-size))
+    (insert
+     (format "#+TITLE: Ticket %s\n" ticket-id)
+     (format-time-string "#+DATE: %A, %B %-e, %Y" (current-time)))
+    (save-buffer)
+    (newline)
+    (newline)))
+
 (setq
  org-directory             user:org-directory
  org-M-RET-may-split-line  nil
@@ -65,14 +85,26 @@
                                 ("INPR" ("WAIT") ("OVER") ("HOLD"))
                                 ("DONE" ("WAIT") ("OVER") ("HOLD")))
 
+ org-highest-priority ?A
+ org-default-priority ?C
+ org-lowest-priority  ?Z
+
  org-agenda-files (list user:org-directory
                         user:org-daily-notes-directory)
 
  org-default-notes-file (expand-file-name "scratch.org" user:org-directory)
 
  org-capture-templates '(("t" "todo" entry
-                          (file (user:daily-notes-file-path)) "* TODO %?\n"))
+                          (file (user:daily-notes-file-path)) "\n* TODO %?\n")
+                         ("T" "ticket" entry
+                          (file (user:daily-notes-file-path))
+                          "\n* TODO [[https://tix.es.its.nyu.edu/Ticket/Display.html?id=%^{Ticket number}][tix/%\\1]] - %^{Title}%((lambda () (org-deadline nil \"+1w\") \"\"))\n")
+
+                         ;; ("x" "ticket" entry
+                         ;;  (file (lambda () (call-interactively #'user:find-ticket))) "* ")
+                           )
  )
+
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c o n") 'user:find-todays-daily-notes)
