@@ -3,6 +3,7 @@
 !README.md
 !init.el
 !/config
+/config/emacs/custom.el
 !/data
 /data/*
 !/data/elpa
