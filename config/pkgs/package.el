@@ -37,6 +37,7 @@
       (insert (symbol-name pkg))
       (newline))
     (insert ")")
+    (newline)
     (write-file user:package-dist-list-file nil)))
 
 (defun user:package-install-dist-list ()

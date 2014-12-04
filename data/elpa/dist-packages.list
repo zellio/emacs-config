@@ -1,8 +1,11 @@
 (
 auto-complete
+bison-mode
 clojure-mode
+clojure-mode-extra-font-locking
 coffee-mode
 enh-ruby-mode
+epl
 git-commit-mode
 git-rebase-mode
 guru-mode
@@ -13,7 +16,9 @@ lua-mode
 magit
 markdown-mode
 org
+package-safe-delete
 php-mode
+pkg-info
 popup
 puppet-mode
 racket-mode
