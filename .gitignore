@@ -9,3 +9,4 @@
 !/data/elpa
 /data/elpa/*
 !/data/elpa/pkg.list
+!/data/elpa/dist-packages.list

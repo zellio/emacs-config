@@ -18,48 +18,47 @@
                     ("marmalade" . "http://marmalade-repo.org/packages/")
                     ("melpa" . "http://melpa.milkbox.net/packages/")))
 
-(defcustom user:package-installed-list-file
-  (expand-file-name "package.list" package-user-dir)
+(defcustom user:package-dist-list-file
+  (expand-file-name "dist-packages.list" package-user-dir)
   "")
 
-(defun user:package-load-installed-list ()
+(defun user:package-load-dist-list ()
   ""
   (with-temp-buffer
-    (insert-file-contents user:package-installed-list-file)
-    (let ((pkg-list (read (current-buffer))))
-      (if (null pkg-list) '() pkg-list))))
+    (insert-file-contents user:package-dist-list-file)
+    (or (read (current-buffer)) '())))
 
-(defun user:package-save-installed-list ()
+(defun user:package-save-dist-list ()
+  ""
   (with-temp-buffer
-    (insert "(") (newline)
-    (dolist (pkg (sort user:package-installed-list 'string<))
-      (insert (symbol-name pkg)) (newline))
-    (insert ")") (newline)
-    (write-file user:package-installed-list-file nil)))
+    (insert "(")
+    (newline)
+    (dolist (pkg (sort (mapcar 'car package-alist) 'string<))
+      (insert (symbol-name pkg))
+      (newline))
+    (insert ")")
+    (write-file user:package-dist-list-file nil)))
 
-(defcustom user:package-installed-list
-  (user:package-load-installed-list)
-  "")
+(defun user:package-install-dist-list ()
+  ""
+  (dolist (pkg (user:package-load-dist-list))
+    (unless (package-installed-p pkg)
+      (when (y-or-n-p (format "Package `%s' is missing. Install it now? " pkg))
+        (package-install pkg)))))
 
 (package-initialize)
 
 (defadvice package-install (after package-save-name (pkg) activate compile)
   ""
-  (add-to-list 'user:package-installed-list pkg)
-  (user:package-save-installed-list))
+  (user:package-save-dist-list))
 
 (defadvice package-delete (after package-rm-name (pkg &rest a) activate compile)
   ""
-  (let ((psym (intern pkg)))
-    (setq user:package-installed-list (delete psym user:package-installed-list))
-    (user:package-save-installed-list)))
+  (user:package-save-dist-list))
 
 (unless (file-exists-p (expand-file-name "archives" package-user-dir))
   (package-refresh-contents))
 
-(dolist (pkg user:package-installed-list)
-  (unless (package-installed-p pkg)
-    (when (y-or-n-p (format "Package `%s' is missing. Install it now? " pkg))
-      (package-install pkg))))
+(user:package-install-dist-list)
 
 ;; end of package.el
