@@ -25,7 +25,7 @@
 
 ;; Refresh-like
 (global-set-key (kbd "<f5>")   'revert-buffer)
-(global-set-key (kbd "C-<f5>") 'revert-all-buffers)
+(global-set-key (kbd "C-<f5>") 'user:revert-all-buffers)
 
 ;; Indenting and alignment
 (global-set-key (kbd "<f8>")   'indent-region)

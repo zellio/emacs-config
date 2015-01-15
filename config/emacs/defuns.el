@@ -37,4 +37,16 @@
   (interactive)
   (find-file (format-time-string "~/.emacs.d/org/daily-notes/%Y-%m-%d.org")))
 
+(defun user:revert-all-buffers ()
+  "Replace all buffers with their visited file contents on disk."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (and
+             (buffer-file-name)
+             (file-exists-p (buffer-file-name))
+             (buffer-modified-p))
+        (revert-buffer t t t)
+        (message "Reverted buffer %s" buffer)))))
+
 ;; end of defuns.el
