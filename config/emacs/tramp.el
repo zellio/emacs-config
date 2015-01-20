@@ -16,11 +16,10 @@
 
 (setq
  tramp-default-method "ssh"
+ tramp-use-ssh-controlmaster-options nil
  tramp-persistency-file-name
  (expand-file-name "tramp-connection-history" user:emacs-data-directory))
 
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
-
 
 ;; end of tramp.el
