@@ -12,6 +12,7 @@
 (load "emacs/save-place")
 (load "emacs/disabled")
 (load "emacs/tramp")
+(load "emacs/bookmark")
 
 (load "pkgs/package")
 (load "pkgs/ido")
