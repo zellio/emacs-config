@@ -4,8 +4,10 @@ bison-mode
 clojure-mode
 clojure-mode-extra-font-locking
 coffee-mode
+dash
 enh-ruby-mode
 epl
+faceup
 git-commit-mode
 git-rebase-mode
 guru-mode
@@ -16,13 +18,13 @@ lua-mode
 magit
 markdown-mode
 org
-package-safe-delete
 php-mode
 pkg-info
 popup
 puppet-mode
 racket-mode
 rainbow-delimiters
+s
 sass-mode
 scss-mode
 yaml-mode
