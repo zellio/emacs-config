@@ -26,3 +26,4 @@
 (load "pkgs/perl")
 (load "pkgs/org")
 (load "pkgs/magit")
+(load "pkgs/gnus")
