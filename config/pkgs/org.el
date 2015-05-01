@@ -1,7 +1,7 @@
 
 ;;; org.el --- org Configuration
 
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2015 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -17,13 +17,13 @@
   ""
   :type 'string)
 
-(defcustom user:org-daily-notes-directory
-  (expand-file-name "daily" user:org-directory)
+(defcustom user:org-journal-file
+  (expand-file-name "journal.org" user:org-directory)
   ""
   :type 'string)
 
-(defcustom user:org-ticket-directory
-  (expand-file-name "ticket" user:org-directory)
+(defcustom user:org-daily-notes-directory
+  (expand-file-name "daily" user:org-directory)
   ""
   :type 'string)
 
@@ -35,9 +35,10 @@
 (defun user:find-daily-notes (&optional date)
   (interactive
    (list (org-read-date "" 'totime nil nil (current-time) "")))
-  (let* ((date (or date (current-time))))
-    (find-file (user:daily-notes-file-path date))
-    (when (eq 0 (buffer-size))
+  (let* ((date (or date (current-time)))
+         (file (user:daily-notes-file-path date)))
+    (find-file file)
+    (unless (file-readable-p file)
       (insert (format-time-string "#+TITLE: Notes for %A, %B %e, %Y" date))
       (end-of-buffer)
       (newline)
@@ -49,21 +50,6 @@
   (user:find-daily-notes (current-time))
   (end-of-buffer))
 
-(defun user:ticket-file-path (ticket-id)
-  (expand-file-name
-   (format "%s.org" ticket-id) user:org-ticket-directory))
-
-(defun user:find-ticket (ticket-id)
-  (interactive "sTicket ID: ")
-  (find-file (user:ticket-file-path ticket-id))
-  (when (eq 0 (buffer-size))
-    (insert
-     (format "#+TITLE: Ticket %s\n" ticket-id)
-     (format-time-string "#+DATE: %A, %B %-e, %Y" (current-time)))
-    (save-buffer)
-    (newline)
-    (newline)))
-
 (setq
  org-directory             user:org-directory
  org-M-RET-may-split-line  nil
@@ -71,11 +57,14 @@
  org-use-speed-commands    t
 
  org-todo-keywords '((sequence "TODO(t)" "INPR(i)" "|" "DONE(d)")
-                     (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)"))
+                     (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)" "PHONE" "MEETING"))
 
  org-todo-keyword-faces  '(("INPR" . (:foreground "steelblue" :weight bold))
                            ("WAIT" . (:foreground "goldenrod" :weight bold))
-                           ("HOLD" . (:foreground "dark orange" :weight bold)))
+                           ("HOLD" . (:foreground "dark orange" :weight bold))
+                           ("MEETING" . (:foreground "forest green" :weight bold))
+                           ("PHONE" . (:foreground "forest green" :weight bold)))
+
 
  org-todo-state-tags-triggers '(("OVER" ("OVER" . t))
                                 ("WAIT" ("WAIT" . t))
@@ -94,17 +83,28 @@
 
  org-default-notes-file (expand-file-name "scratch.org" user:org-directory)
 
- org-capture-templates '(("t" "todo" entry
-                          (file (user:daily-notes-file-path)) "\n* TODO %?\n")
-                         ("T" "ticket" entry
-                          (file (user:daily-notes-file-path))
-                          "\n* TODO [[https://tix.es.its.nyu.edu/Ticket/Display.html?id=%^{Ticket number}][tix/%\\1]] - %^{Title}%((lambda () (org-deadline nil \"+1w\") \"\"))\n")
+ org-capture-templates '(
+                         ("t" "TODO"
+                          entry (function user:find-daily-notes)
+                          "\n* TODO %?\n"
+                          :empty-lines 1)
+
+                         ;; -- Job specific --
+                         ("T" "Ticket"
+                          entry (function user:find-daily-notes)
+                          "* TODO [[https://tix.es.its.nyu.edu/Ticket/Display.html?id=%^{Ticket number}][tix/%\\1]] - %^{Title}%((lambda () (org-deadline nil \"+1w\") \"\"))\n"
+                          :empty-lines 1)
+
+                         ("j" "Journal"
+                          entry (file+datetree user:org-journal-file)
+                          "* %<%H:%M> - %?"
+                          :empty-lines 1)
 
                          ;; ("x" "ticket" entry
                          ;;  (file (lambda () (call-interactively #'user:find-ticket))) "* ")
-                           )
- )
 
+                         )
+ )
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c o n") 'user:find-todays-daily-notes)
@@ -118,6 +118,5 @@
  'org-mode-hook
  (lambda ()
    (local-set-key [(control return)] 'org-insert-heading-after-current)))
-
 
 ;;; org.el ends here
