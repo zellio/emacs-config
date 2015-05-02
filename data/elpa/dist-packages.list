@@ -18,6 +18,7 @@ lua-mode
 magit
 markdown-mode
 org
+package-safe-delete
 php-mode
 pkg-info
 popup
