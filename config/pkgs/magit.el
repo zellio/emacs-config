@@ -16,4 +16,13 @@
 (global-set-key (kbd "C-c m b") 'magit-blame-mode)
 (global-set-key (kbd "C-c m p") 'magit-process)
 
+;; Before running Git, Magit by default reverts all unmodified
+;; buffers that visit files tracked in the current repository.
+;; This can potentially lead to data loss, so you might want to
+;; disable this by adding the following line to your init file:
+
+;; (setq magit-auto-revert-mode nil)
+
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;;; magit.el ends here
