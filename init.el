@@ -26,4 +26,8 @@
 (load "pkgs/perl")
 (load "pkgs/org")
 (load "pkgs/magit")
+<<<<<<< Updated upstream
 (load "pkgs/gnus")
+=======
+(load "pkgs/markdown")
+>>>>>>> Stashed changes
