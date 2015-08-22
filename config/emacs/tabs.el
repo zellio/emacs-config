@@ -12,9 +12,9 @@
 
 ;;; Code:
 
-(setq-default indent-tabs-mode nil)       ;; Turn off '\t' character
-(setq-default standard-indent 2)          ;; Set indent to "  "
-(setq-default tab-width 2)                ;; Set indent to "  "
+(setq-default indent-tabs-mode 1)       ;; Turn off '\t' character
+(setq-default standard-indent 4)          ;; Set indent to "  "
+(setq-default tab-width 4)                ;; Set indent to "  "
 
 (defun user:smart-indent ()
   "Indents region if mark is active, or current line otherwise."
