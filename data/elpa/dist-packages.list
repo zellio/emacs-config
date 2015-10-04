@@ -1,4 +1,6 @@
 (
+arduino-mode
+async
 auto-complete
 bison-mode
 clojure-mode
@@ -8,14 +10,14 @@ dash
 enh-ruby-mode
 epl
 faceup
-git-commit-mode
-git-rebase-mode
+git-commit
 guru-mode
 haml-mode
 j-mode
 js2-mode
 lua-mode
 magit
+magit-popup
 markdown-mode
 org
 php-mode
@@ -27,5 +29,6 @@ rainbow-delimiters
 s
 sass-mode
 scss-mode
+with-editor
 yaml-mode
 )
