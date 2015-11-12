@@ -28,3 +28,4 @@
 (load "pkgs/magit")
 (load "pkgs/gnus")
 (load "pkgs/markdown")
+(load "pkgs/notmuch")

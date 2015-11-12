@@ -19,6 +19,7 @@ lua-mode
 magit
 magit-popup
 markdown-mode
+notmuch
 org
 php-mode
 pkg-info
