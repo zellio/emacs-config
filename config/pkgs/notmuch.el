@@ -14,19 +14,30 @@
 
 (require 'notmuch)
 
-(defun user:notmuch-toggle-delete-tag ()
-  "toggle deleted tag for thread"
-  (interactive)
-  (if (member "deleted" (notmuch-search-get-tags))
-	  (notmuch-search-tag '("-deleted"))
-	(notmuch-search-tag '("+deleted" "-inbox" "-unread"))))
+(defvar user:notmuch--structural-tags
+  '(inbox archive draft send spam deleted)
+  "")
 
-(defun user:notmuch-toggle-archive-tag ()
-  "toggle archive tag for thread"
-  (interactive)
-  (if (member "archive" (notmuch-search-get-tags))
-	  (notmuch-search-tag '("-archive"))
-	(notmuch-search-tag '("+archive" "-inbox" "-unread"))))
+(defun user:notmuch--strip-structural-tags ()
+  ""
+  (notmuch-search-tag
+   (mapcar #'(lambda (sym) (format "-%s" sym))
+		   user:notmuch--structural-tags)))
+
+(defun user:notmuch--change-structural-tag (tag)
+  ""
+  (if (not (member tag user:notmuch--structural-tags))
+	  (error "%s is not a structural tag")
+	(user:notmuch--strip-structural-tags)
+	(notmuch-search-tag (list (format "+%s" tag)))))
+
+(dolist (structural-tag user:notmuch--structural-tags)
+  (eval
+   `(defun ,(intern (format "user:notmuch-set-structural-tag-%s" structural-tag)) ()
+	  ""
+	  (interactive)
+	  (user:notmuch--change-structural-tag (quote ,structural-tag)))
+   ))
 
 (defun user:notmuch-toggle-unread-tag ()
   "toggle archive tag for thread"
@@ -54,18 +65,19 @@
  mml2015-encrypt-to-self t
  mml2015-sign-with-sender t
 
- notmuch-search-oldest-first nil
+ ;; notmuch-search-oldest-first nil
  notmuch-show-all-multipart/alternative-parts nil
  notmuch-crypto-process-mime t
  notmuch-always-prompt-for-sender t
  notmuch-fcc-dirs '(("contact@zell.io" . "zell.io/sent")
 					(".*" . "zell.io/sent"))
- notmuch-show-indent-messages-width 4
+ notmuch-show-indent-messages-width 2
  notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
 						  (:name "unread" :query "tag:unread" :key "u")
 						  (:name "flagged" :query "tag:flagged" :key "f")
 						  (:name "sent" :query "tag:sent" :key "t")
 						  (:name "drafts" :query "tag:draft" :key "d")
+						  (:name "archive" :query "tag:archive" :key "a")
 						  (:name "all mail" :query "*" :key "a"))
 
  sendmail-program "/usr/bin/msmtp"
@@ -75,13 +87,13 @@
 
 (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime)
 
-(define-key notmuch-search-mode-map "g" 'notmuch-poll-and-refresh-this-buffer)
-(define-key notmuch-hello-mode-map "g" 'notmuch-poll-and-refresh-this-buffer)
+(define-key notmuch-search-mode-map "g" 'notmuch-refresh-this-buffer)
+(define-key notmuch-hello-mode-map "g" 'notmuch-refresh-this-buffer)
 
-(define-key notmuch-search-mode-map "d" 'user:notmuch-toggle-delete-tag)
-(define-key notmuch-show-mode-map "d" 'user:notmuch-toggle-delete-tag)
+(define-key notmuch-search-mode-map "d" 'user:notmuch-set-structural-tag-deleted)
+(define-key notmuch-show-mode-map "d" 'user:notmuch-set-structural-tag-deleted)
 
-(define-key notmuch-search-mode-map "a" 'user:notmuch-toggle-archive-tag)
-(define-key notmuch-show-mode-map "a" 'user:notmuch-toggle-archive-tag)
+(define-key notmuch-search-mode-map "a" 'user:notmuch-set-structural-tag-archive)
+(define-key notmuch-show-mode-map "a" 'user:notmuch-set-structural-tag-archive)
 
 ;; end of notmuch.el
