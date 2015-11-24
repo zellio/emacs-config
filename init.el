@@ -13,6 +13,7 @@
 (load "emacs/disabled")
 (load "emacs/tramp")
 (load "emacs/bookmark")
+(load "emacs/url")
 
 (load "pkgs/package")
 (load "pkgs/ido")
