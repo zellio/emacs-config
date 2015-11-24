@@ -13,8 +13,8 @@
 ;;; Code:
 
 (global-set-key (kbd "C-c m s") 'magit-status)
-(global-set-key (kbd "C-c m b") 'magit-blame-mode)
-(global-set-key (kbd "C-c m p") 'magit-process)
+(global-set-key (kbd "C-c m b") 'magit-blame)
+(global-set-key (kbd "C-c m p") 'magit-process-mode)
 
 ;; Before running Git, Magit by default reverts all unmodified
 ;; buffers that visit files tracked in the current repository.
