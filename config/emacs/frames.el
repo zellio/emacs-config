@@ -14,7 +14,7 @@
 
 (setq initial-frame-alist '((vertical-scroll-bars . nil)))
 
-(setq default-frame-alist '((font . "Liberation Mono-10")
+(setq default-frame-alist '((font . "Liberation Mono-14")
                             (vertical-scroll-bars . nil)))
 
 ;; end of frames.el
