@@ -65,12 +65,15 @@
  mml2015-encrypt-to-self t
  mml2015-sign-with-sender t
 
- ;; notmuch-search-oldest-first nil
+ notmuch-search-oldest-first nil
  notmuch-show-all-multipart/alternative-parts nil
  notmuch-crypto-process-mime t
  notmuch-always-prompt-for-sender t
- notmuch-fcc-dirs '(("contact@zell.io" . "zell.io/sent")
-					(".*" . "zell.io/sent"))
+ notmuch-fcc-dirs '(("zacharyelliott1@gmail.com" . "gmail.com/zacharyelliott1/[Gmail]/.Sent Mail")
+                    (".*@nycresistor.com" . "nycresistor.com/zellio/[Gmail]/.Sent Mail")
+					(".*@zell.io" . "zell.io/contact/sent")
+					(".*" . "zell.io/contact/sent"))
+
  notmuch-show-indent-messages-width 2
  notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :key "i")
 						  (:name "unread" :query "tag:unread" :key "u")
@@ -83,7 +86,8 @@
  sendmail-program "/usr/bin/msmtp"
 
  user-full-name "Zachary Elliott"
- user-mail-address "contact@zell.io")
+ ;; user-mail-address "contact@zell.io"
+ )
 
 (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime)
 
