@@ -1,4 +1,4 @@
-;;; config/emacs/bindings.el --- Key bindings
+;;; config/emacs/bindings.el --- key bindings
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

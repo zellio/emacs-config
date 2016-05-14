@@ -1,7 +1,6 @@
+;;; org.el --- org configuration
 
-;;; org.el --- org Configuration
-
-;; Copyright (C) 2012-2015 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -102,4 +101,4 @@
        org-src-mode-hook))
   (add-hook mode-hook (lambda () (org-themis-mode t))))
 
-;;; org.el ends here
+;;; config/pkg/org.el ends here

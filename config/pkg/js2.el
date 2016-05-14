@@ -1,4 +1,4 @@
-;;; emacs/pkg/js2.el --- js2 Configuration
+;;; config/pkg/js2.el --- js2 Configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
@@ -13,4 +13,4 @@
 
 (defalias 'js-mode 'js2-mode)
 
-;;; emacs/pkg/js2.el ends here
+;;; config/pkg/js2.el ends here

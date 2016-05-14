@@ -1,4 +1,4 @@
-;;; config/emacs/global.el --- Global Configurations
+;;; config/emacs/global.el --- global configurations
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

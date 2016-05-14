@@ -1,6 +1,6 @@
-;;; magit.el --- magit Configuration
+;;; config/emacs/magit.el --- magit configuration
 
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -24,4 +24,4 @@
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 
-;;; magit.el ends here
+;;; config/emacs/magit.el ends here

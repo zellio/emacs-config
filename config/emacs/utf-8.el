@@ -1,4 +1,4 @@
-;;; config/emacs/utf-8.el --- Unicode Configuration
+;;; config/emacs/utf-8.el --- unicode configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

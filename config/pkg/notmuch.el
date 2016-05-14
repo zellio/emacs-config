@@ -103,4 +103,6 @@
 (define-key notmuch-search-mode-map "e" 'user/notmuch-search-archive)
 (define-key notmuch-show-mode-map "e" 'user/notmuch-search-archive)
 
+(global-set-key (kbd "C-c n") 'notmuch-hello)
+
 ;;; config/pkg/notmuch.el ends here

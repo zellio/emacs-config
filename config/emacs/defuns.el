@@ -1,4 +1,4 @@
-;;; config/emacs/defuns.el --- Personal function definitions
+;;; config/emacs/defuns.el --- personal function definitions
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

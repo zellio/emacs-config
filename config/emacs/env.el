@@ -1,4 +1,4 @@
-;;; config/emacs/env.el --- Set up environment
+;;; config/emacs/env.el --- set up environment
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

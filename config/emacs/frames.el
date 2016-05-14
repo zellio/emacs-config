@@ -1,4 +1,4 @@
-;;; config/emacs/frames.el --- Frame Configurations
+;;; config/emacs/frames.el --- frame configurations
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

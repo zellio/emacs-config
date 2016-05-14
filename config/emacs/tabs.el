@@ -1,4 +1,4 @@
-;;; config/emacs/tabs.el --- Tab Configuration
+;;; config/emacs/tabs.el --- tab configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

@@ -1,4 +1,4 @@
-;;; config/emacs/url.el --- URL Configurations
+;;; config/emacs/url.el --- url configurations
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

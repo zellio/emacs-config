@@ -1,4 +1,4 @@
-;;; config/pkg/ido.el --- Interactive Do Configuration
+;;; config/pkg/ido.el --- interactive do configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

@@ -1,7 +1,6 @@
+;;; config/pkg/php.el --- php Configuration
 
-;;; php.el --- php Configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -12,5 +11,4 @@
 
 ;;; Code:
 
-
-;;; php.el ends here
+;;; config/pkg/php.el --- ends here

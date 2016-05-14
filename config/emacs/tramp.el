@@ -1,4 +1,4 @@
-;;; config/emacs/tramp.el --- TRAMP configuration
+;;; config/emacs/tramp.el --- tramp configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

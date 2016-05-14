@@ -1,4 +1,4 @@
-;;; config/emacs/scratch.el --- Scratch buffer Configuration
+;;; config/emacs/scratch.el --- scratch buffer configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

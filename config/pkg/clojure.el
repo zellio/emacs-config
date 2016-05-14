@@ -1,7 +1,6 @@
+;;; config/pkg/clojure.el --- clojure configuration
 
-;;; clojure.el --- CLOJURE configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -14,4 +13,4 @@
 
 (add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
 
-;; end of clojure.el
+;;; config/pkg/clojure.el ends here

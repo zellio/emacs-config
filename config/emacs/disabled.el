@@ -1,4 +1,4 @@
-;;; config/emacs/disabled.el --- Disabled function Configuration
+;;; config/emacs/disabled.el --- disabled function configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
