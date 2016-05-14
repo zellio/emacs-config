@@ -12,10 +12,10 @@
 ;;; Code:
 
 (dolist
-	(mode-hook '(markdown-mode-hook
-				 org-mode-hook
-				 text-mode-hook
-				 yaml-mode-hook))
+    (mode-hook '(markdown-mode-hook
+                 org-mode-hook
+                 text-mode-hook
+                 yaml-mode-hook))
   (add-hook mode-hook 'turn-on-auto-fill))
 
 ;;; config/emacs/auto-fill.el ends here

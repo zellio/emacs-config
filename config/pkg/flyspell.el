@@ -18,10 +18,10 @@
  flyspell-delayed-commands '())
 
 (dolist
-	(mode-hook '(markdown-mode-hook
-				 org-mode-hook
-				 text-mode-hook
-				 yaml-mode-hook))
+    (mode-hook '(markdown-mode-hook
+                 org-mode-hook
+                 text-mode-hook
+                 yaml-mode-hook))
   (add-hook mode-hook (lambda () (flyspell-mode t))))
 
 ;;; config/pkg/flyspell.el ends here
