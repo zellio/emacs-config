@@ -1,7 +1,6 @@
+;;; config/emacs/utf-8.el --- Unicode Configuration
 
-;;; utf-8.el --- Unicode Configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -31,4 +30,4 @@
 ;; MS Windows clipboard is UTF-16LE
 ;(set-clipboard-coding-system 'utf-16le-dos)
 
-;; end of utf-8.el
+;;; config/emacs/utf-8.el ends here

@@ -1,4 +1,4 @@
-;;; config/emacs/theme.el --- Load emacs theme
+;;; config/pkg/markdown.el --- markdown configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
@@ -11,6 +11,4 @@
 
 ;;; Code:
 
-(load-theme 'wombat)
-
-;; config/emacs/theme.el ends here
+;;; config/pkg/markdown.el ends here

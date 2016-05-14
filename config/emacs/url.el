@@ -1,7 +1,6 @@
+;;; config/emacs/url.el --- URL Configurations
 
-;;; url.el --- URL Configurations
-
-;; Copyright (C) 2012-2015 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -13,9 +12,9 @@
 ;;; Code:
 
 (setq
- url-configuration-directory (expand-file-name "url" user:emacs-data-directory)
- )
+ url-configuration-directory
+ (expand-file-name "url" user/emacs-data-directory))
 
 (make-directory url-configuration-directory t)
 
-;; end of url.el
+;;; config/emacs/url.el ends here

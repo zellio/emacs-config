@@ -1,5 +1,4 @@
-
-;;; bookmark.el --- Bookmark configuration
+;;; config/emacs/bookmark.el --- Bookmark configuration
 
 ;; Copyright (C) 2012-2015 Zachary Elliott
 ;; See LICENSE for more information
@@ -13,6 +12,7 @@
 ;;; Code:
 
 (setq
- bookmark-default-file (expand-file-name "bookmarks" user:emacs-data-directory))
+ bookmark-default-file
+ (expand-file-name "bookmarks" user/emacs-data-directory))
 
-;; end of bookmark.el
+;;; config/emacs/bookmark.el ends here

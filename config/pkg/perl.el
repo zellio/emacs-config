@@ -1,7 +1,6 @@
+;;; config/pkg/perl.el --- cperl-mode Configuration
 
-;;; perl.el --- cperl-mode Configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -11,7 +10,6 @@
 ;; TODO: Fix font-lock colours, they are still bad
 
 ;;; Code:
-
 
 (defalias 'perl-mode 'cperl-mode)
 
@@ -23,4 +21,4 @@
  '(cperl-array-face ((t (:foreground "green" :weight bold))))
  '(cperl-hash-face ((t (:foreground "purple" :weight bold :slant italic)))))
 
-;; end of perl.el
+;;; config/pkg/perl.el --- cperl-mode Configuration

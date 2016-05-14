@@ -1,21 +1,19 @@
+;;; config/emacs/env.el --- Set up environment
 
-;;; env.el --- Setting enviroment
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
-;; Not sure what the point of this file is, or why it's still here. I'm sure
-;; I'll find a use.
+;; Initialize global environment values
 
 ;;; Code:
 
-(defcustom user:emacs-data-directory
+(defcustom user/emacs-data-directory
   (expand-file-name "data" user-emacs-directory)
   ""
   :type 'string)
 
-;; end of env.el
+;;; config/emacs/env.el ends here

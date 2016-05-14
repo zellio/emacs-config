@@ -1,4 +1,3 @@
-
 ;;; magit.el --- magit Configuration
 
 ;; Copyright (C) 2012-2014 Zachary Elliott

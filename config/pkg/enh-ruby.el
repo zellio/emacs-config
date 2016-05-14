@@ -1,6 +1,6 @@
-;;; enh-ruby.el --- enh-ruby Configuration
+;;; config/pkg/enh-ruby.el --- enh-ruby Configuration
 
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -21,4 +21,4 @@
  enh-ruby-bounce-deep-indent t
  enh-ruby-hanging-indent-level 0)
 
-;;; enh-ruby.el ends here
+;;; config/pkg/enh-ruby.el ends here

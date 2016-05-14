@@ -1,7 +1,6 @@
+;;; config/emacs/frames.el --- Frame Configurations
 
-;;; frames.el --- Frame Configurations
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -17,4 +16,4 @@
 (setq default-frame-alist '((font . "Liberation Mono-14")
                             (vertical-scroll-bars . nil)))
 
-;; end of frames.el
+;;; config/emacs/frames.el ends here

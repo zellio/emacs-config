@@ -1,7 +1,6 @@
+;;; config/pkg/uniquify.el --- uniquify configuration
 
-;;; uniquify.el --- uniquify Configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -79,3 +78,5 @@
  ;; Defaults to OFF
  uniquify-trailing-separator-p nil
 )
+
+;;; config/pkg/uniquify.el ends here

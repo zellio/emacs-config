@@ -1,7 +1,6 @@
+;;; config/emacs/save-place.el --- save-place config
 
-;;; save-place.el --- save-place config
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -16,7 +15,7 @@
 
 (setq-default save-place t)
 
-(setq save-place-file
-      (expand-file-name "saved-places" user:emacs-data-directory))
+(setq
+ save-place-file (expand-file-name "saved-places" user/emacs-data-directory))
 
-;; end of save-place.el
+;;; config/emacs/save-place.el ends here

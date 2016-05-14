@@ -1,7 +1,6 @@
+;;; config/emacs/tabs.el --- Tab Configuration
 
-;;; tabs.el --- TAB Configuration
-
-;; Copyright (C) 2012-2014 Zachary Elliott
+;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
@@ -12,11 +11,12 @@
 
 ;;; Code:
 
-(setq-default indent-tabs-mode 1)       ;; Turn off '\t' character
-(setq-default standard-indent 4)          ;; Set indent to "  "
-(setq-default tab-width 4)                ;; Set indent to "  "
+(setq-default
+ indent-tabs-mode t
+ standard-indent 4
+ tab-width 4)
 
-(defun user:smart-indent ()
+(defun user/smart-indent ()
   "Indents region if mark is active, or current line otherwise."
   (interactive)
   (if mark-active
@@ -24,6 +24,6 @@
                      (region-end))
     (indent-for-tab-command)))
 
-(global-set-key (kbd "TAB") 'user:smart-indent)
+(global-set-key (kbd "TAB") 'user/smart-indent)
 
-;; end of tabs.el
+;;; config/emacs/tabs.el ends here
