@@ -20,7 +20,6 @@
 
 (defun user/notmuch-search-apply-tags-and-advance (&rest tags)
   ""
-  (message "%s" tags)
   (notmuch-search-tag tags)
   (notmuch-search-next-thread))
 
