@@ -1,4 +1,4 @@
-;;; config/pkg/php.el --- php Configuration
+;;; config/pkg/php.el --- php configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
@@ -11,4 +11,4 @@
 
 ;;; Code:
 
-;;; config/pkg/php.el --- ends here
+;;; config/pkg/php.el ends here

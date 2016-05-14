@@ -1,4 +1,4 @@
-;;; config/pkg/js2.el --- js2 Configuration
+;;; config/pkg/js2.el --- js2 configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

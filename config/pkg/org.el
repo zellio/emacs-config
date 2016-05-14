@@ -101,4 +101,4 @@
        org-src-mode-hook))
   (add-hook mode-hook (lambda () (org-themis-mode t))))
 
-;;; config/pkg/org.el ends here
+;;; org.el ends here

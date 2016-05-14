@@ -13,4 +13,4 @@
 
 (load-theme 'wombat)
 
-;; config/emacs/theme.el ends here
+;;; config/emacs/theme.el ends here

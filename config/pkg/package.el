@@ -1,4 +1,4 @@
-;;; config/pkg/package.el --- Setting package extentions
+;;; config/pkg/package.el --- setting package extentions
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information

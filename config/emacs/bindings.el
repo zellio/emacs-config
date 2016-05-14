@@ -40,4 +40,4 @@
 ;; Don't use this anyway
 (global-unset-key (kbd "C-x f"))
 
-;;; emacs/config/bindings.el ends here
+;;; config/emacs/bindings.el ends here

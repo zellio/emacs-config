@@ -1,4 +1,4 @@
-;;; config/pkg/auto-fill.el --- auto-fill configuration
+;;; config/emacs/auto-fill.el --- auto-fill configuration
 
 ;; Copyright (C) 2012-2016 Zachary Elliott
 ;; See LICENSE for more information
@@ -18,4 +18,4 @@
 				 yaml-mode-hook))
   (add-hook mode-hook 'turn-on-auto-fill))
 
-;;; config/pkg/auto-fill.el ends here
+;;; config/emacs/auto-fill.el ends here
