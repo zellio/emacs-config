@@ -27,7 +27,6 @@
 
 (let ((default-directory user/emacs-data-directory))
   (setq
-   user/data-directory     (expand-file-name "")
    user/autosave-directory (expand-file-name "autosave")
    user/backup-directory   (expand-file-name "backup")
    user/recovery-directory (expand-file-name "recovery")))
@@ -50,7 +49,8 @@
  version-control        t)
 
 ;; Set save-place file location
-(setq save-place-file (expand-file-name "saved-places" user/data-directory))
+(setq
+ save-place-file (expand-file-name "saved-places" user/emacs-data-directory))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
