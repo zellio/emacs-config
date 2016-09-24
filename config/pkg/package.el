@@ -12,54 +12,43 @@
 (require 'package)
 
 (setq
- package-user-dir (expand-file-name "elpa" user/emacs-data-directory)
- package-archives '(;("org" . "http://orgmode.org/elpa/")
+ ;; This is an ugly hack becuase they won't leave my init file alone.
+ package--init-file-ensured t
+ ;; We will run '(package-initialize) later in the file
+ package-enable-at-startup nil
+ package-user-dir (expand-file-name "vendor" user-emacs-directory)
+ package-archives '(("org" . "http://orgmode.org/elpa/")
                     ("gnu" . "http://elpa.gnu.org/packages/")
                     ("marmalade" . "http://marmalade-repo.org/packages/")
                     ("melpa" . "http://melpa.milkbox.net/packages/")))
 
-(defcustom user/package-dist-list-file
-  (expand-file-name "dist-packages.list" package-user-dir)
+(defcustom user/package-selected-packages-file
+  (expand-file-name "selected-packages.list" package-user-dir)
   "")
 
-(defun user/package-load-dist-list ()
+(defun user/package-save-selected-packages ()
   ""
-  (with-temp-buffer
-    (insert-file-contents user/package-dist-list-file)
-    (or (read (current-buffer)) '())))
+  (user/serialize
+   package-selected-packages user/package-selected-packages-file))
 
-(defun user/package-save-dist-list ()
+(defun user/package-load-selected-packages ()
   ""
-  (with-temp-buffer
-    (insert "(")
-    (newline)
-    (dolist (pkg (sort (mapcar 'car package-alist) 'string<))
-      (insert (symbol-name pkg))
-      (newline))
-    (insert ")")
-    (newline)
-    (write-file user/package-dist-list-file nil)))
-
-(defun user/package-install-dist-list ()
-  ""
-  (dolist (pkg (user/package-load-dist-list))
-    (unless (package-installed-p pkg)
-      (when (y-or-n-p (format "Package `%s' is missing. Install it now? " pkg))
-        (package-install pkg)))))
+  (user/deserialize user/package-selected-packages-file))
 
 (package-initialize)
 
-(defadvice package-install (after package-save-name (pkg) activate compile)
-  ""
-  (user/package-save-dist-list))
-
-(defadvice package-delete (after package-rm-name (pkg &rest a) activate compile)
-  ""
-  (user/package-save-dist-list))
+(setq
+ package-selected-packages
+ (user/deserialize user/package-selected-packages-file))
 
 (unless (file-exists-p (expand-file-name "archives" package-user-dir))
   (package-refresh-contents))
 
-(user/package-install-dist-list)
+(package-install-selected-packages)
+
+(defadvice package--update-selected-packages
+    (after user/advice-package--update-selected-packages activate compile)
+  ""
+  (user/package-save-selected-packages))
 
 ;;; config/pkg/package.el ends here

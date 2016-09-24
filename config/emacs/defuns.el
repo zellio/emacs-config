@@ -44,4 +44,26 @@
         (revert-buffer t t t)
         (message "Reverted buffer %s" buffer)))))
 
+(defun user/serialize (data path)
+  "Serialize the s-expr DATA into file at PATH."
+  (let ((dir (file-name-directory path)))
+    (if (not (file-directory-p dir))
+        (mkdir dir t))
+    (with-temp-buffer
+      (insert
+       ";; -*- mode: lisp; coding: utf-8 -*-\n"
+       ";; emacs-version: " emacs-version "\n"
+       "\n"
+       (prin1-to-string data))
+      (write-file path nil))
+    ))
+
+(defun user/deserialize (file)
+  "Deserialize the file at PATH into an s-expr."
+  (if (file-exists-p file)
+      (with-temp-buffer
+        (insert-file-contents file)
+        (read (current-buffer)))
+    '()))
+
 ;;; config/emacs/defuns.el ends here

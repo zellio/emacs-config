@@ -4,9 +4,6 @@
 !init.el
 !/config
 /config/emacs/custom.el
-!/data
-/data/*
-!/data/elpa
-/data/elpa/*
-!/data/elpa/pkg.list
-!/data/elpa/dist-packages.list
+!/vendor
+/vendor/*
+!/vendor/selected-packages.list
