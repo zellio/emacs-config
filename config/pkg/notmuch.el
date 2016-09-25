@@ -104,4 +104,11 @@
 
 (global-set-key (kbd "C-c n") 'notmuch-hello)
 
+(custom-set-faces
+ '(notmuch-crypto-part-header ((t (:foreground "deep sky blue"))))
+ '(notmuch-hello-logo-background ((t nil)))
+ '(notmuch-message-summary-face ((t nil)))
+ '(notmuch-search-unread-face ((t (:foreground "deep sky blue"))))
+ '(notmuch-tag-flagged ((t (:foreground "deep sky blue")))))
+
 ;;; config/pkg/notmuch.el ends here
