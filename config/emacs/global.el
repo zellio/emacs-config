@@ -64,4 +64,10 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+(dolist (dir '(user/autosave-directory
+			   user/backup-directory
+			   user/recovery-directory))
+  (and (not (file-directory-p dir))
+	   (mkdir dir t)))
+
 ;;; config/emacs/global.el ends here
