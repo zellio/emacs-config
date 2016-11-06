@@ -3,6 +3,7 @@
 (load "emacs/env")
 (load "emacs/global")
 (load "emacs/bindings")
+(load "emacs/network-security")
 (load "emacs/defuns")
 (load "emacs/utf-8")
 (load "emacs/frames")
