@@ -65,9 +65,11 @@
  notmuch-show-all-multipart/alternative-parts nil
  notmuch-crypto-process-mime t
  notmuch-always-prompt-for-sender t
- notmuch-fcc-dirs '(("zacharyelliott1@gmail.com" . "gmail.com/zacharyelliott1/[Gmail]/.Sent Mail")
-                    (".*@nycresistor.com" . "nycresistor.com/zellio/[Gmail]/.Sent Mail")
+ notmuch-fcc-dirs '(("zacharyelliott1@gmail.com" . "\"gmail.com/zacharyelliott1/[Gmail]/.Sent Mail\"")
+                    (".*@nycresistor.com" . "\"nycresistor.com/zellio/[Gmail]/.Sent Mail\"")
                     (".*@zell.io" . "zell.io/contact/sent")
+					(".*@xz.je" . "xz.je/sent")
+					(".*@noom.com" . "\"noom.com/[Gmail]/.Sent Mail\"")
                     (".*" . "zell.io/contact/sent"))
 
  notmuch-show-indent-messages-width 2
@@ -76,7 +78,7 @@
                           (:name "flagged" :query "tag:flagged" :key "f")
                           (:name "sent" :query "tag:sent" :key "t")
                           (:name "drafts" :query "tag:draft" :key "d")
-                          (:name "archive" :query "tag:archive" :key "a")
+                          (:name "archive" :query "tag:archive" :key "A")
                           (:name "all mail" :query "*" :key "a"))
 
  sendmail-program "/usr/bin/msmtp"

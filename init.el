@@ -29,5 +29,6 @@
 (load "pkg/magit")
 (load "pkg/markdown")
 (load "pkg/notmuch")
+(load "pkg/yaml")
 
 (load "emacs/theme")
