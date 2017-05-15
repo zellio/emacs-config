@@ -55,7 +55,6 @@
  message-kill-buffer-on-exit t
 
  mime-edit-split-message nil
- mime-edit-pgp-signers '("B0E3D275")
  mime-edit-pgp-encrypt-to-self t
 
  mml2015-encrypt-to-self t
@@ -68,8 +67,7 @@
  notmuch-fcc-dirs '(("zacharyelliott1@gmail.com" . "\"gmail.com/zacharyelliott1/[Gmail]/.Sent Mail\"")
                     (".*@nycresistor.com" . "\"nycresistor.com/zellio/[Gmail]/.Sent Mail\"")
                     (".*@zell.io" . "zell.io/contact/sent")
-					(".*@xz.je" . "xz.je/sent")
-					(".*@noom.com" . "\"noom.com/[Gmail]/.Sent Mail\"")
+                    (".*@xz.je" . "xz.je/contact/sent")
                     (".*" . "zell.io/contact/sent"))
 
  notmuch-show-indent-messages-width 2

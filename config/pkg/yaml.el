@@ -16,7 +16,7 @@
 (add-to-list 'auto-mode-alist '("/encrypted$" . yaml-mode))
 
 (add-hook 'yaml-mode-hook
-		  (lambda ()
-			(and (ansible-vault--is-vault-file) (ansible-vault-mode 1))))
+          (lambda ()
+            (and (ansible-vault--is-vault-file) (ansible-vault-mode 1))))
 
 ;;; config/pkg/yaml.el ends here
