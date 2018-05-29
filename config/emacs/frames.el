@@ -1,6 +1,6 @@
 ;;; config/emacs/frames.el --- frame configurations
 
-;; Copyright (C) 2012-2016 Zachary Elliott
+;; Copyright (C) 2012-2017 Zachary Elliott
 ;; See LICENSE for more information
 
 ;; This file is not part of GNU Emacs.
