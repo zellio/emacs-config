@@ -1,0 +1,4 @@
+;; -*- mode: lisp; coding: utf-8 -*-
+;; emacs-version: 25.3.1
+
+(zenburn-theme yaml-mode magit markdown-mode flycheck-rust flycheck cargo company-racer racer rust-mode rainbow-delimiters company org helm-tramp helm)

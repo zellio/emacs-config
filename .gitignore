@@ -1,0 +1,10 @@
+/*
+!.gitignore
+!COPYING
+!README.md
+!init.el
+!/config
+/config/emacs/custom.el
+!/vendor
+/vendor/*
+!/vendor/selected-packages.list
