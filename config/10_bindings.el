@@ -18,6 +18,10 @@
 ;; (global-set-key (kbd "C-.") 'enlarge-window)
 ;; (global-set-key (kbd "C-,") 'shrink-window)
 
+;; Navigation
+(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'backward-paragraph)
+
 ;; Refresh-like
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "S-<f5>") 'user/revert-all-buffers)
