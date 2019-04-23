@@ -14,71 +14,82 @@
 (defcustom user/emacs-data-directory
   (expand-file-name "data" user-emacs-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/autosave-directory
   (expand-file-name "autosave" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/backup-directory
   (expand-file-name "backup" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/recovery-directory
   (expand-file-name "recovery" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/url-configuration-directory
   (expand-file-name "url" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/eshell-directory
   (expand-file-name "eshell" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/nsm-settings-file
   (expand-file-name "network-security.data" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/save-place-file
   (expand-file-name "saved-places" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/bookmark-default-file
   (expand-file-name "bookmarks" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defcustom user/recentf-save-file
   (expand-file-name "recent-files" user/emacs-data-directory)
   ""
-  :type 'string)
+  :type 'string
+  :group 'user)
 
 (defmacro user/filter (fn list)
+  "Filters LIST by predicate function FN."
   `(delq nil (mapcar (lambda (l) (and (funcall ,fn l) l)) ,list)))
 
 (defun user/match-paren (arg)
-  "Go to the matching parenthesis if on parenthesis."
+  "Jump to matching parenthesis for ARG at point."
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))))
 
 (defun user/indent-whole-buffer ()
-  "Indent Whole Buffer"
+  "Indent Whole Buffer."
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil))
   ;; (untabify (point-min) (point-max)))
 
 (defun user/kill-current-buffer ()
-  "Kill the current buffer without prompting the user"
+  "Kill the current buffer without prompting the user."
   (interactive)
   (kill-buffer (current-buffer)))
 
@@ -125,6 +136,7 @@
     (indent-for-tab-command)))
 
 (defun user/kill-scratch-buffer ()
+  ""
   (with-current-buffer "*scratch*"
     (delete-region (point-min) (point-max)))
   nil)
