@@ -22,7 +22,9 @@
 
 (defcustom user/package-selected-packages-file
   (expand-file-name "selected-packages.list" package-user-dir)
-  "")
+  ""
+  :type 'string
+  :group 'user)
 
 (defun user/package-save-selected-packages ()
   ""
