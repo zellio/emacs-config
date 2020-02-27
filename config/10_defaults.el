@@ -26,7 +26,7 @@
  require-final-newline t
 
  ;; tab controls
- indent-tabs-mode nil
+ indent-tabs-mode t
  standard-indent 4
  tab-width 4
 
