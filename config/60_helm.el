@@ -11,43 +11,45 @@
 
 ;;; Code:
 
-(require 'helm-config)
+(use-package helm
+  :init (progn
+          (helm-mode 1)
+          (helm-autoresize-mode 1)
 
-(setq
- helm-split-window-in-side-p t
- helm-move-to-line-cycle-in-source t
- helm-ff-search-library-in-sexp t
- helm-echo-input-in-header-line t
- helm-mode-fuzzy-match t
- helm-completion-in-region-fuzzy-match t)
+          (require 'helm-config)
 
-;;; Global-map
-(global-set-key [remap execute-extended-command] 'helm-M-x)
-(global-set-key [remap find-file] 'helm-find-files)
-(global-set-key [remap dabbrev-expand] 'helm-dabbrev)
-(global-set-key [remap find-tag] 'helm-etags-select)
-(global-set-key [remap jump-to-register] 'helm-register)
-(global-set-key [remap list-buffers] 'helm-buffers-list)
-(global-set-key [remap occur] 'helm-occur)
-(global-set-key [remap xref-find-definitions] 'helm-etags-select)
+          (with-eval-after-load 'shell-mode
+            (define-key shell-mode-map (kbd "M-p") 'helm-comint-input-ring)))
 
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-c f") 'helm-recentf)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-c <SPC>") 'helm-all-mark-rings)
-(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-(global-set-key (kbd "C-h r") 'helm-info-emacs)
-(global-set-key (kbd "C-:") 'helm-eval-expression-with-eldoc)
-(global-set-key (kbd "C-,") 'helm-calcul-expression)
-(global-set-key (kbd "C-h i") 'helm-info-at-point)
-(global-set-key (kbd "C-x C-d") 'helm-browse-project)
-(global-set-key (kbd "<f1>") 'helm-resume)
-(global-set-key (kbd "C-h C-f") 'helm-apropos)
-(global-set-key (kbd "C-c i") 'helm-imenu-in-all-buffers)
+  :config (setq
+           helm-split-window-in-side-p t
+           helm-move-to-line-cycle-in-source t
+           helm-ff-search-library-in-sexp t
+           helm-echo-input-in-header-line t
+           helm-mode-fuzzy-match t
+           helm-completion-in-region-fuzzy-match t)
 
-;; (define-key shell-mode-map (kbd "M-p") 'helm-comint-input-ring)
+  :bind (([remap execute-extended-command] . helm-M-x)
+         ([remap find-file] . helm-find-files)
+         ([remap dabbrev-expand] . helm-dabbrev)
+         ([remap find-tag] . helm-etags-select)
+         ([remap jump-to-register] . helm-register)
+         ([remap list-buffers] . helm-buffers-list)
+         ([remap occur] . helm-occur)
+         ([remap xref-find-definitions] . helm-etags-select)
 
-(helm-mode 1)
-(helm-autoresize-mode 1)
+         ("M-y" . helm-show-kill-ring)
+         ("C-c f" . helm-recentf)
+         ("C-x b" . helm-mini)
+         ("C-c <SPC>" . helm-all-mark-rings)
+         ("C-x r b" . helm-filtered-bookmarks)
+         ("C-h r" . helm-info-emacs)
+         ("C-:" . helm-eval-expression-with-eldoc)
+         ("C-," . helm-calcul-expression)
+         ("C-h i" . helm-info-at-point)
+         ("C-x C-d" . helm-browse-project)
+         ("<f1>" . helm-resume)
+         ("C-h C-f" . helm-apropos)
+         ("C-c i" . helm-imenu-in-all-buffers)))
 
 ;;; config/60_helm.el ends here
