@@ -51,4 +51,8 @@
   ""
   (user/package-save-selected-packages))
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;;; config/50_package.el ends here
