@@ -110,7 +110,4 @@
 ;; Remove trailing whitespace on save
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
 
-;; Enable eldoc mode
-(add-hook 'racer-mode-hook 'eldoc-mode)
-
 ;;; config/20_global.el ends here
