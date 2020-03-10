@@ -55,4 +55,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
 ;;; config/50_package.el ends here
