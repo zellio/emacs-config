@@ -1,6 +1,6 @@
 ;;; config/50_package.el --- setting package extentions
 
-;; Copyright (C) 2012-2019 Zachary Elliott
+;; Copyright (C) 2012-2020 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
