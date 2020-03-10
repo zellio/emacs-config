@@ -52,4 +52,17 @@
          ("C-h C-f" . helm-apropos)
          ("C-c i" . helm-imenu-in-all-buffers)))
 
+(use-package helm-tramp
+  :config (setq
+           helm-tramp-control-master t
+           helm-tramp-control-master-path "~/.ssh/socket"
+           helm-tramp-control-master-prefix "")
+
+  :bind (("C-c s" . helm-tramp)))
+
+(use-package helm-lsp
+  ;; Configured in lsp include
+  )
+
+
 ;;; config/60_helm.el ends here
