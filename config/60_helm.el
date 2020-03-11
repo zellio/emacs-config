@@ -27,7 +27,8 @@
            helm-ff-search-library-in-sexp t
            helm-echo-input-in-header-line t
            helm-mode-fuzzy-match t
-           helm-completion-in-region-fuzzy-match t)
+           helm-completion-in-region-fuzzy-match t
+           helm-turn-on-recentf t)
 
   :bind (([remap execute-extended-command] . helm-M-x)
          ([remap find-file] . helm-find-files)

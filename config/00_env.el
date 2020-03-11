@@ -18,7 +18,7 @@
   :group 'user)
 
 (defcustom user/autosave-directory
-  (expand-file-name "autosave" user/emacs-data-directory)
+  (expand-file-name "auto-save/files/" user/emacs-data-directory)
   ""
   :type 'string
   :group 'user)
@@ -143,11 +143,7 @@
 
 ;; Construct data directories
 (dolist (directory (list user/emacs-data-directory
-                         user/autosave-directory
-                         user/backup-directory
-                         user/recovery-directory
-                         user/url-configuration-directory
-                         user/eshell-directory))
+                         user/autosave-directory))
   (unless (file-directory-p directory)
     (mkdir directory t)))
 

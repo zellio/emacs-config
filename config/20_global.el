@@ -23,19 +23,14 @@
  require-final-newline t
 
  ;; auto-save settings
- auto-save-list-file-prefix (concat user/recovery-directory "/")
  auto-save-file-name-transforms `((".*" ,(concat user/autosave-directory "/\\1") t))
 
  ;; backup file settings
  backup-by-copying t
- backup-directory-alist `((".*" . ,(concat user/backup-directory "/")))
  delete-old-versions t
  kept-new-versions 3
  kept-old-versions 2
  version-control t
-
- ;; save place file
- save-place-file (expand-file-name "saved-places" user/emacs-data-directory)
 
  ;; Enable all of the disabled functions
  disabled-command-function nil
@@ -46,15 +41,6 @@
  tramp-use-ssh-controlmaster-options nil
  tramp-persistency-file-name
  (expand-file-name "tramp-connection-history" user/emacs-data-directory)
-
- ;; Bookmark settings
- bookmark-default-file (expand-file-name "bookmarks" user/emacs-data-directory)
-
- ;; URL configuration directory
- url-configuration-directory (expand-file-name "url" user/emacs-data-directory)
-
- ;; Initialize global network-security environment values
- nsm-settings-file (expand-file-name "network-security.data" user/emacs-data-directory)
 
  ;; Setup frame values
  initial-frame-alist '((vertical-scroll-bars . nil))
@@ -68,9 +54,6 @@
  initial-scratch-message ""
  initial-major-mode 'org-mode
 
- ;; Setup eshell
- eshell-directory-name user/eshell-directory
-
  ;; uniquify
  uniquify-after-kill-buffer-p nil
  uniquify-ask-about-buffer-names-p nil
@@ -82,8 +65,7 @@
  uniquify-trailing-separator-p nil
 
  ;; recentf
- recentf-save-file user/recentf-save-file
- )
+ recentf-max-saved-items 25)
 
 
 ;;; Global execs
@@ -109,5 +91,8 @@
 
 ;; Remove trailing whitespace on save
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+
+;;; Enable recentf
+(recentf-mode 1)
 
 ;;; config/20_global.el ends here
