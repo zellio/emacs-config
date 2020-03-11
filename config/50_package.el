@@ -37,20 +37,6 @@
 
 (package-initialize)
 
-(setq
- package-selected-packages
- (user/deserialize user/package-selected-packages-file))
-
-(unless (file-exists-p (expand-file-name "archives" package-user-dir))
-  (package-refresh-contents))
-
-;; (package-install-selected-packages)
-
-(defadvice package--update-selected-packages
-    (after user/advice-package--update-selected-packages activate compile)
-  ""
-  (user/package-save-selected-packages))
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
