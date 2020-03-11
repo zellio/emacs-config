@@ -25,50 +25,50 @@
   :mode (("\\.org$" . org-mode))
 
   :config (setq
-		   org-directory user/org-directory
-		   org-M-RET-may-split-line nil
-		   org-log-done t
-		   org-use-speed-commands t
+           org-directory user/org-directory
+           org-M-RET-may-split-line nil
+           org-log-done t
+           org-use-speed-commands t
 
-		   org-todo-keywords '((sequence "TODO(t)" "INPR(i)" "|" "DONE(d)")
-							   (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)" "PHONE" "MEETING"))
+           org-todo-keywords '((sequence "TODO(t)" "INPR(i)" "|" "DONE(d)")
+                               (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)" "PHONE" "MEETING"))
 
-		   org-todo-keyword-faces '(("INPR" . (:foreground "steelblue" :weight bold))
-									("WAIT" . (:foreground "goldenrod" :weight bold))
-									("HOLD" . (:foreground "dark orange" :weight bold))
-									("MEETING" . (:foreground "forest green" :weight bold))
-									("PHONE" . (:foreground "forest green" :weight bold)))
+           org-todo-keyword-faces '(("INPR" . (:foreground "steelblue" :weight bold))
+                                    ("WAIT" . (:foreground "goldenrod" :weight bold))
+                                    ("HOLD" . (:foreground "dark orange" :weight bold))
+                                    ("MEETING" . (:foreground "forest green" :weight bold))
+                                    ("PHONE" . (:foreground "forest green" :weight bold)))
 
-		   org-todo-state-tags-triggers '(("OVER" ("OVER" . t))
-										  ("WAIT" ("WAIT" . t))
-										  ("HOLD" ("WAIT") ("HOLD" . t))
-										  (done ("WAIT") ("HOLD"))
-										  ("TODO" ("WAIT") ("OVER") ("HOLD"))
-										  ("INPR" ("WAIT") ("OVER") ("HOLD"))
-										  ("DONE" ("WAIT") ("OVER") ("HOLD")))
+           org-todo-state-tags-triggers '(("OVER" ("OVER" . t))
+                                          ("WAIT" ("WAIT" . t))
+                                          ("HOLD" ("WAIT") ("HOLD" . t))
+                                          (done ("WAIT") ("HOLD"))
+                                          ("TODO" ("WAIT") ("OVER") ("HOLD"))
+                                          ("INPR" ("WAIT") ("OVER") ("HOLD"))
+                                          ("DONE" ("WAIT") ("OVER") ("HOLD")))
 
-		   org-highest-priority ?A
-		   org-default-priority ?C
-		   org-lowest-priority ?Z
+           org-highest-priority ?A
+           org-default-priority ?C
+           org-lowest-priority ?Z
 
-		   org-agenda-files (list user/org-directory)
+           org-agenda-files (list user/org-directory)
 
-		   org-default-notes-file (expand-file-name "scratch.org" user/org-directory)
+           org-default-notes-file (expand-file-name "scratch.org" user/org-directory)
 
-		   org-capture-templates '(("t" "TODO"
-									entry (file org-default-notes-file)
-									"\n* TODO %?\n"
-									:empty-lines 1)
+           org-capture-templates '(("t" "TODO"
+                                    entry (file org-default-notes-file)
+                                    "\n* TODO %?\n"
+                                    :empty-lines 1)
 
-								   ("j" "Journal"
-									entry (file+datetree user/org-journal-file)
-									"* %<%H:%M> - %?"
-									:empty-lines 1)))
+                                   ("j" "Journal"
+                                    entry (file+datetree user/org-journal-file)
+                                    "* %<%H:%M> - %?"
+                                    :empty-lines 1)))
 
   :bind (("C-c a" . org-agenda)
-		 ("C-c r" . org-capture))
+         ("C-c r" . org-capture))
 
   :hook (org-mode . (lambda ()
-					  (local-set-key [(control return)] 'org-insert-heading-after-current))))
+                      (local-set-key [(control return)] 'org-insert-heading-after-current))))
 
 ;;; config/70_org.el ends here

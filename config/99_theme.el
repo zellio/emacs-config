@@ -24,7 +24,7 @@
            "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba"))
 
   :config (progn
-			(add-to-list 'custom-theme-load-path package-user-dir)
-			(load-theme 'zenburn)))
+            (add-to-list 'custom-theme-load-path package-user-dir)
+            (load-theme 'zenburn)))
 
 ;;; config/99_theme.el ends here
