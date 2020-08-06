@@ -14,7 +14,8 @@
 (use-package zenburn-theme
   :init (setq
          custom-safe-themes
-         '("04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5"
+         '("f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef"
+           "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5"
            "0c9f63c9d90d0d135935392873cd016cc1767638de92841a5b277481f1ec1f4a"
            "190a9882bef28d7e944aa610aa68fe1ee34ecea6127239178c7ac848754992df"
            "3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077"
