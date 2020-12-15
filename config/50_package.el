@@ -20,10 +20,9 @@
  ;; We will run '(package-initialize) later in the file
  package-enable-at-startup nil
  package-user-dir (expand-file-name "vendor" user-emacs-directory)
- package-archives '(("org" . "http://orgmode.org/elpa/")
-                    ("gnu" . "http://elpa.gnu.org/packages/")
-                    ("marmalade" . "http://marmalade-repo.org/packages/")
-                    ("melpa" . "http://melpa.milkbox.net/packages/")))
+ package-archives '(("org" . "https://orgmode.org/elpa/")
+                    ("gnu" . "https://elpa.gnu.org/packages/")
+                    ("melpa" . "https://melpa.org/packages/")))
 
 (defcustom user/package-selected-packages-file
   (expand-file-name "selected-packages.list" package-user-dir)
