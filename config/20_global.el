@@ -44,7 +44,7 @@
 
  ;; Setup frame values
  initial-frame-alist '((vertical-scroll-bars . nil))
- default-frame-alist '((font . "Liberation Mono-11")
+ default-frame-alist '((font . "Liberation Mono-18")
                        (vertical-scroll-bars . nil)
                        (tool-bar-lines . 0)
                        (menu-bar-lines . 0)
