@@ -15,6 +15,9 @@
 ;;; Code:
 
 (setq
+ ;;; Fix bug
+ gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"
+
  ;; This is an ugly hack becuase they won't leave my init file alone.
  package--init-file-ensured t
  ;; We will run '(package-initialize) later in the file
