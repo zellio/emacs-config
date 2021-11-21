@@ -12,7 +12,7 @@
 ;;; Code:
 
 
-(use-package zenburn-theme
+(use-package gruvbox-theme
   :init
   (setq
    custom-safe-themes
