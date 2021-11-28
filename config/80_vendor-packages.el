@@ -371,7 +371,8 @@
    company-minimum-prefix-length 2
    company-require-match 'never
    company-show-numbers t
-   company-enable-lsp-snippet t)
+   company-enable-lsp-snippet t
+   lsp-completion-provider :capf)
 
   (add-to-list 'company-backends #'company-capf))
 
@@ -382,10 +383,6 @@
             (company-terraform-init)))
 
 (use-package company-racer)
-
-(use-package company-lsp
-  :after (company lsp)
-  :config (push '(company-lsp :with company-yasnippet) company-backends))
 
 
 ;;; config/80_site-package.el ends here
