@@ -36,8 +36,23 @@
 
   :config
   (setq
-   doom-modeline-window-width-limit 'truncate-upto-project
-   doom-modeline-unicode-fallback t))
+   doom-modeline-unicode-fallback t
+   doom-modeline-buffer-file-name-style 'truncate-upto-project))
+
+(use-package doom-themes
+  :after (doom-modeline)
+
+  :config
+  (setq
+   doom-themes-enable-bold t
+   doom-themes-enable-italic t
+   doom-themes-treemacs-theme "doom-gruvbox")
+
+  (load-theme 'doom-gruvbox t)
+
+  (doom-themes-visual-bell-config)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config))
 
 
 ;;; ANSI Colours
@@ -61,38 +76,73 @@
   :hook (dired-mode . all-the-icons-dired-mode))
 
 
-;;; Projectile
-(use-package projectile
-  :init (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map))
-
-  :config
-  (setq
-   projectile-indexing-method 'alien
-   projectile-per-project-compilation-buffer t
-   projectile-mode-line-prefix "℘"))
-
-(use-package helm-projectile
-  :after (projectile helm))
-
-
 ;;; Compilation
 (use-package compile
   :ensure nil
   :config (setq compilation-scroll-output t))
 
 
-;;; Sr. Speedbar
-(use-package sr-speedbar
-  :bind
-  (("C-x C-n" . sr-speedbar-toggle)
-   ("s-s" . sr-speedbar-toggle))
+;;; Treemacs
+(use-package treemacs
+  :bind (:map global-map
+         ([remap delete-other-windows] . treemacs-delete-other-windows)
+
+         ("C-x C-n" . treemacs-select-window)
+         ("C-c t t" . treemacs-select-window)
+         ("C-c t p" . treemacs-projectile)
+         ("C-c t P" . treemacs-add-and-display-current-project)
+         ("C-c t f" . treemacs-find-file)
+         ("C-c t b" . treemacs-bookmark)
+
+         ("C-c t w w" . treemacs-switch-workspace)
+         ("C-c t w a" . treemacs-add-project-to-workspace)
+         ("C-c t w c" . treemacs-create-workspace)
+         ("C-c t w e" . treemacs-edit-workspaces)
+         ("C-c t w n" . treemacs-next-workspace)
+         ("C-c t w r" . treemacs-remove-project-from-workspace)
+         ("C-c t w C-k" . treemacs-remove-workspace)))
+
+(use-package treemacs-customization
+  :ensure nil
+
+  :init
+  (let ((treemacs-directory (no-littering-expand-var-file-name "treemacs")))
+    (when (not (file-directory-p treemacs-directory))
+      (mkdir treemacs-directory)))
 
   :config
   (setq
-   sr-speedbar-right-side nil))
+   treemacs-indent-guide-style 'block
+   treemacs-sorting 'alphabetic-case-insensitive-asc
+
+   treemacs-persist-file (no-littering-expand-var-file-name "treemacs/persist")
+   treemacs-last-error-persist-file (no-littering-expand-var-file-name "treemacs/error")))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+
+;;; Projectile
+(use-package projectile
+  :init (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map))
+  :config
+  (setq
+   projectile-indexing-method 'alien
+   projectile-mode-line-prefix "℘"
+   projectile-per-project-compilation-buffer t
+   projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
+
+(use-package helm-projectile
+  :after (projectile helm))
 
 
 ;;; Magit
@@ -123,9 +173,7 @@
 ;;; Flycheck
 (use-package flycheck
   :config
-  (setq
-   flycheck-temp-prefix ".flycheck")
-
+  (setq flycheck-temp-prefix ".flycheck")
   (global-flycheck-mode))
 
 (use-package flycheck-pycheckers
@@ -165,17 +213,10 @@
            dockerfile-build-args '("--pull" "--rm")))
 
 
-;; ;;; Lua Mode
-;; (use-package lua-mode)
-
-
 ;;; Terraform Mode
 (use-package terraform-mode
   :hook (terraform-mode . terraform-format-on-save-mode)
-
-  :config (setq
-           terraform-indent-level 2))
-
+  :config (setq terraform-indent-level 2))
 
 
 ;;; Ruby
@@ -206,16 +247,13 @@
    enh-ruby-hanging-indent-level 2))
 
 (use-package inf-ruby
-  :config (setq
-           inf-ruby-console-environment "pry"))
+  :config (setq inf-ruby-console-environment "pry"))
 
 (use-package rubocop)
 
 (use-package rvm
   :hook ((ruby-mode enh-ruby-mode) . rvm-activate-corresponding-ruby)
-
-  :config (setq
-           rvm--gemset-default "emacs"))
+  :config (setq rvm--gemset-default "emacs"))
 
 (use-package robe
   :config (with-eval-after-load "company"
