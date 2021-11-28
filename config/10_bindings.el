@@ -19,30 +19,30 @@
 ;; (global-set-key (kbd "C-,") 'shrink-window)
 
 ;; Navigation
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "M-p") 'backward-paragraph)
+(define-key global-map (kbd "M-n") 'forward-paragraph)
+(define-key global-map (kbd "M-p") 'backward-paragraph)
 
 ;; Refresh-like
-(global-set-key (kbd "<f5>") 'revert-buffer)
-(global-set-key (kbd "S-<f5>") 'user/revert-all-buffers)
+(define-key global-map (kbd "<f5>") 'revert-buffer)
+(define-key global-map (kbd "S-<f5>") 'user/revert-all-buffers)
 
 ;; Indenting and alignment
-(global-set-key (kbd "<f8>") 'indent-region)
-(global-set-key (kbd "C-<f8>") 'align)
-(global-set-key (kbd "S-<f8>") 'align-current)
-(global-set-key (kbd "M-<f8>") 'align-regexp)
+(define-key global-map (kbd "<f8>") 'indent-region)
+(define-key global-map (kbd "C-<f8>") 'align)
+(define-key global-map (kbd "S-<f8>") 'align-current)
+(define-key global-map (kbd "M-<f8>") 'align-regexp)
 
 ;; Find matching parens
-(global-set-key (kbd "C-'") 'user/match-paren)
+(define-key global-map (kbd "C-'") 'user/match-paren)
 
 ;; set goto-line to just M-g
-(global-set-key (kbd "M-g") 'goto-line)
+(define-key global-map (kbd "M-g") 'goto-line)
 
 ;; Auto-kill current buffer, don't prompt
-(global-set-key (kbd "C-x k") 'user/kill-current-buffer)
+(define-key global-map (kbd "C-x k") 'user/kill-current-buffer)
 
 ;; Let's make indenting `smarter'
-(global-set-key (kbd "TAB") 'user/smart-indent)
+(define-key global-map (kbd "TAB") 'user/smart-indent)
 
 ;; Don't use this anyway
 (global-unset-key (kbd "C-x f"))

@@ -15,4 +15,10 @@
          (directory-files "~/.emacs.d/config" t "^[^.].+\\.el$" nil))
   (load config-file))
 
+(dolist (extra-file (list
+                     custom-file
+                     (no-littering-expand-etc-file-name "site-config.el")))
+  (when (file-readable-p extra-file)
+    (load extra-file)))
+
 ;;; init.el ends here

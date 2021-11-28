@@ -65,7 +65,7 @@
  uniquify-trailing-separator-p nil
 
  ;; recentf
- recentf-max-saved-items 25)
+ recentf-max-saved-items 50)
 
 
 ;;; Global execs
