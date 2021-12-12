@@ -11,40 +11,40 @@
 
 ;;; Code:
 
-;; Window manipulation
-;;   TODO: Find better bindings for this so I can use it in TTY mode
-;; (global-set-key (kbd "C->") 'enlarge-window-horizontally)
-;; (global-set-key (kbd "C-<") 'shrink-window-horizontally)
-;; (global-set-key (kbd "C-.") 'enlarge-window)
-;; (global-set-key (kbd "C-,") 'shrink-window)
+(use-package general
+  :config
+  (general-define-key
+   ;;; Navidation
+   "M-n" 'forward-paragraph
+   "M-p" 'backward-paragraph
 
-;; Navigation
-(define-key global-map (kbd "M-n") 'forward-paragraph)
-(define-key global-map (kbd "M-p") 'backward-paragraph)
+   ;;; Refresh buffers
+   "<f5>" 'revert-buffer
+   "S-<f5>" 'user/revert-all-buffers
 
-;; Refresh-like
-(define-key global-map (kbd "<f5>") 'revert-buffer)
-(define-key global-map (kbd "S-<f5>") 'user/revert-all-buffers)
+   ;;; Indenting and alignment
+   "<f8>" 'indent-region
+   "C-<f8>" 'align
+   "S-<f8>" 'align-current
+   "M-<f8>" 'align-regexp
 
-;; Indenting and alignment
-(define-key global-map (kbd "<f8>") 'indent-region)
-(define-key global-map (kbd "C-<f8>") 'align)
-(define-key global-map (kbd "S-<f8>") 'align-current)
-(define-key global-map (kbd "M-<f8>") 'align-regexp)
+   ;; Find matching parens
+   "C-'" 'user/match-paren
 
-;; Find matching parens
-(define-key global-map (kbd "C-'") 'user/match-paren)
+   ;; set goto-line to just M-g
+   "M-g" 'goto-line
 
-;; set goto-line to just M-g
-(define-key global-map (kbd "M-g") 'goto-line)
+   ;; Auto-kill current buffer, don't prompt
+   "C-x k" 'user/kill-current-buffer
 
-;; Auto-kill current buffer, don't prompt
-(define-key global-map (kbd "C-x k") 'user/kill-current-buffer)
+   ;; Let's make indenting `smarter'
+   "TAB" 'user/smart-indent)
 
-;; Let's make indenting `smarter'
-(define-key global-map (kbd "TAB") 'user/smart-indent)
+  (general-define-key
+   :keymaps 'ctl-x-map
+   "O" 'user/other-window-reverse)
 
-;; Don't use this anyway
-(global-unset-key (kbd "C-x f"))
+  (general-unbind
+   "C-x f"))
 
 ;;; config/10_bindings.el ends here

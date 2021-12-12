@@ -1,75 +1,62 @@
-;;; config/emacs/00_env.el --- set up environment
+;;; config/emacs/00_bootstrap.el --- set up initial config environment
 
-;; Copyright (C) 2012-2020 Zachary Elliott
+;; Copyright (C) 2012-2021 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
-;; Initialize global environment values
+;; Prep emacs for further configuration
 
 ;;; Code:
 
-(defcustom user/emacs-data-directory
-  (expand-file-name "data" user-emacs-directory)
-  ""
-  :type 'string
-  :group 'user)
 
-(defcustom user/autosave-directory
-  (expand-file-name "auto-save/files/" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+;;; Set up package management
 
-(defcustom user/backup-directory
-  (expand-file-name "backup" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+(setq
+ ;;; Fix bug
+ gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"
 
-(defcustom user/recovery-directory
-  (expand-file-name "recovery" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+ ;; This is an ugly hack becuase they won't leave my init file alone.
+ package--init-file-ensured t
 
-(defcustom user/url-configuration-directory
-  (expand-file-name "url" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+ ;; We will run '(package-initialize) in a second
+ package-enable-at-startup nil
 
-(defcustom user/eshell-directory
-  (expand-file-name "eshell" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+ package-user-dir (expand-file-name "vendor" user-emacs-directory)
+ package-archives '(("org" . "https://orgmode.org/elpa/")
+                    ("gnu" . "https://elpa.gnu.org/packages/")
+                    ("melpa" . "https://melpa.org/packages/")))
 
-(defcustom user/nsm-settings-file
-  (expand-file-name "network-security.data" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+(package-initialize)
 
-(defcustom user/save-place-file
-  (expand-file-name "saved-places" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-(defcustom user/bookmark-default-file
-  (expand-file-name "bookmarks" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+(use-package use-package-ensure
+  :config
+  (setq use-package-always-ensure t))
 
-(defcustom user/recentf-save-file
-  (expand-file-name "recent-files" user/emacs-data-directory)
-  ""
-  :type 'string
-  :group 'user)
+
+;;; No Littering - Keep extra generated files out of ~/.emacs.d
+
+(use-package no-littering
+  :config
+  (require 'recentf)
+
+  (push 'no-littering-var-directory recentf-exclude)
+  (push 'no-littering-etc-directory recentf-exclude)
+
+  (setq
+   custom-file (no-littering-expand-etc-file-name "custom.el")
+
+   auto-save-file-name-transforms
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+
+
+;;; User defuns
 
 (defmacro user/filter (fn list)
   "Filters LIST by predicate function FN."
@@ -141,10 +128,10 @@
     (delete-region (point-min) (point-max)))
   nil)
 
-;; Construct data directories
-(dolist (directory (list user/emacs-data-directory
-                         user/autosave-directory))
-  (unless (file-directory-p directory)
-    (mkdir directory t)))
+(defun user/other-window-reverse (count &optional all-frames)
+  ""
+  (interactive "p")
+  (let ((count (* -1 count)))
+    (other-window count all-frames)))
 
-;;; config/emacs/00_env.el ends here
+;;; config/emacs/00_bootstrap.elisp ends here
