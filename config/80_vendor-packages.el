@@ -10,21 +10,6 @@
 ;;; Code:
 
 
-;; ;;; No Littering
-(use-package no-littering
-  :init (setq
-         no-littering-var-directory
-         (expand-file-name "data/" user-emacs-directory))
-
-  :config
-  (require 'recentf)
-
-  (push 'no-littering-var-directory recentf-exclude)
-  (push 'no-littering-etc-directory recentf-exclude)
-
-  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
-
-
 ;;; Rainbow Delimiters Mode
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -46,7 +31,7 @@
   (setq
    doom-themes-enable-bold t
    doom-themes-enable-italic t
-   doom-themes-treemacs-theme "doom-gruvbox")
+   doom-themes-treemacs-theme "doom-colors")
 
   (load-theme 'doom-gruvbox t)
 
@@ -70,16 +55,6 @@
 ;;; All the Icons
 (use-package all-the-icons
   :if (display-graphic-p))
-
-(use-package all-the-icons-dired
-  :after (all-the-icons)
-  :hook (dired-mode . all-the-icons-dired-mode))
-
-
-;;; Compilation
-(use-package compile
-  :ensure nil
-  :config (setq compilation-scroll-output t))
 
 
 ;;; Treemacs
@@ -105,18 +80,10 @@
 (use-package treemacs-customization
   :ensure nil
 
-  :init
-  (let ((treemacs-directory (no-littering-expand-var-file-name "treemacs")))
-    (when (not (file-directory-p treemacs-directory))
-      (mkdir treemacs-directory)))
-
   :config
   (setq
    treemacs-indent-guide-style 'block
-   treemacs-sorting 'alphabetic-case-insensitive-asc
-
-   treemacs-persist-file (no-littering-expand-var-file-name "treemacs/persist")
-   treemacs-last-error-persist-file (no-littering-expand-var-file-name "treemacs/error")))
+   treemacs-sorting 'alphabetic-case-insensitive-asc))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
@@ -160,7 +127,7 @@
 
 ;;; Flyspell Mode
 (use-package flyspell
-  :hook ((text-mode . (lambda () (flyspell-mode 1)))
+  :hook ((text-mode . (lambda () (flyspell-mode +1)))
          (prog-mode . flyspell-prog-mode))
 
   :config
@@ -176,9 +143,9 @@
   (setq flycheck-temp-prefix ".flycheck")
   (global-flycheck-mode))
 
-(use-package flycheck-pycheckers
-  :after (flycheck)
-  :hook ((flycheck-mode . flycheck-pycheckers-setup)))
+;; (use-package flycheck-pycheckers
+;;   :after (flycheck)
+;;   :hook ((flycheck-mode . flycheck-pycheckers-setup)))
 
 
 ;;; Markdown Mode
@@ -264,12 +231,16 @@
 
 ;;; Rust
 (use-package rust-mode
-  :config (setq
-           rust-format-on-save t))
+  :config
+  (setq
+   rust-format-on-save t))
 
 (use-package flycheck-rust
   :after (flycheck rust-mode)
-  :hook (flycheck-mode . flycheck-rust-setup))
+  :hook (flycheck-mode . flycheck-rust-setup)
+  :config
+  (setq
+   flycheck-rust-clippy-executable "~/.cargo/bin/cargo"))
 
 (use-package racer
   :after (rust-mode)
@@ -288,7 +259,11 @@
 
 
 ;;; Python
-(use-package python-mode)
+;; (use-package python-mode
+;;   :hook
+;;   ((python-mode . (lambda ()
+;;                    (setq-local flycheck-checker 'python-pylint)
+;;                    (flycheck-select-checker 'python-pylint)))))
 
 (use-package pipenv
   :after (python-mode)
@@ -304,9 +279,11 @@
                             (setq-local lsp-pyls-server-command '("pipenv" "run" "pylsp")))))
          (python-mode . pipenv-mode))
 
-  :config (setq
-           pipenv-executable "/Users/zellio/.pyenv/shims/pipenv"
-           pipenv-projectile-after-switch-function nil)
+
+  :config
+  (setq
+   pipenv-executable "/Users/zellio/.pyenv/shims/pipenv"
+   pipenv-projectile-after-switch-function nil)
 
   :commands (pipenv-mode
              pipenv-activate
@@ -322,12 +299,12 @@
                                         '("poetry" "run" "pylsp")))))))
 
 
+;;; protobuff
+(use-package protobuf-mode)
+
+
 ;;; LSP
 (use-package lsp-mode
-  :bind (:map lsp-mode-map
-              ("s-l" . lsp-command-map)
-              ("C-c l" . lsp-command-map))
-
   :hook (((c-mode-common
            lua-mode
            python-mode
@@ -339,14 +316,91 @@
 
   :config
   (setq
+   lsp-log-io t
+
    lsp-message-project-root-warning t
    lsp-auto-configure t
    lsp-enable-snippet t
    lsp-keymap-prefix "C-c l"
 
    lsp-client-packages (delete 'lsp-steep lsp-client-packages)
-   lsp-clinet-packages (delete 'pyls lsp-client-packages)))
+   lsp-client-packages (delete 'pyls lsp-client-packages))
 
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
+
+(use-package lsp-ui
+  :after (lsp-mode))
+
+(use-package lsp-ui-sideline
+  :ensure nil
+  :after (lsp-ui)
+  :config
+  (setq
+   lsp-ui-sideline-show-diagnostics t
+   lsp-ui-sideline-show-hover t
+   lsp-ui-sideline-show-code-actions nil
+   ;; lsp-ui-sideline-update-mode 'line
+   lsp-ui-sideline-delay 0.5))
+
+(use-package lsp-ui-peek
+  :ensure nil
+  :after (lsp-ui)
+  :bind (:map lsp-ui-mode-map
+         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-references] . lsp-ui-peek-find-references))
+
+  :config
+  (setq
+   lsp-ui-peek-enable t
+   lsp-ui-peek-show-directory t))
+
+(use-package lsp-ui-doc
+  :ensure nil
+  :after (lsp-ui)
+  :config
+  (setq
+   lsp-ui-doc-enable t
+   lsp-ui-doc-position 'top
+   lsp-ui-doc-alignment 'frame
+   lsp-ui-doc-show-with-cursor nil
+   lsp-ui-doc-show-with-mouse t))
+
+(use-package lsp-ui-imenu
+  :ensure nil
+  :after (lsp-ui)
+  :config
+  (setq
+   lsp-ui-imenu-enable t
+   lsp-ui-imenu-kind-position 'top))
+
+
+;;; Helm LSP
+(use-package helm-lsp
+  :after (lsp-mode)
+  :commands helm-lsp-workspace-symbol
+
+  :bind
+  (:map lsp-mode-map
+        ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
+
+
+;;; Rust LSP
+(use-package lsp-rust
+  :after (lsp-mode)
+  :ensure nil
+  :config
+  (setq
+   lsp-rust-analyzer-server-display-inlay-hints t
+   lsp-rust-analyzer-inlay-hints-mode t
+   lsp-rust-analyzer-cargo-watch-enable t
+   lsp-rust-analyzer-cargo-watch-command "clippy"
+   lsp-rust-analyzer-cargo-run-build-scripts t
+   lsp-rust-analyzer-proc-macro-enable t
+   lsp-rust-analyzer-display-chaining-hints t
+   lsp-rust-analyzer-display-parameter-hints t))
+
+
+;;; Terraform LSP
 (use-package lsp-terraform
   :ensure nil
   :after (lsp-mode)
@@ -359,33 +413,23 @@
                     :server-id 'terraform-ls)))
 
 
-(use-package lsp-ui
-  :after (lsp)
-  :hook (lsp-mode . lsp-ui-mode)
-
-  :bind
-  (:map lsp-ui-mode-map
-        ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-        ([remap xref-find-references] . lsp-ui-peek-find-references))
-
+;;; LPS pylsp
+(use-package lsp-pylsp
+  :ensure nil
+  :after (lsp-mode)
   :config
+  (put
+   'lsp-pylsp-plugins-pylint-args
+   'safe-local-variable
+   (lambda (arg)
+     (and (vectorp arg)
+          (seq-reduce (lambda (a b) (and a (char-or-string-p b))) arg t))))
+
   (setq
-   lsp-ui-doc-enable t
-   lsp-ui-flycheck-enable t
-   lsp-ui-imenu-enable nil
-   ;; lsp-ui-flycheck-enable t
-   ;; lsp-ui-sideline-enable t
-   lsp-ui-peek-enable t))
-
-
-;;; Helm LSP
-(use-package helm-lsp
-  :after (lsp)
-  :commands helm-lsp-workspace-symbol
-
-  :bind
-  (:map lsp-mode-map
-        ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
+   lsp-pylsp-plugins-jedi-completion-fuzzy t
+   lsp-pylsp-plugins-mccabe-threshold 10
+   lsp-pylsp-plugins-pylint-enabled t
+   lsp-pylsp-plugins-yapf-enabled t))
 
 
 ;;; Company

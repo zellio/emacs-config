@@ -12,7 +12,7 @@
 ;;; Code:
 
 (defcustom user/org-directory
-  (expand-file-name "org" user/emacs-data-directory)
+  (no-littering-expand-var-file-name "org")
   ""
   :type 'string
   :group 'user)
