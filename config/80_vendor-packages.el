@@ -15,6 +15,11 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 
+;;; Expand Region
+(use-package expand-region
+  :bind ("C-\\" . er/expand-region))
+
+
 ;;; Doom Modeline
 (use-package doom-modeline
   :init (doom-modeline-mode t)
@@ -424,6 +429,12 @@
    (lambda (arg)
      (and (vectorp arg)
           (seq-reduce (lambda (a b) (and a (char-or-string-p b))) arg t))))
+
+  (put
+   'lsp-pylsp-plugins-flake8-enabled
+   'safe-local-variable
+   (lambda (arg)
+     (booleanp arg)))
 
   (setq
    lsp-pylsp-plugins-jedi-completion-fuzzy t
