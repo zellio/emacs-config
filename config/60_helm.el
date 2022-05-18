@@ -1,6 +1,6 @@
 ;;; config/60_helm.el --- global configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2020 Zachary Elliott
+;; Copyright (C) 2012-2022 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.

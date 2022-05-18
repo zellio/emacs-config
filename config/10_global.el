@@ -2,7 +2,7 @@
 
 ;;; config/20_global.el --- global configurations
 
-;; Copyright (C) 2012-2020 Zachary Elliott
+;; Copyright (C) 2012-2022 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
