@@ -130,18 +130,6 @@
 (use-package yasnippet)
 
 
-;;; Flyspell Mode
-(use-package flyspell
-  :hook ((text-mode . (lambda () (flyspell-mode +1)))
-         (prog-mode . flyspell-prog-mode))
-
-  :config
-  (setq
-   ispell-program-name "aspell"
-   ispell-extra-args '("--sug-mode=fast")))
-
-
-
 ;;; Flycheck
 (use-package flycheck
   :config
@@ -159,8 +147,11 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
 
-  :config (setq
-           markdown-indent-on-enter nil))
+  :config
+  (setq
+   markdown-indent-on-enter nil)
+
+  (set-face-attribute 'markdown-code-face nil :inherit 'org-block))
 
 
 ;;; YAML Mode
@@ -260,7 +251,7 @@
 (use-package groovy-mode
   :mode (("Jenkinsfile\\'" . groovy-mode))
   :config (setq
-           lsp-groovy-server-file "/Users/zellio/repos/prominic/groovy-language-server/build/libs/groovy-language-server-all.jar"))
+           lsp-groovy-server-file "/Users/zellio/repos/GroovyLanguageServer/groovy-language-server/build/libs/groovy-language-server-all.jar"))
 
 
 ;;; Python
@@ -297,27 +288,51 @@
 (use-package poetry
   :after (python-mode)
   :commands (poetry-find-project-root)
-  :hook ((python-mode . poetry-tracking-mode)
+  :hook ((python-mode . (lambda () (poetry-tracking-mode +1)))
          (python-mode . (lambda ()
+                          (message "Hello world")
                           (when (poetry-find-project-root)
                             (setq-local lsp-pyls-server-command
                                         '("poetry" "run" "pylsp")))))))
 
 
 ;;; protobuff
-(use-package protobuf-mode)
+(use-package protobuf-mode
+  :ensure nil
+  :after (lsp-mode)
+
+  :config
+  (add-to-list 'lsp-language-id-configuration '(protobuf-mode . "protobuf"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("/Users/zellio/repos/micnncim/protocol-buffers-language-server/bazel-bin/cmd/protocol-buffers-language-server/darwin_amd64_stripped/protocol-buffers-language-server"))
+                    :major-modes '(protobuf-mode)
+                    :activation-fn (lsp-activate-on "protobuf")
+                    :priority 1
+                    :server-id 'protobuf-ls)))
 
 
 ;;; LSP
 (use-package lsp-mode
-  :hook (((c-mode-common
+  :init
+  (setq
+   lsp-keymap-prefix "C-c l")
+
+  :hook (((c++-mode
+           c-mode
+           c-or-c++-mode
+           enh-ruby-mode
+           groovy-mode
+           js-jsx-mode
+           js-mode
            lua-mode
            python-mode
-           enh-ruby-mode
            rust-mode
-           groovy-mode
-           terraform-mode) . lsp-deferred)
+           terraform-mode
+           typescript-mode) . lsp-deferred)
          (lsp-mode . yas-minor-mode))
+
+  :commands lsp
 
   :config
   (setq
@@ -326,7 +341,6 @@
    lsp-message-project-root-warning t
    lsp-auto-configure t
    lsp-enable-snippet t
-   lsp-keymap-prefix "C-c l"
 
    lsp-client-packages (delete 'lsp-steep lsp-client-packages)
    lsp-client-packages (delete 'pyls lsp-client-packages))
@@ -446,6 +460,7 @@
 ;;; Company
 (use-package company
   :bind (:map company-active-map
+         ("C-j" . nil)
          ("SPC" . (lambda () (interactive) (company-complete-selection) (insert " ")))
          ("TAB" . company-complete-common-or-cycle)
          ("<tab>" . company-complete-common-or-cycle)
@@ -465,6 +480,7 @@
    company-require-match 'never
    company-show-numbers t
    company-enable-lsp-snippet t
+   company-tooltip-align-annotations t
    lsp-completion-provider :capf)
 
   (add-to-list 'company-backends #'company-capf))

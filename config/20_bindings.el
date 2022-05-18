@@ -42,6 +42,8 @@
 
   (general-define-key
    :keymaps 'ctl-x-map
+   "2" 'user/split-window-below-and-switch
+   "3" 'user/split-window-right-and-switch
    "O" 'user/other-window-reverse)
 
   (general-unbind
