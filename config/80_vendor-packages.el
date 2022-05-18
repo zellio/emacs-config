@@ -432,6 +432,10 @@
                     :server-id 'terraform-ls)))
 
 
+;;; TypeScript
+(use-package typescript-mode)
+
+
 ;;; LPS pylsp
 (use-package lsp-pylsp
   :ensure nil
