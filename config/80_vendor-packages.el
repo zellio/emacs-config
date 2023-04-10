@@ -1,6 +1,6 @@
-;;; config/80_site-package.el --- installed package configurations
+;;; 80_site-package.el --- installed package configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -114,7 +114,8 @@
    projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
 
 (use-package helm-projectile
-  :after (projectile helm))
+  :after (projectile helm)
+  :config (helm-projectile-on))
 
 
 ;;; Magit
@@ -133,12 +134,11 @@
 ;;; Flycheck
 (use-package flycheck
   :config
-  (setq flycheck-temp-prefix ".flycheck")
+  (setq
+   flycheck-temp-prefix ".flycheck"
+   flycheck--automatically-enabled-checkers '(python-flake8 python-mypy)
+   flycheck-disabled-checkers '(python-pylint))
   (global-flycheck-mode))
-
-;; (use-package flycheck-pycheckers
-;;   :after (flycheck)
-;;   :hook ((flycheck-mode . flycheck-pycheckers-setup)))
 
 
 ;;; Markdown Mode
@@ -156,7 +156,7 @@
 
 ;;; YAML Mode
 (use-package yaml-mode
-  :mode (("\\.jinja2?\\'" . yaml-mode))
+  :mode (("\\.ya?ml\\.jinja2?\\'" . yaml-mode))
 
   :config (setq
            yaml-block-literal-search-lines 512))
@@ -172,8 +172,12 @@
   (put 'docker-image-name 'safe-local-variable #'stringp)
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 
-  :config (setq
-           dockerfile-build-args '("--pull" "--rm")))
+  :config
+  (setq
+   dockerfile-use-buildkit t
+   dockerfile-build-pull t
+   dockerfile-build-progress "plain"
+   dockerfile-build-args '("--rm")))
 
 
 ;;; Terraform Mode
@@ -250,19 +254,16 @@
 ;; Groovy
 (use-package groovy-mode
   :mode (("Jenkinsfile\\'" . groovy-mode))
-  :config (setq
-           lsp-groovy-server-file "/Users/zellio/repos/GroovyLanguageServer/groovy-language-server/build/libs/groovy-language-server-all.jar"))
+  :config
+  (setq
+   lsp-groovy-server-file
+   (no-littering-expand-var-file-name
+    "lsp/server/groovy-language-server/build/libs/groovy-language-server-all.jar")))
 
 
-;;; Python
-;; (use-package python-mode
-;;   :hook
-;;   ((python-mode . (lambda ()
-;;                    (setq-local flycheck-checker 'python-pylint)
-;;                    (flycheck-select-checker 'python-pylint)))))
-
+;;; Pipenv
 (use-package pipenv
-  :after (python-mode)
+  :after (python)
 
   :hook ((python-mode . (lambda ()
                           (unless (and (boundp 'user/pipenv-dir-cache)
@@ -272,44 +273,46 @@
                             (pipenv-activate))))
          (python-mode . (lambda ()
                           (when (pipenv-project-p)
-                            (setq-local lsp-pyls-server-command '("pipenv" "run" "pylsp")))))
-         (python-mode . pipenv-mode))
-
+                            (setq-local
+                             lsp-pylsp-server-command '("pipenv" "run" "pylsp")
+                             lsp-pyls-server-command '("pipenv" "run" "pylsp"))))))
 
   :config
   (setq
-   pipenv-executable "/Users/zellio/.pyenv/shims/pipenv"
+   pipenv-executable "~/.pyenv/shims/pipenv"
    pipenv-projectile-after-switch-function nil)
 
-  :commands (pipenv-mode
+  :commands (pipenv-project-p
+             pipenv-mode
              pipenv-activate
              pipenv-run))
 
+;;; Poetry
 (use-package poetry
-  :after (python-mode)
+  :after (python)
+
   :commands (poetry-find-project-root)
+
   :hook ((python-mode . (lambda () (poetry-tracking-mode +1)))
          (python-mode . (lambda ()
-                          (message "Hello world")
                           (when (poetry-find-project-root)
-                            (setq-local lsp-pyls-server-command
-                                        '("poetry" "run" "pylsp")))))))
+                            (setq-local
+                             lsp-pylsp-server-command '("poetry" "run" "pylsp")
+                             lsp-pyls-server-command '("poetry" "run" "pylsp"))))))
+
+  :config
+  (setq
+   poetry-tracking-strategy 'projectile))
 
 
 ;;; protobuff
 (use-package protobuf-mode
   :ensure nil
-  :after (lsp-mode)
+  :after (lsp-mode))
 
-  :config
-  (add-to-list 'lsp-language-id-configuration '(protobuf-mode . "protobuf"))
 
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("/Users/zellio/repos/micnncim/protocol-buffers-language-server/bazel-bin/cmd/protocol-buffers-language-server/darwin_amd64_stripped/protocol-buffers-language-server"))
-                    :major-modes '(protobuf-mode)
-                    :activation-fn (lsp-activate-on "protobuf")
-                    :priority 1
-                    :server-id 'protobuf-ls)))
+;;; TypeScript
+(use-package typescript-mode)
 
 
 ;;; LSP
@@ -340,10 +343,13 @@
 
    lsp-message-project-root-warning t
    lsp-auto-configure t
+   lsp-enable-links t
    lsp-enable-snippet t
 
-   lsp-client-packages (delete 'lsp-steep lsp-client-packages)
-   lsp-client-packages (delete 'pyls lsp-client-packages))
+   lsp-semantic-tokens-enable nil
+   lsp-semantic-tokens-honor-refresh-requests nil
+
+   lsp-disabled-clients '(lsp-steep))
 
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
@@ -425,15 +431,10 @@
   :after (lsp-mode)
 
   :config
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("terraform-ls" "serve"))
-                    :major-modes '(terraform-mode)
-                    :priority 1
-                    :server-id 'terraform-ls)))
+  (push 'pyls lsp-disabled-clients)
 
-
-;;; TypeScript
-(use-package typescript-mode)
+  (setq
+   lsp-terraform-ls-enable-show-reference t))
 
 
 ;;; LPS pylsp
@@ -441,6 +442,8 @@
   :ensure nil
   :after (lsp-mode)
   :config
+  (push 'pyls lsp-disabled-clients)
+
   (put
    'lsp-pylsp-plugins-pylint-args
    'safe-local-variable
@@ -455,10 +458,42 @@
      (booleanp arg)))
 
   (setq
+   lsp-pylsp-plugins-autopep8-enabled nil
+   lsp-pylsp-plugins-black-enabled t
+   lsp-pylsp-plugins-flake8-enabled t
+   lsp-pylsp-plugins-flake8-max-line-length 120
+   lsp-pylsp-plugins-jedi-completion-enabled t
    lsp-pylsp-plugins-jedi-completion-fuzzy t
-   lsp-pylsp-plugins-mccabe-threshold 10
-   lsp-pylsp-plugins-pylint-enabled t
-   lsp-pylsp-plugins-yapf-enabled t))
+   lsp-pylsp-plugins-jedi-completion-include-class-objects t
+   lsp-pylsp-plugins-jedi-completion-include-params t
+   lsp-pylsp-plugins-jedi-definition-enabled t
+   lsp-pylsp-plugins-jedi-definition-follow-builtin-imports t
+   lsp-pylsp-plugins-jedi-definition-follow-imports t
+   lsp-pylsp-plugins-jedi-environment nil
+   lsp-pylsp-plugins-jedi-hover-enabled t
+   lsp-pylsp-plugins-jedi-references-enabled t
+   lsp-pylsp-plugins-jedi-signature-help-enabled t
+   lsp-pylsp-plugins-jedi-symbols-all-scopes t
+   lsp-pylsp-plugins-jedi-symbols-enabled t
+   lsp-pylsp-plugins-mccabe-enabled nil
+   lsp-pylsp-plugins-preload-enabled nil
+   lsp-pylsp-plugins-pycodestyle-enabled nil
+   lsp-pylsp-plugins-pydocstyle-add-ignore nil
+   lsp-pylsp-plugins-pyflakes-enabled nil
+   lsp-pylsp-plugins-rope-completion-enabled t
+   lsp-pylsp-plugins-yapf-enabled nil))
+
+
+;;; LSP TypeScript
+(use-package lsp-javascript
+  :ensure nil
+  :after (lsp-mode)
+  :config
+  (let ((nvm-bin (file-truename "~/.local/share/nvm/current/bin")))
+    (lsp-dependency 'typescript-language-server
+                    `(:system ,(expand-file-name "typescript-language-server" nvm-bin)))
+    (lsp-dependency 'typescript
+                    `(:system ,(expand-file-name "tsc" nvm-bin)))))
 
 
 ;;; Company
@@ -498,4 +533,15 @@
 (use-package company-racer)
 
 
-;;; config/80_site-package.el ends here
+;;; PlantUML mode
+
+(use-package plantuml-mode
+  :mode
+  (("\\.puml\\'" . plantuml-mode))
+  :config
+  (setq
+   plantuml-executable-path (executable-find "plantuml")
+   plantuml-default-exec-mode 'executable
+   plantuml-indent-level 8))
+
+;;; 80_site-package.el ends here

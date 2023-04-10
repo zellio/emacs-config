@@ -1,6 +1,6 @@
-;;; config/70_org.el --- org-mode configuration
+;;; 70_org.el --- org-mode configuration -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -76,4 +76,4 @@
       "* %<%H:%M> - %?"
       :empty-lines 1))))
 
-;;; config/70_org.el ends here
+;;; 70_org.el ends here

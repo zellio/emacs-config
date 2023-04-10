@@ -1,15 +1,13 @@
-;;; -*- lexical-binding: t -*-
+;;; 00_bootstrap.el --- set up initial config environment -*- lexical-binding: t -*-
 
-;;; config/emacs/00_bootstrap.el --- set up initial config environment
-
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
-;; Prep emacs for further configuration
+;; Prep Emacs for further configuration
 
 ;;; Code:
 
@@ -55,4 +53,4 @@
    auto-save-file-name-transforms
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
-;;; config/emacs/00_bootstrap.elisp ends here
+;;; 00_bootstrap.el ends here

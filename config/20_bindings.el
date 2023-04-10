@@ -1,6 +1,6 @@
-;;; config/10_bindings.el --- key bindings
+;;; 10_bindings.el --- key bindings -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -34,9 +34,6 @@
    ;; set goto-line to just M-g
    "M-g" 'goto-line
 
-   ;; Auto-kill current buffer, don't prompt
-   "C-x k" 'user/kill-current-buffer
-
    ;; Let's make indenting `smarter'
    "TAB" 'user/smart-indent)
 
@@ -44,9 +41,15 @@
    :keymaps 'ctl-x-map
    "2" 'user/split-window-below-and-switch
    "3" 'user/split-window-right-and-switch
-   "O" 'user/other-window-reverse)
+   "O" 'user/other-window-reverse
+   "k" 'user/kill-current-buffer)
+
+  (general-define-key
+   :keymaps 'mode-specific-map
+   "l" 'user/snake-case-region
+   "u" 'user/upper-camel-case-region)
 
   (general-unbind
    "C-x f"))
 
-;;; config/10_bindings.el ends here
+;;; 10_bindings.el ends here

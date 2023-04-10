@@ -1,6 +1,6 @@
-;;; config/60_helm.el --- global configurations -*- lexical-binding: t -*-
+;;; 60_helm.el --- global configurations -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -13,8 +13,6 @@
 
 (use-package helm
   :config
-  (require 'helm-config)
-
   (setq
    helm-input-idle-delay 0.01
    helm-reuse-last-window-split-state t
@@ -23,7 +21,7 @@
    helm-split-window-inside-p nil
    helm-actions-inherit-frame-settings t
    helm-use-frame-when-more-than-two-windows t
-   helm-use-frame-when-dedicated-window t
+   helm-use-frame-when-no-suitable-window t
    helm-frame-background-color "DarkSlateGray"
    helm-show-action-window-other-window 'left
    helm-allow-mouse t
@@ -276,63 +274,73 @@ First call indent, second complete symbol, third complete fname."
    helm-tramp-control-master-path "~/.ssh/socket"
    helm-tramp-control-master-prefix ""))
 
+(use-package helm-company
+  :after (company)
+  :config
+  (autoload 'helm-company "helm-company")
+  (general-define-key
+   :keymaps '(global-map company-mode-map company-active-map)
+   "C-/" 'helm-company))
+
 (use-package helm-lsp
   ;; Configured in lsp include
   )
-
-(use-package helm-projectile
-  :config (helm-projectile-on))
 
 
 ;;; Bindings
 
 ;;; Ctl-x-5 map
-(define-key ctl-x-5-map (kbd "C-x c t") 'helm-top-in-frame)
-(define-key ctl-x-5-map (kbd "C-x c i") 'helm-imenu-in-frame)
-(define-key ctl-x-5-map (kbd "C-x c f") 'helm-find-files-in-frame)
-(define-key ctl-x-5-map (kbd "C-x C-f") 'helm-find-files-in-frame)
-
-(define-key ctl-x-5-map (kbd "M-x") 'helm-M-x-in-frame)
-(define-key ctl-x-5-map (kbd "C-s") 'helm-occur-in-frame)
-(define-key ctl-x-5-map (kbd "C-x C-b") 'helm-mini-in-frame)
+(general-define-key
+ :keymaps 'ctl-x-5-map
+ "C-x c t" 'helm-top-in-frame
+ "C-x c i" 'helm-imenu-in-frame
+ "C-x c f" 'helm-find-files-in-frame
+ "C-x C-f" 'helm-find-files-in-frame
+ "M-x" 'helm-M-x-in-frame
+ "C-s" 'helm-occur-in-frame
+ "C-x C-b" 'helm-mini-in-frame)
 
 ;;; Helm-command-map
-(define-key helm-command-map (kbd "z") 'helm-complex-command-history)
-(define-key helm-command-map (kbd "#") 'helm-emms)
-(define-key helm-command-map (kbd "I") 'helm-imenu-in-all-buffers)
-(define-key helm-command-map (kbd "@") 'helm-list-elisp-packages-no-fetch)
+(general-define-key
+ :keymaps 'helm-command-map
+ "z" 'helm-complex-command-history
+ "#" 'helm-emms
+ "I" 'helm-imenu-in-all-buffers
+ "@" 'helm-list-elisp-packages-no-fetch)
 
 ;;; Global-map
-(define-key global-map [remap execute-extended-command] 'helm-M-x)
-(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
-(define-key global-map [remap find-file] 'helm-find-files)
-(define-key global-map (kbd "C-c <SPC>") 'helm-all-mark-rings)
-(define-key global-map [remap bookmark-jump] 'helm-filtered-bookmarks)
-(define-key global-map (kbd "C-:") 'helm-eval-expression-with-eldoc)
-(define-key global-map (kbd "C-,") 'helm-calcul-expression)
-(define-key global-map (kbd "C-h d") 'helm-info-at-point)
-(define-key global-map (kbd "C-h i") 'helm-info)
-(define-key global-map (kbd "C-x C-d") 'helm-browse-project)
-(define-key global-map (kbd "<f1>") 'helm-resume)
-(define-key global-map (kbd "C-h C-f") 'helm-apropos)
-(define-key global-map (kbd "C-h a") 'helm-apropos)
-(define-key global-map (kbd "C-h C-d") 'helm-debug-open-last-log)
-(define-key global-map (kbd "<f6> s") 'helm-find)
-(define-key global-map (kbd "S-<f3>") 'helm-execute-kmacro)
-(define-key global-map (kbd "C-c i") 'helm-imenu-in-all-buffers)
-(define-key global-map (kbd "C-c C-i") 'helm-imenu)
-(define-key global-map (kbd "<f11>") 'helm-org-agenda-files-headings)
-(define-key global-map (kbd "M-s") 'helm-occur-visible-buffers)
-(define-key global-map (kbd "<f6> h") 'helm-emms)
-(define-key global-map [remap occur] 'helm-occur)
-(define-key global-map [remap jump-to-register] 'helm-register)
-(define-key global-map [remap list-buffers] 'helm-mini)
-(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
-(define-key global-map [remap find-tag] 'helm-etags-select)
-(define-key global-map [remap xref-find-definitions] 'helm-etags-select)
-(define-key global-map (kbd "C-x r p") 'helm-projects-history)
-(define-key global-map (kbd "C-x r c") 'helm-addressbook-bookmarks)
-(define-key global-map (kbd "C-c t r") 'helm-dictionary)
+(general-define-key
+ :keymaps 'global-map
+ [remap execute-extended-command] 'helm-M-x
+ "M-y" 'helm-show-kill-ring
+ [remap find-file] 'helm-find-files
+ "C-c <SPC>" 'helm-all-mark-rings
+ [remap bookmark-jump] 'helm-filtered-bookmarks
+ "C-:" 'helm-eval-expression-with-eldoc
+ "C-," 'helm-calcul-expression
+ "C-h d" 'helm-info-at-point
+ "C-h i" 'helm-info
+ "C-x C-d" 'helm-browse-project
+ "<f1>" 'helm-resume
+ "C-h C-f" 'helm-apropos
+ "C-h a" 'helm-apropos
+ "C-h C-d" 'helm-debug-open-last-log
+ "<f6> s" 'helm-find
+ "S-<f3>" 'helm-execute-kmacro
+ "C-c i" 'helm-imenu-in-all-buffers
+ "C-c C-i" 'helm-imenu
+ "<f11>" 'helm-org-agenda-files-headings
+ "M-s" 'helm-occur-visible-buffers
+ "<f6> h" 'helm-emms
+ [remap occur] 'helm-occur
+ [remap jump-to-register] 'helm-register
+ [remap list-buffers] 'helm-mini
+ [remap dabbrev-expand] 'helm-dabbrev
+ [remap find-tag] 'helm-etags-select
+ [remap xref-find-definitions] 'helm-etags-select
+ "C-x r p" 'helm-projects-history
+ "C-x r c" 'helm-addressbook-bookmarks
+ "C-c t r" 'helm-dictionary)
 
 ;; Indent or complete with completion-at-point
 ;; (setq tab-always-indent 'complete)
@@ -344,4 +352,4 @@ First call indent, second complete symbol, third complete fname."
 (add-to-list 'completion-ignored-extensions ".dbus/")
 (add-to-list 'completion-ignored-extensions "dconf/")
 
-;;; config/60_helm.el ends here
+;;; 60_helm.el ends here

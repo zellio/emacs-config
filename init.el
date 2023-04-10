@@ -1,6 +1,6 @@
-;;; init.el --- Base installation file
+;;; init.el --- Base installation file -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -12,7 +12,7 @@
 ;;; Code:
 
 (dolist (config-file
-         (directory-files "~/.emacs.d/config" t "^[^.].+\\.el$" nil))
+         (directory-files (concat user-emacs-directory "config") t "^[^.].+\\.el$" nil))
   (load config-file))
 
 (dolist (extra-file (list

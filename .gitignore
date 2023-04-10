@@ -4,7 +4,7 @@
 !README.md
 !init.el
 !/config
-/config/99_generated-env.el
+/config/00_generated-env.el
 !/vendor
 /vendor/*
 !/vendor/selected-packages.list

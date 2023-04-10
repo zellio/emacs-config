@@ -1,8 +1,6 @@
-;;; -*- lexical-bindings: t -*-
+;;; 20_global.el --- global configurations -*- lexical-binding: t -*-
 
-;;; config/20_global.el --- global configurations
-
-;; Copyright (C) 2012-2022 Zachary Elliott
+;; Copyright (C) 2012-2023 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -61,7 +59,7 @@
           (mkdir dir t))
       (with-temp-buffer
         (insert
-         ";; -*- mode: lisp; coding: utf-8 -*-\n"
+         ";; -*- mode: lisp; coding: utf-8; -*-\n"
          ";; emacs-version: " emacs-version "\n"
          "\n"
          (prin1-to-string data))
@@ -107,6 +105,20 @@
     (split-window-right)
     (other-window 1))
 
+  (defun user/upper-camel-case-region (beg end)
+    ""
+    (interactive "*r")
+    (replace-region-contents
+     beg end
+     (lambda () (s-upper-camel-case (buffer-substring beg end)))))
+
+  (defun user/snake-case-region (beg end)
+    ""
+    (interactive "*r")
+    (replace-region-contents
+     beg end
+     (lambda () (s-snake-case (buffer-substring beg end)))))
+
   :hook (before-save . delete-trailing-whitespace)
   :config
   (setq
@@ -125,6 +137,9 @@
 
    ;; Disable startup screen
    inhibit-startup-screen t
+
+   ;; Mark local variable values as safe
+   safe-local-variable-values '((lexical-bindings . t))
 
    ;; Scratch buffer settings
    initial-scratch-message ""
@@ -150,7 +165,12 @@
 
   ;; Prioritize utf-8
   (prefer-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8-unix))
+  (prefer-coding-system 'utf-8-unix)
 
+  ;; OSX Specific configs
+  (when (eq system-type 'darwin)
+    (setq
+     mac-option-modifier 'meta
+     mac-command-modifier 'super)))
 
-;;; config/20_global.el ends here
+;;; 20_global.el ends here
