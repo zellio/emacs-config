@@ -1,6 +1,6 @@
-;;; 20_global.el --- global configurations -*- lexical-binding: t -*-
+;;; 10_emacs.el --- Base emacs configuration -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2023 Zachary Elliott
+;; Copyright (C) 2012-2024 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -11,23 +11,26 @@
 
 ;;; Code:
 
-
-;;; Requires
-
 (use-package emacs
-  :ensure nil
   :preface
   (defvar user/indent-width 4)
 
-  (defmacro user/filter (fn list)
-    "Filters LIST by predicate function FN."
-    `(delq nil (mapcar (lambda (l) (and (funcall ,fn l) l)) ,list)))
+  (defun user/load-environment (env-alist)
+    "Load shell environment snapshot into Emacs."
+    (dolist (env-pair env-alist)
+      (let ((name (car env-pair)) (value (cdr env-pair)))
+        (when (string-equal name "PATH")
+          (setq
+           exec-path (append (list exec-directory) (parse-colon-path value)))
+          (setq-default
+           eshell-path-env (mapconcat 'identity exec-path ":")))
+        (setenv name value))))
 
-  (defun user/match-paren (arg)
-    "Jump to matching parenthesis for ARG at point."
+  (defun user/match-paren (_)
+    "Go to the matching paren if on a paren"
     (interactive "p")
-    (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-          ((looking-at "\\s\)") (forward-char 1) (backward-list 1))))
+    (cond ((looking-at "\\s(") (forward-list 1) (backward-char 1))
+          ((looking-at "\\s)") (forward-char 1) (backward-list 1))))
 
   (defun user/indent-whole-buffer ()
     "Indent Whole Buffer."
@@ -81,12 +84,6 @@
         (indent-region (region-beginning) (region-end))
       (indent-for-tab-command)))
 
-  (defun user/kill-scratch-buffer ()
-    ""
-    (with-current-buffer "*scratch*"
-      (delete-region (point-min) (point-max)))
-    nil)
-
   (defun user/other-window-reverse (count &optional all-frames)
     ""
     (interactive "p")
@@ -119,42 +116,57 @@
      beg end
      (lambda () (s-snake-case (buffer-substring beg end)))))
 
-  :hook (before-save . delete-trailing-whitespace)
+  (defmacro user/add-eglot-workspace-config (server conf-plist)
+    ""
+    `(with-eval-after-load 'eglot
+       (setq-default
+        eglot-workspace-configuration
+        (plist-put eglot-workspace-configuration ,server ',conf-plist))))
+
+  (defun user/scratch-buffer-respawn ()
+    "Re-initialize contents of the scratch buffer instead of destroying it"
+    (interactive)
+    (with-current-buffer (get-buffer-create "*scratch*")
+      (delete-region (point-min) (point-max))
+      (insert initial-scratch-message)
+      (funcall initial-major-mode)))
+
+  (defun user/scratch-kill-buffer-query-function (&optional slay)
+    ""
+    (interactive "P")
+    (or (not (string= (buffer-name) "*scratch*"))
+        (and slay
+             (let ((kill-buffer-query-functions kill-buffer-query-functions))
+               (remove-hook 'kill-buffer-query-functions 'user/scratch-kill-buffer-query-function)
+               (kill-buffer "*scratch*")))
+        (user/scratch-buffer-respawn)))
+
+  (defun user/mask-auto-mode-alist (source-mode mask-mode)
+    ""
+    (mapcar
+     (lambda (auto-mode-cell)
+       (let ((matcher (car auto-mode-cell)) (mode (cdr auto-mode-cell)))
+         (cons matcher (if (eq mode source-mode) mask-mode mode))))
+     auto-mode-alist))
+
   :config
   (setq
-   user-full-name "Zachary H. Elliott"
+   user-full-name "Zachary Elliott"
    frame-title-format '("Emacs " emacs-version)
 
-   ;; backup file settings
-   backup-by-copying t
-   delete-old-versions t
-   kept-new-versions 3
-   kept-old-versions 2
-   version-control t
-
-   ;; Enable all of the disabled functions
-   disabled-command-function nil
-
-   ;; Disable startup screen
+   initial-buffer-choice t
    inhibit-startup-screen t
-
-   ;; Mark local variable values as safe
-   safe-local-variable-values '((lexical-bindings . t))
-
-   ;; Scratch buffer settings
-   initial-scratch-message ""
-   initial-major-mode 'org-mode)
+   inhibit-startup-echo-area-message nil
+   inhibit-startup-buffer-menu t
+   initial-major-mode 'org-mode
+   initial-scratch-message "")
 
   (setq-default
-   inhibit-startup-message t
-   default-tab-width 4
-   kill-whole-line t
+   default-tab-width user/indent-width
    truncate-partial-width-windows nil
    fill-column 78
-   indicate-empty-lines t
    visible-bell t
    truncate-lines t
-   require-final-newline t
    indent-tabs-mode nil
    standard-indent user/indent-width
    tab-width user/indent-width
@@ -171,6 +183,8 @@
   (when (eq system-type 'darwin)
     (setq
      mac-option-modifier 'meta
-     mac-command-modifier 'super)))
+     mac-command-modifier 'super))
 
-;;; 20_global.el ends here
+  (add-to-list 'kill-buffer-query-functions 'user/scratch-kill-buffer-query-function))
+
+;;; 10_emacs.el ends here

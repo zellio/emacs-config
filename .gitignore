@@ -2,9 +2,10 @@
 !.gitignore
 !COPYING
 !README.md
+!early-init.el
 !init.el
 !/config
-/config/00_generated-env.el
+/config/01_generated-environment.el
 !/vendor
 /vendor/*
 !/vendor/selected-packages.list

@@ -1,6 +1,6 @@
-;;; 70_org.el --- org-mode configuration -*- lexical-binding: t -*-
+;;; 70_org.el --- org-mode configuration -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2023 Zachary Elliott
+;; Copyright (C) 2012-2024 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -23,17 +23,24 @@
   :type 'string
   :group 'user)
 
+(defcustom user/org-default-notes-file
+  (expand-file-name "notest.org" user/org-directory)
+  ""
+  :type 'string
+  :group 'user)
+
 (use-package org
   :mode (("\\.org$" . org-mode))
-  :bind (("C-c o a" . org-agenda)
-         ("C-c o r" . org-capture))
-
+  :general
+  ("C-c o a" 'org-agenda)
+  ("C-c o r" 'org-capture)
   :hook (org-mode . (lambda ()
                       (local-set-key [(control return)] 'org-insert-heading-after-current)))
-
   :config
   (setq
    org-directory user/org-directory
+   org-default-notes-file user/org-default-notes-file
+   org-agenda-files (list user/org-directory)
    org-M-RET-may-split-line nil
    org-log-done t
    org-use-speed-commands t
@@ -41,8 +48,6 @@
    org-highest-priority ?A
    org-default-priority ?C
    org-lowest-priority ?Z
-   org-agenda-files (list user/org-directory)
-   org-default-notes-file (expand-file-name "scratch.org" user/org-directory)
 
    org-todo-keywords
    '((sequence "TODO(t)" "INPR(i)" "|" "DONE(d)")

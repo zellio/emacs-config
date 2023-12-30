@@ -1,172 +1,46 @@
-;;; 80_site-package.el --- installed package configurations -*- lexical-binding: t -*-
+;;; 80_site-package.el --- installed package configurations -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2023 Zachary Elliott
+;; Copyright (C) 2012-2024 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
+;;
+
 ;;; Code:
 
+(use-package all-the-icons)
 
-;;; Rainbow Delimiters Mode
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-
-;;; Expand Region
-(use-package expand-region
-  :bind ("C-\\" . er/expand-region))
-
-
-;;; Doom Modeline
-(use-package doom-modeline
-  :init (doom-modeline-mode t)
-
-  :config
-  (setq
-   doom-modeline-unicode-fallback t
-   doom-modeline-buffer-file-name-style 'truncate-upto-project))
-
-(use-package doom-themes
-  :after (doom-modeline)
-
-  :config
-  (setq
-   doom-themes-enable-bold t
-   doom-themes-enable-italic t
-   doom-themes-treemacs-theme "doom-colors")
-
-  (load-theme 'doom-gruvbox t)
-
-  (doom-themes-visual-bell-config)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config))
-
-
-;;; ANSI Colours
-(use-package ansi-color
-  :hook
-  ((compilation-filter . (lambda ()
-                           (let ((buffer-read-only nil))
-                             (ansi-color-apply-on-region compilation-filter-start (point)))))
-   (shell-mode . ansi-color-for-comint-mode-on))
-
-  :config
-  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output))
-
-
-;;; All the Icons
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-
-;;; Treemacs
-(use-package treemacs
-  :bind (:map global-map
-         ([remap delete-other-windows] . treemacs-delete-other-windows)
-
-         ("C-x C-n" . treemacs-select-window)
-         ("C-c t t" . treemacs-select-window)
-         ("C-c t p" . treemacs-projectile)
-         ("C-c t P" . treemacs-add-and-display-current-project)
-         ("C-c t f" . treemacs-find-file)
-         ("C-c t b" . treemacs-bookmark)
-
-         ("C-c t w w" . treemacs-switch-workspace)
-         ("C-c t w a" . treemacs-add-project-to-workspace)
-         ("C-c t w c" . treemacs-create-workspace)
-         ("C-c t w e" . treemacs-edit-workspaces)
-         ("C-c t w n" . treemacs-next-workspace)
-         ("C-c t w r" . treemacs-remove-project-from-workspace)
-         ("C-c t w C-k" . treemacs-remove-workspace)))
-
-(use-package treemacs-customization
-  :ensure nil
-
-  :config
-  (setq
-   treemacs-indent-guide-style 'block
-   treemacs-sorting 'alphabetic-case-insensitive-asc))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once))
-
-(use-package treemacs-magit
-  :after (treemacs magit))
-
-
-;;; Projectile
-(use-package projectile
-  :init (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map))
-  :config
-  (setq
-   projectile-indexing-method 'alien
-   projectile-mode-line-prefix "℘"
-   projectile-per-project-compilation-buffer t
-   projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
-
-(use-package helm-projectile
-  :after (projectile helm)
-  :config (helm-projectile-on))
-
-
-;;; Magit
-(use-package magit
-  :bind (("C-c m b" . magit-blame)
-         ("C-c m d" . magit-dispatch)
-         ("C-c m f" . magit-file-dispatch)
-         ("C-c m p" . magit-process-mode)
-         ("C-c m s" . magit-status)))
-
-
-;;; Yasnippet
-(use-package yasnippet)
-
-
-;;; Flycheck
-(use-package flycheck
-  :config
-  (setq
-   flycheck-temp-prefix ".flycheck"
-   flycheck--automatically-enabled-checkers '(python-flake8 python-mypy)
-   flycheck-disabled-checkers '(python-pylint))
-  (global-flycheck-mode))
-
-
-;;; Markdown Mode
-(use-package markdown-mode
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-
-  :config
-  (setq
-   markdown-indent-on-enter nil)
-
-  (set-face-attribute 'markdown-code-face nil :inherit 'org-block))
-
-
-;;; YAML Mode
-(use-package yaml-mode
-  :mode (("\\.ya?ml\\.jinja2?\\'" . yaml-mode))
-
-  :config (setq
-           yaml-block-literal-search-lines 512))
-
-
-;; Bison/Flex Mode
 (use-package bison-mode)
 
+(use-package company
+  :hook (after-init . global-company-mode)
+  :config
+  (setq
+   company-lighter-base "𝕮"
+   company-lighter '(" "
+                     company-lighter-base
+                     (company-candidates
+                      (:eval
+                       (format
+                        ":%s"
+                        (replace-regexp-in-string
+                         "company-\\|-company" "" (symbol-name company-backend))))))
+   company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
+                       company-preview-if-just-one-frontend
+                       company-echo-metadata-frontend)
+   company-tooltip-limit 10
+   company-tooltip-minimum 5
+   company-quick-access-keys '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0")
+   company-quick-access-modifier 'meta
+   company-tooltip-flip-when-above t
+   company-idle-delay 0.25
+   company-minimum-prefix-length 2
+   company-require-match 'never
+   company-show-numbers t))
 
-;;; Dockerfile Mode
 (use-package dockerfile-mode
   :init
   (put 'docker-image-name 'safe-local-variable #'stringp)
@@ -179,369 +53,165 @@
    dockerfile-build-progress "plain"
    dockerfile-build-args '("--rm")))
 
-
-;;; Terraform Mode
-(use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode)
-  :config (setq terraform-indent-level 2))
-
-
-;;; Ruby
-(use-package enh-ruby-mode
-  :mode
-  (("\\.rb\\'" . enh-ruby-mode)
-   ("\\.ru\\'" . enh-ruby-mode)
-   ("\\.rake\\'" . enh-ruby-mode)
-   ("\\.gemspec\\'" . enh-ruby-mode)
-   ("\\.jbuilder\\'" . enh-ruby-mode)
-   ("\\.podspec\\'" . enh-ruby-mode)
-   ("\\.thor\\'" . enh-ruby-mode)
-   ("Gemfile\\'" . enh-ruby-mode)
-   ("Rakefile\\'" . enh-ruby-mode)
-   ("Podfile\\'" . enh-ruby-mode)
-   ("Thorfile\\'" . enh-ruby-mode)
-   ("Guardfile\\'" . enh-ruby-mode)
-   ("Vagrantfile\\'" . enh-ruby-mode)
-   ("Capfile\\'" . enh-ruby-mode))
-
+(use-package eldoc-box
+  :after (eldoc)
+  :general ("C-c h" 'eldoc-box-help-at-point)
   :config
   (setq
-   ruby-insert-encoding-magic-comment nil
-   enh-ruby-indent-level 2
-   enh-ruby-add-encoding-comment-on-save nil
-   enh-ruby-deep-indent-paren nil
-   enh-ruby-bounce-deep-indent t
-   enh-ruby-hanging-indent-level 2))
+   eldoc-box nil
+   eldoc-box-only-multi-line t
+   eldoc-box-clear-with-C-g t))
 
-(use-package inf-ruby
-  :config (setq inf-ruby-console-environment "pry"))
+(use-package expand-region
+  :general ("C-\\" 'er/expand-region))
 
-(use-package rubocop)
+(use-package flycheck
+  :config
+  (setq
+   flycheck-temp-prefix ".flycheck"
+   flycheck--automatically-enabled-checkers '(python-flake8 python-mypy)
+   flycheck-disabled-checkers '(python-pylint))
+  (global-flycheck-mode))
 
-(use-package rvm
-  :hook ((ruby-mode enh-ruby-mode) . rvm-activate-corresponding-ruby)
-  :config (setq rvm--gemset-default "emacs"))
+(use-package helm-projectile
+  :after (projectile helm)
+  :config (helm-projectile-on))
 
-(use-package robe
-  :config (with-eval-after-load "company"
-            (push 'company-robe company-backends)))
+(use-package magit
+  :general
+  ("C-c m b" 'magit-blame
+   "C-c m d" 'magit-dispatch
+   "C-c m f" 'magit-file-dispatch
+   "C-c m p" 'magit-process-mode
+   "C-c m s" 'magit-status))
 
-(use-package bundler)
+(use-package pipenv
+  :after (python-ts-mode)
+  :hook (python-ts-mode . (lambda ()
+                             (unless (and (boundp 'user/pipenv-dir-cache)
+                                          (string= (pipenv-project?) user/pipenv-dir-cache))
+                               (setq user/pipenv-dir-cache (pipenv-project?))
+                               (pipenv-deactivate)
+                               (pipenv-activate))))
+  :config
+  (setq
+   pipenv-executable "~/.local/bin/pipenv"
+   pipenv-projectile-after-switch-function nil))
 
+(use-package plantuml-mode
+  :mode (("\\.puml\\'" . plantuml-mode))
+  :config
+  (setq
+   plantuml-executable-path (executable-find "plantuml")
+   plantuml-default-exec-mode 'executable
+   plantuml-indent-level 8))
 
-;;; Rust
+(use-package poetry
+  :after (python-ts-mode projectile)
+  :commands (poetry-find-project-root)
+  :hook (python-ts-mode . (lambda () (poetry-tracking-mode +1)))
+  :config
+  (setq
+   poetry-tracking-strategy 'projectile))
+
+(use-package projectile
+  :hook (after-init . (lambda () (projectile-mode +1)))
+  :general
+  (projectile-mode-map
+   "s-p" 'projectile-command-map
+   "C-c p"  'projectile-command-map)
+  :config
+  (setq
+   projectile-indexing-method 'alien
+   projectile-mode-line-prefix (char-to-string (c-int-to-char #x2119))
+   projectile-mode-line-function
+   (lambda ()
+     (let ((project-name (projectile-project-name)))
+       (format " %s:%s" projectile-mode-line-prefix project-name)))
+   projectile-per-project-compilation-buffer t
+   projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
+
 (use-package rust-mode
   :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((rust-ts-mode rust-mode) .
+                   ("rust-analyzer"
+                    :initializationOptions (:check (:command "clippy")))))))
+
+(use-package rust-rustfmt
+  :ensure nil
+  :after (rust-mode)
+  :config
   (setq
-   rust-format-on-save t))
+   rust-format-on-save t
+   rust-rustfmt-switches '("--edition" "2021")))
 
 (use-package flycheck-rust
   :after (flycheck rust-mode)
   :hook (flycheck-mode . flycheck-rust-setup)
   :config
   (setq
-   flycheck-rust-clippy-executable "~/.cargo/bin/cargo"))
-
-(use-package racer
-  :after (rust-mode)
-  :hook (rust-mode . racer-mode))
+   flycheck-rust-clippy-executable (executable-find "cargo")))
 
 (use-package cargo
   :after (rust-mode)
   :hook (rust-mode . cargo-minor-mode))
 
+(use-package scad-mode)
 
-;; Groovy
-(use-package groovy-mode
-  :mode (("Jenkinsfile\\'" . groovy-mode))
+(use-package terraform-mode
+  :hook (terraform-mode . terraform-format-on-save-mode)
   :config
   (setq
-   lsp-groovy-server-file
-   (no-littering-expand-var-file-name
-    "lsp/server/groovy-language-server/build/libs/groovy-language-server-all.jar")))
+   terraform-indent-level 2)
 
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(terraform-mode . ("terraform-ls" "serve"))))
 
-;;; Pipenv
-(use-package pipenv
-  :after (python)
+  ;; TODO(gh://flycheck/flycheck/issues/2024): Remove once resolved upstream
+  (with-eval-after-load 'flycheck
+    (flycheck-define-checker terraform-tflint
+      "A Terraform checker using tflint."
+      :command ("tflint" "--format=json" "--force"
+                (option-list "--var-file=" flycheck-tflint-variable-files concat)
+                (eval (format "--chdir=%s" (file-name-directory (buffer-file-name)))))
+      :error-parser flycheck-parse-tflint-linter
+      :predicate flycheck-buffer-saved-p
+      :modes terraform-mode)))
 
-  :hook ((python-mode . (lambda ()
-                          (unless (and (boundp 'user/pipenv-dir-cache)
-                                       (string= (pipenv-project?) user/pipenv-dir-cache))
-                            (setq user/pipenv-dir-cache (pipenv-project?))
-                            (pipenv-deactivate)
-                            (pipenv-activate))))
-         (python-mode . (lambda ()
-                          (when (pipenv-project-p)
-                            (setq-local
-                             lsp-pylsp-server-command '("pipenv" "run" "pylsp")
-                             lsp-pyls-server-command '("pipenv" "run" "pylsp"))))))
+(use-package treemacs
+  :general
+  ([remap delete-other-windows] 'treemacs-delete-other-windows
+   "C-x C-n" 'treemacs-select-window
+   "C-c t t" 'treemacs-select-window
+   "C-c t p" 'treemacs-projectile
+   "C-c t P" 'treemacs-add-and-display-current-project
+   "C-c t f" 'treemacs-find-file
+   "C-c t b" 'treemacs-bookmark
+   "C-c t w w" 'treemacs-switch-workspace
+   "C-c t w a" 'treemacs-add-project-to-workspace
+   "C-c t w c" 'treemacs-create-workspace
+   "C-c t w e" 'treemacs-edit-workspaces
+   "C-c t w n" 'treemacs-next-workspace
+   "C-c t w r" 'treemacs-remove-project-from-workspace
+   "C-c t w C-k" 'treemacs-remove-workspace))
 
-  :config
-  (setq
-   pipenv-executable "~/.pyenv/shims/pipenv"
-   pipenv-projectile-after-switch-function nil)
-
-  :commands (pipenv-project-p
-             pipenv-mode
-             pipenv-activate
-             pipenv-run))
-
-;;; Poetry
-(use-package poetry
-  :after (python)
-
-  :commands (poetry-find-project-root)
-
-  :hook ((python-mode . (lambda () (poetry-tracking-mode +1)))
-         (python-mode . (lambda ()
-                          (when (poetry-find-project-root)
-                            (setq-local
-                             lsp-pylsp-server-command '("poetry" "run" "pylsp")
-                             lsp-pyls-server-command '("poetry" "run" "pylsp"))))))
-
-  :config
-  (setq
-   poetry-tracking-strategy 'projectile))
-
-
-;;; protobuff
-(use-package protobuf-mode
-  :ensure nil
-  :after (lsp-mode))
-
-
-;;; TypeScript
-(use-package typescript-mode)
-
-
-;;; LSP
-(use-package lsp-mode
-  :init
-  (setq
-   lsp-keymap-prefix "C-c l")
-
-  :hook (((c++-mode
-           c-mode
-           c-or-c++-mode
-           enh-ruby-mode
-           groovy-mode
-           js-jsx-mode
-           js-mode
-           lua-mode
-           python-mode
-           rust-mode
-           terraform-mode
-           typescript-mode) . lsp-deferred)
-         (lsp-mode . yas-minor-mode))
-
-  :commands lsp
-
-  :config
-  (setq
-   lsp-log-io t
-
-   lsp-message-project-root-warning t
-   lsp-auto-configure t
-   lsp-enable-links t
-   lsp-enable-snippet t
-
-   lsp-semantic-tokens-enable nil
-   lsp-semantic-tokens-honor-refresh-requests nil
-
-   lsp-disabled-clients '(lsp-steep))
-
-  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
-
-(use-package lsp-ui
-  :after (lsp-mode))
-
-(use-package lsp-ui-sideline
-  :ensure nil
-  :after (lsp-ui)
-  :config
-  (setq
-   lsp-ui-sideline-show-diagnostics t
-   lsp-ui-sideline-show-hover t
-   lsp-ui-sideline-show-code-actions nil
-   ;; lsp-ui-sideline-update-mode 'line
-   lsp-ui-sideline-delay 0.5))
-
-(use-package lsp-ui-peek
-  :ensure nil
-  :after (lsp-ui)
-  :bind (:map lsp-ui-mode-map
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
-
-  :config
-  (setq
-   lsp-ui-peek-enable t
-   lsp-ui-peek-show-directory t))
-
-(use-package lsp-ui-doc
-  :ensure nil
-  :after (lsp-ui)
-  :config
-  (setq
-   lsp-ui-doc-enable t
-   lsp-ui-doc-position 'top
-   lsp-ui-doc-alignment 'frame
-   lsp-ui-doc-show-with-cursor nil
-   lsp-ui-doc-show-with-mouse t))
-
-(use-package lsp-ui-imenu
-  :ensure nil
-  :after (lsp-ui)
-  :config
-  (setq
-   lsp-ui-imenu-enable t
-   lsp-ui-imenu-kind-position 'top))
-
-
-;;; Helm LSP
-(use-package helm-lsp
-  :after (lsp-mode)
-  :commands helm-lsp-workspace-symbol
-
-  :bind
-  (:map lsp-mode-map
-        ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
-
-
-;;; Rust LSP
-(use-package lsp-rust
-  :after (lsp-mode)
+(use-package treemacs-customization
   :ensure nil
   :config
   (setq
-   lsp-rust-analyzer-server-display-inlay-hints t
-   lsp-rust-analyzer-inlay-hints-mode t
-   lsp-rust-analyzer-cargo-watch-enable t
-   lsp-rust-analyzer-cargo-watch-command "clippy"
-   lsp-rust-analyzer-cargo-run-build-scripts t
-   lsp-rust-analyzer-proc-macro-enable t
-   lsp-rust-analyzer-display-chaining-hints t
-   lsp-rust-analyzer-display-parameter-hints t))
+   treemacs-move-forward-on-expand t))
 
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
-;;; Terraform LSP
-(use-package lsp-terraform
-  :ensure nil
-  :after (lsp-mode)
+(use-package treemacs-magit
+  :after (treemacs magit))
 
-  :config
-  (push 'pyls lsp-disabled-clients)
+(use-package treemacs-projectile
+  :after (treemacs projectile))
 
-  (setq
-   lsp-terraform-ls-enable-show-reference t))
-
-
-;;; LPS pylsp
-(use-package lsp-pylsp
-  :ensure nil
-  :after (lsp-mode)
-  :config
-  (push 'pyls lsp-disabled-clients)
-
-  (put
-   'lsp-pylsp-plugins-pylint-args
-   'safe-local-variable
-   (lambda (arg)
-     (and (vectorp arg)
-          (seq-reduce (lambda (a b) (and a (char-or-string-p b))) arg t))))
-
-  (put
-   'lsp-pylsp-plugins-flake8-enabled
-   'safe-local-variable
-   (lambda (arg)
-     (booleanp arg)))
-
-  (setq
-   lsp-pylsp-plugins-autopep8-enabled nil
-   lsp-pylsp-plugins-black-enabled t
-   lsp-pylsp-plugins-flake8-enabled t
-   lsp-pylsp-plugins-flake8-max-line-length 120
-   lsp-pylsp-plugins-jedi-completion-enabled t
-   lsp-pylsp-plugins-jedi-completion-fuzzy t
-   lsp-pylsp-plugins-jedi-completion-include-class-objects t
-   lsp-pylsp-plugins-jedi-completion-include-params t
-   lsp-pylsp-plugins-jedi-definition-enabled t
-   lsp-pylsp-plugins-jedi-definition-follow-builtin-imports t
-   lsp-pylsp-plugins-jedi-definition-follow-imports t
-   lsp-pylsp-plugins-jedi-environment nil
-   lsp-pylsp-plugins-jedi-hover-enabled t
-   lsp-pylsp-plugins-jedi-references-enabled t
-   lsp-pylsp-plugins-jedi-signature-help-enabled t
-   lsp-pylsp-plugins-jedi-symbols-all-scopes t
-   lsp-pylsp-plugins-jedi-symbols-enabled t
-   lsp-pylsp-plugins-mccabe-enabled nil
-   lsp-pylsp-plugins-preload-enabled nil
-   lsp-pylsp-plugins-pycodestyle-enabled nil
-   lsp-pylsp-plugins-pydocstyle-add-ignore nil
-   lsp-pylsp-plugins-pyflakes-enabled nil
-   lsp-pylsp-plugins-rope-completion-enabled t
-   lsp-pylsp-plugins-yapf-enabled nil))
-
-
-;;; LSP TypeScript
-(use-package lsp-javascript
-  :ensure nil
-  :after (lsp-mode)
-  :config
-  (let ((nvm-bin (file-truename "~/.local/share/nvm/current/bin")))
-    (lsp-dependency 'typescript-language-server
-                    `(:system ,(expand-file-name "typescript-language-server" nvm-bin)))
-    (lsp-dependency 'typescript
-                    `(:system ,(expand-file-name "tsc" nvm-bin)))))
-
-
-;;; Company
-(use-package company
-  :bind (:map company-active-map
-         ("C-j" . nil)
-         ("SPC" . (lambda () (interactive) (company-complete-selection) (insert " ")))
-         ("TAB" . company-complete-common-or-cycle)
-         ("<tab>" . company-complete-common-or-cycle)
-         ("S-TAB" . company-select-previous)
-         ("<backtab>" . company-select-previous))
-
-  :hook (after-init . global-company-mode)
-
-  :config
-  (setq
-   company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
-                       company-preview-frontend
-                       company-echo-metadata-frontend)
-   company-tooltip-limit 10
-   company-idle-delay 0.25
-   company-minimum-prefix-length 2
-   company-require-match 'never
-   company-show-numbers t
-   company-enable-lsp-snippet t
-   company-tooltip-align-annotations t
-   lsp-completion-provider :capf)
-
-  (add-to-list 'company-backends #'company-capf))
-
-(use-package company-terraform
-  :after (company)
-  :config (progn
-            (require 'company-terraform)
-            (company-terraform-init)))
-
-(use-package company-racer)
-
-
-;;; PlantUML mode
-
-(use-package plantuml-mode
-  :mode
-  (("\\.puml\\'" . plantuml-mode))
-  :config
-  (setq
-   plantuml-executable-path (executable-find "plantuml")
-   plantuml-default-exec-mode 'executable
-   plantuml-indent-level 8))
+(use-package yasnippet)
 
 ;;; 80_site-package.el ends here

@@ -1,6 +1,6 @@
-;;; 10_bindings.el --- key bindings -*- lexical-binding: t -*-
+;;; 15_bindings.el --- key bindings -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2023 Zachary Elliott
+;; Copyright (C) 2012-2024 Zachary Elliott
 ;; See COPYING for more information
 
 ;; This file is not part of GNU Emacs.
@@ -12,6 +12,8 @@
 ;;; Code:
 
 (use-package general
+  :ensure t
+
   :config
   (general-define-key
    ;;; Navidation
@@ -52,4 +54,4 @@
   (general-unbind
    "C-x f"))
 
-;;; 10_bindings.el ends here
+;;; 15_bindings.el ends here
