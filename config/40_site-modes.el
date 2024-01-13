@@ -144,6 +144,9 @@
   (setq
    typescript-ts-mode-indent-offset 2))
 
+(use-package yaml-ts-mode
+  :hook (yaml-ts-mode . (lambda () (setq-local tab-width 2))))
+
 ;; Ensure Use Package
 
 (use-package use-package-ensure
