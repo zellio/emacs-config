@@ -57,7 +57,8 @@
   :hook ((c-ts-mode
           go-ts-mode
           js-ts-mode
-          python-ts-mode rust-mode
+          python-ts-mode
+          rust-ts-mode
           typescript-ts-mode
           terraform-mode) . eglot-ensure)
 
@@ -131,6 +132,15 @@
   (with-eval-after-load 'eglot
     (add-to-list
      'eglot-server-programs '(python-ts-mode . user/eglot-python-server))))
+
+(use-package rust-ts-mode
+  :hook (before-save . (lambda () (eglot-format-buffer)))
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((rust-ts-mode rust-mode) .
+                   ("rust-analyzer"
+                    :initializationOptions (:check (:command "clippy")))))))
 
 (use-package sh-script
   :hook ((sh-mode . (lambda () (setq-local indent-tabs-mode t)))

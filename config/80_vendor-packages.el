@@ -16,10 +16,56 @@
 (use-package bison-mode)
 
 (use-package company
+  :init
+  (defun user/smart-complete ()
+    ""
+    (interactive)
+    (let* ((current-point (point))
+           (current-tick (buffer-chars-modified-tick)))
+      (catch 'break
+        (dolist ( completion-func '(yas-expand company-complete-common-or-cycle))
+          (ignore-errors (funcall completion-func))
+          (unless (and (eq (point) current-point)
+                       (eq (buffer-chars-modified-tick) current-tick))
+            (throw 'break nil))))
+      ))
+
   :hook (after-init . global-company-mode)
+
+  :general
+  ("M-/" 'company-complete)
+
+  (company-mode-map
+   [remap indent-for-tab-command] 'company-indent-or-complete-common)
+
+  (company-active-map
+   [tab] 'user/smart-complete
+   "TAB" 'user/smart-complete
+   [backtab] 'company-select-previous-or-abort)
+
+  :custom
+  (company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
+                       company-preview-if-just-one-frontend
+                       company-echo-metadata-frontend))
+  (company-tooltip-limit 10)
+  (company-tooltip-minimum 4)
+  (company-tooltip-offset-display 'lines)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-flip-when-above t)
+  (company-backends
+   '(company-capf company-files (company-gtags company-etags) company-dabbrev))
+  (company-minimum-prefix-length 2)
+  (company-abort-manual-when-too-short nil)
+  (company-abort-on-unique-match t)
+  (company-require-match 'never)
+  (company-idle-delay 0.1)
+  (company-tooltip-align-annotations '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0"))
+  (company-show-quick-access t)
+  (company-selection-wrap-around t)
+  (company-lighter-base "𝕮")
+  
   :config
   (setq
-   company-lighter-base "𝕮"
    company-lighter '(" "
                      company-lighter-base
                      (company-candidates
@@ -27,19 +73,9 @@
                        (format
                         ":%s"
                         (replace-regexp-in-string
-                         "company-\\|-company" "" (symbol-name company-backend))))))
-   company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
-                       company-preview-if-just-one-frontend
-                       company-echo-metadata-frontend)
-   company-tooltip-limit 10
-   company-tooltip-minimum 5
-   company-quick-access-keys '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0")
-   company-quick-access-modifier 'meta
-   company-tooltip-flip-when-above t
-   company-idle-delay 0.25
-   company-minimum-prefix-length 2
-   company-require-match 'never
-   company-show-numbers t))
+                         "company-\\|-company" "" (symbol-name company-backend))))
+                      ))
+   ))
 
 (use-package dockerfile-mode
   :init
@@ -131,32 +167,16 @@
    projectile-per-project-compilation-buffer t
    projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
 
-(use-package rust-mode
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '((rust-ts-mode rust-mode) .
-                   ("rust-analyzer"
-                    :initializationOptions (:check (:command "clippy")))))))
-
-(use-package rust-rustfmt
-  :ensure nil
-  :after (rust-mode)
-  :config
-  (setq
-   rust-format-on-save t
-   rust-rustfmt-switches '("--edition" "2021")))
-
 (use-package flycheck-rust
-  :after (flycheck rust-mode)
+  :after (flycheck rust-ts-mode)
   :hook (flycheck-mode . flycheck-rust-setup)
   :config
   (setq
    flycheck-rust-clippy-executable (executable-find "cargo")))
 
 (use-package cargo
-  :after (rust-mode)
-  :hook (rust-mode . cargo-minor-mode))
+  :after (rust-ts-mode)
+  :hook (rust-ts-mode . cargo-minor-mode))
 
 (use-package scad-mode)
 
@@ -212,6 +232,8 @@
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-(use-package yasnippet)
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
 
 ;;; 80_site-package.el ends here

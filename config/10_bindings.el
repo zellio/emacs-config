@@ -34,10 +34,7 @@
    "C-'" 'user/match-paren
 
    ;; set goto-line to just M-g
-   "M-g" 'goto-line
-
-   ;; Let's make indenting `smarter'
-   "TAB" 'user/smart-indent)
+   "M-g" 'goto-line)
 
   (general-define-key
    :keymaps 'ctl-x-map

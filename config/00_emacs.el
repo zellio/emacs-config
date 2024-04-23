@@ -77,13 +77,6 @@
           (read (current-buffer)))
       '()))
 
-  (defun user/smart-indent ()
-    "Indent region if mark is active, or current line otherwise."
-    (interactive)
-    (if mark-active
-        (indent-region (region-beginning) (region-end))
-      (indent-for-tab-command)))
-
   (defun user/other-window-reverse (count &optional all-frames)
     ""
     (interactive "p")
