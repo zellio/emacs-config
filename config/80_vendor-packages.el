@@ -62,7 +62,7 @@
   (company-tooltip-align-annotations '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0"))
   (company-show-quick-access t)
   (company-selection-wrap-around t)
-  (company-lighter-base "𝕮")
+  (company-lighter-base "Cmpy")
   
   :config
   (setq
@@ -71,55 +71,168 @@
                      (company-candidates
                       (:eval
                        (format
-                        ":%s"
+                        "/%s"
                         (replace-regexp-in-string
                          "company-\\|-company" "" (symbol-name company-backend))))
                       ))
    ))
+
+(use-package consult
+  :after (projectile)
+
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  :init
+  (defvar-keymap user/consult-global-map
+    "c" 'consult-locate
+    "d" 'consult-find
+    "e" 'consult-isearch-history
+    "f" 'consult-flymake
+    "g" 'consult-grep
+    "G" 'consult-git-grep
+    "i" 'consult-imenu
+    "I" 'consult-imenu-multi
+    "k" 'consult-kmacro
+    "K" 'consult-keep-lines
+    "l" 'consult-line
+    "L" 'consult-line-multi
+    "m" 'consult-mark
+    "o" 'consult-outline
+    "r" 'consult-ripgrep
+    "s" 'consult-line-multi
+    "u" 'consult-focus-lines
+    "M-x" 'consult-mode-command)
+
+  :general
+  ([remap Info-search] 'consult-info
+   [remap bookmark-jump] 'consult-bookmark
+   [remap goto-line] 'consult-goto-line
+   [remap pop-global-mark] 'consult-global-mark
+   [remap project-switch-to-buffer] 'consult-project-buffer
+   [remap repeat-complex-command] 'consult-complex-command
+   [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame
+   [remap switch-to-buffer-other-tab] 'consult-buffer-other-tab
+   [remap switch-to-buffer-other-window] 'consult-buffer-other-window
+   [remap switch-to-buffer] 'consult-buffer
+   [remap yank] 'consult-yank-from-kill-ring
+   [remap yank-pop] 'consult-yank-pop
+
+   "C-S-s" 'consult-line
+   "C-M-#" 'consult-register
+   "C-x m" 'consult-mark
+   "M-#" 'consult-register-load
+   "M-'" 'consult-register-store
+   "M-c" user/consult-global-map)
+
+  (ctl-x-4-map
+   [remap switch-to-buffer-other-window] 'consult-buffer-other-window)
+
+  (ctl-x-5-map
+   [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
+  
+  (isearch-mode-map
+   [remap isearch-edit-string] 'consult-isearch-history
+   "M-s l" 'consult-line
+   "M-s L" 'consult-line-multi)
+
+   (minibuffer-local-map
+    [remap next-matching-history-element] 'consult-history
+    [remap previous-matching-history-element] 'consult-history)
+  
+   (projectile-command-map
+    [remap projectile-switch-to-buffer] 'consult-project-buffer)
+
+   :custom
+   (consult-project-function #'projectile-project-root))
+
+(use-package consult-eglot
+  :after (consult eglot))
+
+(use-package consult-flycheck
+  :after (consult flycheck))
 
 (use-package dockerfile-mode
   :init
   (put 'docker-image-name 'safe-local-variable #'stringp)
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 
-  :config
-  (setq
-   dockerfile-use-buildkit t
-   dockerfile-build-pull t
-   dockerfile-build-progress "plain"
-   dockerfile-build-args '("--rm")))
+  :custom
+  (dockerfile-build-pull t)
+  (dockerfile-build-args '("--rm"))
+  (dockerfile-build-progress "plain")
+  (dockerfile-use-buildkit t)
+  (dockerfile-enable-auto-indent nil))
 
-(use-package eldoc-box
-  :after (eldoc)
-  :general ("C-c h" 'eldoc-box-help-at-point)
-  :config
-  (setq
-   eldoc-box nil
-   eldoc-box-only-multi-line t
-   eldoc-box-clear-with-C-g t))
+;; (use-package eldoc-box
+;;   :after (eldoc)
+;;   :general ("C-c h" 'eldoc-box-help-at-point)
+;;   :config
+;;   (setq
+;;    eldoc-box nil
+;;    eldoc-box-only-multi-line t
+;;    eldoc-box-clear-with-C-g t))
 
 (use-package expand-region
-  :general ("C-\\" 'er/expand-region))
+  :general
+  ("C-\\" 'er/expand-region)
+
+  :custom
+  (expand-region-autocopy-register "e")
+  (expand-region-smart-cursor t))
 
 (use-package flycheck
+  :custom
+  (flycheck-disabled-checkers '(python-pylint))
+  (flycheck-temp-prefix ".flycheck")
+  (flycheck-mode-line nil)
+
   :config
   (setq
-   flycheck-temp-prefix ".flycheck"
-   flycheck--automatically-enabled-checkers '(python-flake8 python-mypy)
-   flycheck-disabled-checkers '(python-pylint))
+   flycheck--automatically-enabled-checkers '(python-flake8 python-mypy))
+
   (global-flycheck-mode))
 
-(use-package helm-projectile
-  :after (projectile helm)
-  :config (helm-projectile-on))
+;; (use-package helm-projectile
+;;   :after (projectile helm)
+;;   :config (helm-projectile-on))
 
 (use-package magit
   :general
   ("C-c m b" 'magit-blame
-   "C-c m d" 'magit-dispatch
+   "C-c m g" 'magit-dispatch
    "C-c m f" 'magit-file-dispatch
    "C-c m p" 'magit-process-mode
-   "C-c m s" 'magit-status))
+   "C-c m s" 'magit-status)
+
+  :custom
+  (magit-define-global-key-bindings nil))
+
+(use-package magit-apply
+  :ensure nil
+  :custom
+  (magit-delete-by-moving-to-trash nil))
+
+(use-package magit-branch
+  :ensure nil
+  :custom
+  (magit-branch-prefer-remote-upstream t)
+  (magit-published-branches
+   '("origin/master" "origin/main" "upstream/master" "upstream/main")))
+
+(use-package magit-pull
+  :ensure nil
+  :custom
+  (magit-pull-or-fetch t))
+
+(use-package marginalia
+  :hook (after-init . marginalia-mode)
+
+  :general
+  (minibuffer-local-map
+   "M-A" 'marginalia-cycle)
+
+  :custom
+  (marginalia-align 'left))
 
 (use-package pipenv
   :after (python-ts-mode)
@@ -129,43 +242,53 @@
                                (setq user/pipenv-dir-cache (pipenv-project?))
                                (pipenv-deactivate)
                                (pipenv-activate))))
-  :config
-  (setq
-   pipenv-executable "~/.local/bin/pipenv"
-   pipenv-projectile-after-switch-function nil))
+  :custom
+  (pipenv-executable "~/.local/bin/pipenv")
+  (pipenv-process-name "pipenv")
+  (pipenv-process-buffer-name "*pipenv*")
+  (pipenv-shell-buffer-name "pipenv shell")
+  (pipenv-projectile-after-switch-function nil))
 
 (use-package plantuml-mode
   :mode (("\\.puml\\'" . plantuml-mode))
-  :config
-  (setq
-   plantuml-executable-path (executable-find "plantuml")
-   plantuml-default-exec-mode 'executable
-   plantuml-indent-level 8))
+  :custom
+  (plantuml-executable-path (executable-find "plantuml"))
+  (plantuml-default-exec-mode 'executable)
+  (plantuml-indent-level 8))
 
 (use-package poetry
   :after (python-ts-mode projectile)
   :commands (poetry-find-project-root)
   :hook (python-ts-mode . (lambda () (poetry-tracking-mode +1)))
-  :config
-  (setq
-   poetry-tracking-strategy 'projectile))
+  :custom
+  (poetry-virtualenv-path (or (getenv "POETRY_VIRTUALENVS_PATH")
+                              (when-let* ((xdg-cache-dir (getenv "XDG_CACHE_DIR")))
+                                (expand-file-name "virtualenvs" xdg-cache-dir))
+                              (expand-file-name ".venv" (getenv "HOME"))))
+  (poetry-tracking-strategy 'projectile))
 
 (use-package projectile
-  :hook (after-init . (lambda () (projectile-mode +1)))
+  :hook
+  (after-init . (lambda () (projectile-mode +1)))
+
   :general
   (projectile-mode-map
    "s-p" 'projectile-command-map
    "C-c p"  'projectile-command-map)
-  :config
-  (setq
-   projectile-indexing-method 'alien
-   projectile-mode-line-prefix (char-to-string (c-int-to-char #x2119))
-   projectile-mode-line-function
+
+  :custom
+  (projectile-indexing-method 'alien)
+  (projectile-enable-caching nil)
+  ;; (projectile-completion-system 'helm)
+  (projectile-mode-line-prefix " Proj")
+
+  (projectile-mode-line-function
    (lambda ()
      (let ((project-name (projectile-project-name)))
-       (format " %s:%s" projectile-mode-line-prefix project-name)))
-   projectile-per-project-compilation-buffer t
-   projectile-project-search-path '("~/repos/zellio" "~/repos/TrialSpark")))
+       (format "%s/%s" projectile-mode-line-prefix project-name))))
+
+  (projectile-per-project-compilation-buffer t)
+  (projectile-project-search-path (directory-files "~/repos" t "^[^.]")))
 
 (use-package flycheck-rust
   :after (flycheck rust-ts-mode)
@@ -181,11 +304,11 @@
 (use-package scad-mode)
 
 (use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode)
-  :config
-  (setq
-   terraform-indent-level 2)
+  :custom
+  (terraform-indent-level 2)
+  (terraform-format-on-save-mode t)
 
+  :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(terraform-mode . ("terraform-ls" "serve"))))
 
@@ -219,9 +342,15 @@
 
 (use-package treemacs-customization
   :ensure nil
-  :config
-  (setq
-   treemacs-move-forward-on-expand t))
+  :custom
+  (treemacs-litter-directories '("/node_modules" "/.venv" "/.cask" "/.git"))
+  (treemacs-move-forward-on-expand t)
+  (treemacs-show-hidden-files t)
+  (treemacs-hide-dot-git-directory t)
+  (treemacs-no-delete-other-windows t))
+
+(use-package treemacs-all-the-icons
+  :after (treemacs all-the-icons))
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
@@ -233,7 +362,16 @@
   :after (treemacs projectile))
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 
-;;; 80_site-package.el ends here
+(use-package vertico
+  :hook (after-init . vertico-mode)
+  :custom
+  (vertico-count 12)
+  (vertico-cycle t))
+
+(provide '80_vendor-packages)
+
+;;; 80_vendor-packages.el ends here

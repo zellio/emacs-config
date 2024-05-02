@@ -180,4 +180,7 @@
 
   (add-to-list 'kill-buffer-query-functions 'user/scratch-kill-buffer-query-function))
 
+(use-package diminish
+  :ensure t)
+
 ;;; 10_emacs.el ends here

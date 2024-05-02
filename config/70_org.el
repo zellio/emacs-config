@@ -37,7 +37,7 @@
     (let ((lines '("* TODO %^{Description}%? %^g" ":LOGBOOK:"
                    "- Created                              %U"
                    ":END:")))
-    (mapconcat 'identity lines "\n  ")))
+      (mapconcat 'identity lines "\n  ")))
 
   (defun user/org-capture-template-work-task ()
     (let ((lines '("* TODO %^{Type|CORE|SRE|DEVX|POMO}-%^{Ticket number} - %^{Description}%?"
@@ -55,7 +55,7 @@
                    "- Captured %U"
                    ":END:"
                    "%?")))
-    (mapconcat 'identity lines "\n  ")))
+      (mapconcat 'identity lines "\n  ")))
 
   :general
   ("C-c o a" 'org-agenda)
@@ -64,42 +64,41 @@
   :hook (org-mode . (lambda ()
                       (local-set-key [(control return)] 'org-insert-heading-after-current)))
 
-  :config
-  (setq
-   org-directory user/org-directory
-   org-default-notes-file user/org-default-notes-file
-   org-agenda-files (list user/org-directory)
-   org-M-RET-may-split-line nil
-   org-log-done nil
-   org-log-into-drawer t
-   org-use-speed-commands t
-   org-id-track-globally t
-   org-highest-priority ?A
-   org-default-priority ?C
-   org-lowest-priority ?Z
+  :custom
+  (org-directory user/org-directory)
+  (org-default-notes-file user/org-default-notes-file)
+  (org-agenda-files (list user/org-directory))
+  (org-M-RET-may-split-line nil)
+  (org-log-done nil)
+  (org-log-into-drawer t)
+  (org-use-speed-commands t)
+  (org-id-track-globally t)
+  (org-highest-priority ?A)
+  (org-default-priority ?C)
+  (org-lowest-priority ?Z)
 
-   org-todo-keywords
+  (org-todo-keywords
    '((sequence "TODO(t)" "INPR(i!)" "|" "DONE(d@)")
      (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "OVER(c@/!)" "PHONE" "MEETING")
-     (sequence "TODO" "INPR" "REVW" "TEST" "|" "DONE" "ARCH" "WONT"))
+     (sequence "TODO" "INPR" "REVW" "TEST" "|" "DONE" "ARCH" "WONT")))
 
-   org-todo-keyword-faces
+  (org-todo-keyword-faces
    '(("INPR" . (:foreground "steelblue" :weight bold))
      ("WAIT" . (:foreground "goldenrod" :weight bold))
      ("HOLD" . (:foreground "dark orange" :weight bold))
      ("MEETING" . (:foreground "forest green" :weight bold))
-     ("PHONE" . (:foreground "forest green" :weight bold)))
+     ("PHONE" . (:foreground "forest green" :weight bold))))
 
-   org-todo-state-tags-triggers
+  (org-todo-state-tags-triggers
    '(("OVER" ("OVER" . t))
      ("WAIT" ("WAIT" . t))
      ("HOLD" ("WAIT") ("HOLD" . t))
      (done ("WAIT") ("HOLD"))
      ("TODO" ("WAIT") ("OVER") ("HOLD"))
      ("INPR" ("WAIT") ("OVER") ("HOLD"))
-     ("DONE" ("WAIT") ("OVER") ("HOLD")))
+     ("DONE" ("WAIT") ("OVER") ("HOLD"))))
 
-   org-capture-templates
+  (org-capture-templates
    '(("t" "Todo"
       entry (file org-default-notes-file)
       (function user/org-capture-template-todo)
