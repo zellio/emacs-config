@@ -23,7 +23,7 @@
     (let* ((current-point (point))
            (current-tick (buffer-chars-modified-tick)))
       (catch 'break
-        (dolist ( completion-func '(yas-expand company-complete-common-or-cycle))
+        (dolist (completion-func '(yas-expand company-complete-common-or-cycle))
           (ignore-errors (funcall completion-func))
           (unless (and (eq (point) current-point)
                        (eq (buffer-chars-modified-tick) current-tick))
@@ -163,15 +163,6 @@
   (dockerfile-use-buildkit t)
   (dockerfile-enable-auto-indent nil))
 
-;; (use-package eldoc-box
-;;   :after (eldoc)
-;;   :general ("C-c h" 'eldoc-box-help-at-point)
-;;   :config
-;;   (setq
-;;    eldoc-box nil
-;;    eldoc-box-only-multi-line t
-;;    eldoc-box-clear-with-C-g t))
-
 (use-package expand-region
   :general
   ("C-\\" 'er/expand-region)
@@ -192,18 +183,18 @@
 
   (global-flycheck-mode))
 
-;; (use-package helm-projectile
-;;   :after (projectile helm)
-;;   :config (helm-projectile-on))
-
 (use-package magit
-  :general
-  ("C-c m b" 'magit-blame
-   "C-c m g" 'magit-dispatch
-   "C-c m f" 'magit-file-dispatch
-   "C-c m p" 'magit-process-mode
-   "C-c m s" 'magit-status)
+  :init
+  (defvar-keymap user/magit-global-map
+    "b" 'magit-blame
+    "g" 'magit-dispatch
+    "f" 'magit-file-dispatch
+    "p" 'magit-process-mode
+    "s" 'magit-status)
 
+  :general
+  ("C-c m" user/magit-global-map)
+  
   :custom
   (magit-define-global-key-bindings nil))
 
@@ -274,12 +265,11 @@
   :general
   (projectile-mode-map
    "s-p" 'projectile-command-map
-   "C-c p"  'projectile-command-map)
+   "C-c p" 'projectile-command-map)
 
   :custom
   (projectile-indexing-method 'alien)
   (projectile-enable-caching nil)
-  ;; (projectile-completion-system 'helm)
   (projectile-mode-line-prefix " Proj")
 
   (projectile-mode-line-function
@@ -300,6 +290,12 @@
 (use-package cargo
   :after (rust-ts-mode)
   :hook (rust-ts-mode . cargo-minor-mode))
+
+(use-package rainbow-mode
+ :hook prog-mode)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package scad-mode)
 
@@ -324,21 +320,28 @@
       :modes terraform-mode)))
 
 (use-package treemacs
+  :init
+  (defvar-keymap user/treemacs-workspace-map
+    "w" 'treemacs-switch-workspace
+    "a" 'treemacs-add-project-to-workspace
+    "c" 'treemacs-create-workspace
+    "e" 'treemacs-edit-workspaces
+    "n" 'treemacs-next-workspace
+    "r" 'treemacs-remove-project-from-workspace
+    "C-k" 'treemacs-remove-workspace)
+
+  (defvar-keymap user/treemacs-global-map
+    "t" 'treemacs-select-window
+    "p" 'treemacs-projectile
+    "P" 'treemacs-add-and-display-current-project
+    "f" 'treemacs-find-file
+    "b" 'treemacs-bookmark
+    "w" user/treemacs-workspace-map)
+    
   :general
   ([remap delete-other-windows] 'treemacs-delete-other-windows
    "C-x C-n" 'treemacs-select-window
-   "C-c t t" 'treemacs-select-window
-   "C-c t p" 'treemacs-projectile
-   "C-c t P" 'treemacs-add-and-display-current-project
-   "C-c t f" 'treemacs-find-file
-   "C-c t b" 'treemacs-bookmark
-   "C-c t w w" 'treemacs-switch-workspace
-   "C-c t w a" 'treemacs-add-project-to-workspace
-   "C-c t w c" 'treemacs-create-workspace
-   "C-c t w e" 'treemacs-edit-workspaces
-   "C-c t w n" 'treemacs-next-workspace
-   "C-c t w r" 'treemacs-remove-project-from-workspace
-   "C-c t w C-k" 'treemacs-remove-workspace))
+   "C-c t" user/treemacs-global-map))
 
 (use-package treemacs-customization
   :ensure nil
