@@ -49,13 +49,20 @@
   (cperl-indent-level user/indent-width))
 
 (use-package eglot
-  :hook ((c-ts-mode
-          go-ts-mode
-          js-ts-mode
-          python-ts-mode
-          rust-ts-mode
-          typescript-ts-mode
-          terraform-mode) . eglot-ensure)
+  :commands (eglot-managed-p)
+
+  :hook
+  ((c-ts-mode
+    go-ts-mode
+    js-ts-mode
+    python-ts-mode
+    rust-ts-mode
+    typescript-ts-mode
+    terraform-mode) . eglot-ensure)
+
+  (before-save . (lambda ()
+                   (when (eglot-managed-p)
+                     (eglot-format-buffer))))
 
   :custom
   (eglot-connect-timeout 60)
@@ -125,9 +132,6 @@
      'eglot-server-programs '(python-ts-mode . user/eglot-python-server))))
 
 (use-package rust-ts-mode
-  :hook
-  (before-save . (lambda () (eglot-format-buffer)))
-
   :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
