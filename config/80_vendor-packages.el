@@ -16,7 +16,7 @@
 (use-package bison-mode)
 
 (use-package company
-  :init
+  :preface
   (defun user/smart-complete ()
     ""
     (interactive)
@@ -63,7 +63,7 @@
   (company-show-quick-access t)
   (company-selection-wrap-around t)
   (company-lighter-base "Cmpy")
-  
+
   :config
   (setq
    company-lighter '(" "
@@ -129,21 +129,25 @@
 
   (ctl-x-5-map
    [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
-  
+
   (isearch-mode-map
    [remap isearch-edit-string] 'consult-isearch-history
    "M-s l" 'consult-line
    "M-s L" 'consult-line-multi)
 
-   (minibuffer-local-map
-    [remap next-matching-history-element] 'consult-history
-    [remap previous-matching-history-element] 'consult-history)
-  
-   (projectile-command-map
-    [remap projectile-switch-to-buffer] 'consult-project-buffer)
+  (minibuffer-local-map
+   [remap next-matching-history-element] 'consult-history
+   [remap previous-matching-history-element] 'consult-history
 
-   :custom
-   (consult-project-function #'projectile-project-root))
+   ;; Emulate some helm bindings
+   "<right>" #'minibuffer-complete-word
+   "<left>" #'backward-kill-word)
+
+  (projectile-command-map
+   [remap projectile-switch-to-buffer] 'consult-project-buffer)
+
+  :custom
+  (consult-project-function #'projectile-project-root))
 
 (use-package consult-eglot
   :after (consult eglot))
@@ -194,7 +198,7 @@
 
   :general
   ("C-c m" user/magit-global-map)
-  
+
   :custom
   (magit-define-global-key-bindings nil))
 
@@ -228,13 +232,13 @@
 (use-package pipenv
   :after (python-ts-mode)
   :hook (python-ts-mode . (lambda ()
-                             (unless (and (boundp 'user/pipenv-dir-cache)
-                                          (string= (pipenv-project?) user/pipenv-dir-cache))
-                               (setq user/pipenv-dir-cache (pipenv-project?))
-                               (pipenv-deactivate)
-                               (pipenv-activate))))
+                            (unless (and (boundp 'user/pipenv-dir-cache)
+                                         (string= (pipenv-project?) user/pipenv-dir-cache))
+                              (setq user/pipenv-dir-cache (pipenv-project?))
+                              (pipenv-deactivate)
+                              (pipenv-activate))))
   :custom
-  (pipenv-executable "~/.local/bin/pipenv")
+  (pipenv-executable (executable-find "pipenv"))
   (pipenv-process-name "pipenv")
   (pipenv-process-buffer-name "*pipenv*")
   (pipenv-shell-buffer-name "pipenv shell")
@@ -278,7 +282,8 @@
        (format "%s/%s" projectile-mode-line-prefix project-name))))
 
   (projectile-per-project-compilation-buffer t)
-  (projectile-project-search-path (directory-files "~/repos" t "^[^.]")))
+  (projectile-project-search-path
+   (directory-files (user/home-path "repos") t "^[^.]")))
 
 (use-package flycheck-rust
   :after (flycheck rust-ts-mode)
@@ -292,7 +297,7 @@
   :hook (rust-ts-mode . cargo-minor-mode))
 
 (use-package rainbow-mode
- :hook prog-mode)
+  :hook prog-mode)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -337,7 +342,7 @@
     "f" 'treemacs-find-file
     "b" 'treemacs-bookmark
     "w" user/treemacs-workspace-map)
-    
+
   :general
   ([remap delete-other-windows] 'treemacs-delete-other-windows
    "C-x C-n" 'treemacs-select-window

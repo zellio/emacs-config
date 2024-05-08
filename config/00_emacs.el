@@ -13,6 +13,13 @@
 
 (use-package emacs
   :preface
+  (defvar user/home-directory
+    (or (getenv "HOME") (expand-file-name "~")))
+
+  (defun user/home-path (name)
+    ""
+    (expand-file-name name "~"))
+
   (defvar user/indent-width 4)
 
   (defun user/load-environment (env-alist)

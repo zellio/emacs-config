@@ -90,8 +90,8 @@
   (json-ts-mode-indent-offset 2))
 
 (use-package python
-  :init
-  (defun user/eglot-python-server (arg)
+  :preface
+  (defun user/eglot-python-server (_)
     (cond
      ((and (fboundp 'poetry-find-project-root) (poetry-find-project-root))
       (list "poetry" "run" "pylsp"))
