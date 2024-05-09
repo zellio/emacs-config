@@ -13,14 +13,11 @@
 
 (use-package emacs
   :preface
-  (defvar user/home-directory
-    (or (getenv "HOME") (expand-file-name "~")))
+  (defvar user/indent-width 4)
 
   (defun user/home-path (name)
     ""
     (expand-file-name name "~"))
-
-  (defvar user/indent-width 4)
 
   (defun user/load-environment (env-alist)
     "Load shell environment snapshot into Emacs."
@@ -188,6 +185,9 @@
   (add-to-list 'kill-buffer-query-functions 'user/scratch-kill-buffer-query-function))
 
 (use-package diminish
+  :ensure t)
+
+(use-package f
   :ensure t)
 
 ;;; 10_emacs.el ends here

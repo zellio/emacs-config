@@ -11,8 +11,6 @@
 
 ;;; Code:
 
-(use-package all-the-icons)
-
 (use-package bison-mode)
 
 (use-package company
@@ -229,6 +227,8 @@
   :custom
   (marginalia-align 'left))
 
+(use-package nerd-icons)
+
 (use-package pipenv
   :after (python-ts-mode)
   :hook (python-ts-mode . (lambda ()
@@ -357,8 +357,10 @@
   (treemacs-hide-dot-git-directory t)
   (treemacs-no-delete-other-windows t))
 
-(use-package treemacs-all-the-icons
-  :after (treemacs all-the-icons))
+(use-package treemacs-nerd-icons
+  :after (treemacs nerd-icons)
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))

@@ -49,8 +49,8 @@
   (cperl-indent-level user/indent-width))
 
 (use-package eglot
+  :ensure t
   :commands (eglot-managed-p)
-
   :hook
   ((c-ts-mode
     go-ts-mode
