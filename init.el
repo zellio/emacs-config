@@ -22,6 +22,7 @@
 
 (use-package no-littering
   :ensure t
+
   :config
   (setq
    auto-save-file-name-transforms

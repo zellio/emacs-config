@@ -145,7 +145,32 @@
    [remap projectile-switch-to-buffer] 'consult-project-buffer)
 
   :custom
-  (consult-project-function #'projectile-project-root))
+  (consult-project-function #'projectile-project-root)
+
+  :config
+  (defun user/update-minibuffer-contents (func)
+    ""
+    (lambda ()
+      (interactive)
+      (let* ((contents (minibuffer-contents-no-properties))
+             (new-contents (funcall func contents)))
+        (delete-minibuffer-contents)
+        (insert new-contents))
+      ))
+
+  (advice-add
+   'consult-goto-line
+   :around
+   (lambda (func &rest args)
+     (let* ((minibuffer-local-map (copy-sequence minibuffer-local-map)))
+       (general-define-key
+        :keymaps 'minibuffer-local-map
+        "C-p" (user/update-minibuffer-contents
+               (lambda (x) (number-to-string (- (string-to-number x) 1))))
+        "C-n" (user/update-minibuffer-contents
+               (lambda (x) (number-to-string (+ (string-to-number x) 1)))))
+       (apply func args))
+     )))
 
 (use-package consult-eglot
   :after (consult eglot))

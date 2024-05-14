@@ -146,17 +146,26 @@
          (cons matcher (if (eq mode source-mode) mask-mode mode))))
      auto-mode-alist))
 
+  :custom
+  ;; indent.el
+  (standard-indent user/indent-width)
+
+  ;; mule-cmds.el
+  (input-method-verbose-flag 'complex-only)
+  (current-language-environment "English")
+
+  ;; startup.el
+  (initial-buffer-choice t)
+  (inhibit-startup-screen t)
+  (inhibit-startup-echo-area-message nil)
+  (inhibit-startup-buffer-menu t)
+  (initial-major-mode 'org-mode)
+  (initial-scratch-message "")
+
   :config
   (setq
    user-full-name "Zachary Elliott"
-   frame-title-format '("Emacs " emacs-version)
-
-   initial-buffer-choice t
-   inhibit-startup-screen t
-   inhibit-startup-echo-area-message nil
-   inhibit-startup-buffer-menu t
-   initial-major-mode 'org-mode
-   initial-scratch-message "")
+   frame-title-format '("Emacs " emacs-version))
 
   (setq-default
    default-tab-width user/indent-width
@@ -164,17 +173,14 @@
    fill-column 78
    visible-bell t
    truncate-lines t
-   indent-tabs-mode nil
-   standard-indent user/indent-width
-   tab-width user/indent-width
-   x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+   tab-width user/indent-width)
+
+  ;; prefer unicode
+  (prefer-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8-unix)
 
   ;; make yes or no questions sensible
   (fset 'yes-or-no-p 'y-or-n-p)
-
-  ;; Prioritize utf-8
-  (prefer-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8-unix)
 
   ;; OSX Specific configs
   (when (eq system-type 'darwin)
