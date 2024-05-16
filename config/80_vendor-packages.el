@@ -254,6 +254,16 @@
 
 (use-package nerd-icons)
 
+(use-package nerd-icons-dired
+  :after (nerd-icons)
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
+
+(use-package all-the-icons-nerd-fonts
+  :after (nerd-icons)
+  :config
+  (package-install 'all-the-icons-nerd-fonts))
+
 (use-package pipenv
   :after (python-ts-mode)
   :hook (python-ts-mode . (lambda ()
@@ -386,9 +396,6 @@
   :after (treemacs nerd-icons)
   :config
   (treemacs-load-theme "nerd-icons"))
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
   :after (treemacs magit))
