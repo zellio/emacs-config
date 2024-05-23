@@ -266,12 +266,23 @@
 
 (use-package pipenv
   :after (python-ts-mode)
-  :hook (python-ts-mode . (lambda ()
-                            (unless (and (boundp 'user/pipenv-dir-cache)
-                                         (string= (pipenv-project?) user/pipenv-dir-cache))
-                              (setq user/pipenv-dir-cache (pipenv-project?))
-                              (pipenv-deactivate)
-                              (pipenv-activate))))
+
+  :preface
+  (defvar user/pipenv-dir-cache nil)
+
+  (defun user/pipenv-maybe-activate ()
+    ""
+    (interactive)
+    (when-let* ((pipenv-project (pipenv-project?)))
+      (unless (and (boundp 'user/pipenv-dir-cache)
+                   (string= pipenv-project user/pipenv-dir-cache))
+        (setq
+         user/pipenv-dir-cache pipenv-project)
+        (pipenv-deactivate)
+        (pipenv-activate))
+      ))
+
+  :hook (python-ts-mode . user/pipenv-maybe-activate)
   :custom
   (pipenv-executable (executable-find "pipenv"))
   (pipenv-process-name "pipenv")
@@ -405,8 +416,10 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :config
-  (yas-global-mode 1))
+  :hook (after-init . (lambda () (yas-global-mode 1))))
+
+(use-package yasnippet-snippets
+  :after (yasnippet))
 
 (use-package vertico
   :hook (after-init . vertico-mode)
