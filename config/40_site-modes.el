@@ -49,6 +49,7 @@
   (cperl-indent-level user/indent-width))
 
 (use-package eglot
+  :after (flycheck yasnippet)
   :ensure t
   :commands (eglot-managed-p)
   :hook
@@ -75,17 +76,21 @@
   (gdb-debug-log-max 5120))
 
 (use-package go-ts-mode
+  :config
+  (user/add-eglot-workspace-config :gopls
+   (:usePlaceholders t))
+
   :custom
   (go-ts-mode-indent-offset user/indent-width))
 
 (use-package js
-  :mode ("\\(\\.js[mx]?\\|\\.har\\)\\'" . js-ts-mode)
-
   :custom
   (js-indent-level 2)
   (js-indent-first-init 'dynamic))
 
 (use-package json-ts-mode
+  :mode ("\\(\\.js[mx]?\\|\\.har\\)\\'" . js-ts-mode)
+
   :custom
   (json-ts-mode-indent-offset 2))
 
