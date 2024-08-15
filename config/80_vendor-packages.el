@@ -11,69 +11,11 @@
 
 ;;; Code:
 
-(use-package bison-mode)
-
-(use-package company
-  :preface
-  (defun user/smart-complete ()
-    ""
-    (interactive)
-    (let* ((current-point (point))
-           (current-tick (buffer-chars-modified-tick)))
-      (catch 'break
-        (dolist (completion-func '(yas-expand company-complete-common-or-cycle))
-          (ignore-errors (funcall completion-func))
-          (unless (and (eq (point) current-point)
-                       (eq (buffer-chars-modified-tick) current-tick))
-            (throw 'break nil))))
-      ))
-
-  :hook (after-init . global-company-mode)
-
-  :general
-  ("M-/" 'company-complete)
-
-  (company-mode-map
-   [remap indent-for-tab-command] 'company-indent-or-complete-common)
-
-  (company-active-map
-   [tab] 'user/smart-complete
-   "TAB" 'user/smart-complete
-   [backtab] 'company-select-previous-or-abort)
-
+(use-package bazel
   :custom
-  (company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
-                       company-preview-if-just-one-frontend
-                       company-echo-metadata-frontend))
-  (company-tooltip-limit 10)
-  (company-tooltip-minimum 4)
-  (company-tooltip-offset-display 'lines)
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above t)
-  (company-backends
-   '(company-capf company-files (company-gtags company-etags) company-dabbrev))
-  (company-minimum-prefix-length 2)
-  (company-abort-manual-when-too-short nil)
-  (company-abort-on-unique-match t)
-  (company-require-match 'never)
-  (company-idle-delay 0.1)
-  (company-tooltip-align-annotations '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0"))
-  (company-show-quick-access t)
-  (company-selection-wrap-around t)
-  (company-lighter-base "Cmpy")
+  (bazel-command-options '("--tool_tag=emacs" "--bazelrc=$HOME/.config/bazel/bazelrc")))
 
-  :config
-  (setq
-   company-lighter '(" "
-                     company-lighter-base
-                     (company-candidates
-                      (:eval
-                       (format
-                        "/%s"
-                        (replace-regexp-in-string
-                         "company-\\|-company" "" (symbol-name company-backend))))
-                      ))
-   ))
+(use-package bison-mode)
 
 (use-package consult
   :after (projectile)
@@ -177,6 +119,43 @@
 
 (use-package consult-flycheck
   :after (consult flycheck))
+
+(use-package corfu
+  :hook (after-init . global-corfu-mode)
+
+  :general
+  ("M-/" 'completion-at-point)
+
+  (corfu-map
+   [tab] #'corfu-next
+   "TAB" #'corfu-next
+   [backtab] #'corfu-previous)
+
+  :custom
+  (corfu-auto t)
+  (corfu-count 12)
+  (corfu-max-width 128)
+  (corfu-cycle t))
+
+(use-package corfu-terminal
+  :after corfu
+  :hook (corfu-mode . (lambda ()
+                        (unless (display-graphic-p)
+                          (corfu-terminal-mode +1)))))
+
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
+(use-package kind-icon
+  :after corfu
+
+  :custom
+  (kind-icon-default-face 'corfu-default)
+
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package dockerfile-mode
   :init
@@ -421,11 +400,26 @@
 (use-package yasnippet-snippets
   :after (yasnippet))
 
+(use-package yasnippet-capf
+  :after (yasnippet cape)
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
 (use-package vertico
   :hook (after-init . vertico-mode)
   :custom
   (vertico-count 12)
   (vertico-cycle t))
+
+(use-package zoom
+  :hook (after-init . zoom-mode)
+  :custom
+  (zoom-size '(120 . 32))
+  (zoom-ignored-major-modes nil)
+  (zoom-ignored-buffer-names nil)
+  (zoom-ignored-buffer-name-regexps nil)
+  (zoom-ignore-predicates nil)
+  (zoom-minibuffer-preserve-layout t))
 
 (provide '80_vendor-packages)
 
