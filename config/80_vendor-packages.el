@@ -145,8 +145,8 @@
 
 (use-package cape
   :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
 
 (use-package kind-icon
   :after corfu
@@ -403,7 +403,7 @@
 (use-package yasnippet-capf
   :after (yasnippet cape)
   :config
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+  (add-hook 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package vertico
   :hook (after-init . vertico-mode)
