@@ -108,6 +108,8 @@
   (truncate-lines t)
   (tab-width user/indent-width)
   (use-short-answers t)
+  (enable-recursive-minibuffers t)
+  (use-dialog-box nil)
 
   ;; bindings.el
   (mode-line-right-align-edge 'right-margin)
@@ -138,7 +140,9 @@
   (default-frame-alist (cons '(font . "JuliaMono-18") initial-frame-alist))
 
   :config
-  (setq frame-title-format '("Emacs " emacs-version))
+  (setq
+   frame-title-format '("Emacs " emacs-version)
+   read-process-output-max #x10000)
 
   (prefer-coding-system 'utf-8)
   (prefer-coding-system 'utf-8-unix)

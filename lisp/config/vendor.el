@@ -42,6 +42,12 @@
   :straight
   (all-the-icons-nerd-fonts :host github :repo "mohkale/all-the-icons-nerd-fonts"))
 
+(use-package asdf-vm
+  :straight nil
+  :hook (after-init . asdf-vm-mode-enable))
+
+(use-package bats-mode)
+
 (use-package bazel
   :custom
   (bazel-command-options
@@ -320,7 +326,13 @@
   :custom
   (marginalia-align 'left))
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :functions
+  nerd-icons-install-fonts
+
+  :config
+  (unless (find-font (font-spec :name nerd-icons-font-family))
+    (nerd-icons-install-fonts t)))
 
 (use-package nerd-icons-dired
   :after nerd-icons
