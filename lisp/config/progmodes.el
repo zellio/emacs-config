@@ -185,6 +185,12 @@
     (add-to-list
      'eglot-server-programs '(python-ts-mode . user/eglot-python-server))))
 
+(use-package proto-ts-mode
+  :straight nil
+
+  :mode
+  ((rx ".proto" line-end) . proto-ts-mode))
+
 (use-package rust-ts-mode
   :mode
   ((rx ".rs" line-end) . rust-ts-mode)

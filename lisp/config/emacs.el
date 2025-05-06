@@ -462,6 +462,7 @@
      (java "https://github.com/tree-sitter/tree-sitter-java")
      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
      (json "https://github.com/tree-sitter/tree-sitter-json")
+     (proto "https://github.com/coder3101/tree-sitter-proto")
      (python "https://github.com/tree-sitter/tree-sitter-python")
      (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
      (rust "https://github.com/tree-sitter/tree-sitter-rust")
