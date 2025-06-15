@@ -1,10 +1,10 @@
-;;; url.el --- Emacs url configuration -*- lexical-binding: t; coding: utf-8-unix; -*-
+;;; textmodes.el --- vendored textmode package configuration -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2024 Zachary Elliott
+;; Copyright (C) 2012-2025 Zachary Elliott
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott
-;; Version: 0.7.0
+;; Maintainer: Zachary Elliott <contact@zell.io>>
+;; Version: 0.8.0
 ;; Package-Requires: ((emacs "30.0"))
 ;; Homepage: https://github.com/zellio/emacs-config
 
@@ -29,18 +29,18 @@
 
 ;;; Code:
 
-(use-package url-history
-  :after no-litering
-  :custom
-  (url-history-track t)
-  (url-history-file (no-littering-expand-var-file-name "url/history")))
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :general
+  ([remap ispell-word] 'jinx-correct
+   "C-M-$" 'jinx-languages)
 
-(use-package url-vars
-  :custom
-  (url-automatic-caching t)
-  (url-privacy-level '(email os emacs))
-  (url-max-redirections 16))
+  :config
+  (with-eval-after-load 'vertico-multiform
+    (add-to-list
+     'vertico-multiform-categories
+     '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4)))))
 
-(provide 'config/url)
+(provide 'config/vendor/textmodes)
 
-;;; url.el ends here
+;;; textmodes.el ends here

@@ -1,12 +1,11 @@
-;;; textmodes.el --- site-lisp text mode configuration -*- lexical-binding: t; coding: utf-8-unix; -*-
-
-;; Copyright (C) 2012-2025 Zachary Elliott
+;;; asdf-vm.el --- ASDF VM porceline for Emacs -*- lexical-binding: t -*-
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott <contact@zell.io>>
-;; Version: 0.8.0
+;; Maintainer: Zachary Elliott <contact@zell.io>
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "30.0"))
-;; Homepage: https://github.com/zellio/emacs-config
+;; Homepage: https://github.com/zellio/emacs-config/main/blob/lisp/asdf-vm
+;; Keywords: languages asdf
 
 ;; This file is not part of GNU Emacs
 
@@ -23,26 +22,26 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 ;;; Commentary:
 
 ;;
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'config/emacs))
+(defgroup asdf-vm nil
+  "Configuration group for ASDF-VM."
+  :prefix "asdf-vm-"
+  :group 'tools)
 
-(use-package toml-ts-mode
-  :custom (toml-ts-mode-indent-offset user/indent-width))
+(require 'asdf-vm-error)
+(require 'asdf-vm-config)
+(require 'asdf-vm-process)
+(require 'asdf-vm-util)
+(require 'asdf-vm-core)
+(require 'asdf-vm-plugin)
+(require 'asdf-vm-mode)
 
-(use-package yaml-ts-mode
-  :preface
-  (user/defun-setq-local-hook user/set-yaml-ts-mode-tab-width
-   tab-width 2)
+(provide 'asdf-vm)
 
-  :hook
-  (yaml-ts-mode . user/set-yaml-ts-mode-tab-width))
-
-(provide 'config/textmodes)
-
-;;; textmodes.el ends here
+;;; asdf-vm.el ends here

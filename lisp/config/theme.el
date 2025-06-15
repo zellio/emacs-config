@@ -1,10 +1,10 @@
 ;;; theme.el --- User theme -*- lexical-binding: t; coding: utf-8-unix; -*-
 
-;; Copyright (C) 2012-2024 Zachary Elliott
+;; Copyright (C) 2012-2025 Zachary Elliott
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott
-;; Version: 0.7.0
+;; Maintainer: Zachary Elliott <contact@zell.io>>
+;; Version: 0.8.0
 ;; Package-Requires: ((emacs "30.0"))
 ;; Homepage: https://github.com/zellio/emacs-config
 
@@ -30,18 +30,12 @@
 ;;; Code:
 
 (use-package catppuccin-theme
-  :custom
-  (catppuccin-flavor 'mocha)
-
-  :config
-  (load-theme 'catppuccin :no-confirm))
+  :custom (catppuccin-flavor 'mocha)
+  :config (load-theme 'catppuccin :no-confirm))
 
 (use-package manner-line
-  :straight nil
-
-  :hook
-  (after-init . manner-line-enable)
-
+  :ensure nil
+  :hook (emacs-startup . manner-line-enable)
   :custom
   (manner-line-features '(eglot flycheck project version-control))
   (manner-line-masked-symbols '(mode-line-format))
@@ -56,10 +50,8 @@
      (vc-mode . manner-line-version-control-segment))))
 
 (use-package manner-line-version-control
-  :straight nil
-
-  :after nerd-icons
-
+  :ensure nil
+  :after manner-line nerd-icons
   :custom
   (manner-line-version-control-state-symbol-alist
    `((added . ,(nerd-icons-mdicon "nf-md-plus"))
@@ -74,10 +66,8 @@
      (ignored . ,(nerd-icons-mdicon "nf-md-check")))))
 
 (use-package manner-line-flycheck
-  :straight nil
-
-  :after nerd-icons
-
+  :ensure nil
+  :after manner-line nerd-icons
   :custom
   (manner-line-flycheck-symbol-alist
    `((not-checked . ,(nerd-icons-octicon "nf-oct-no_entry"))

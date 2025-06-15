@@ -122,7 +122,7 @@
 
 (defun manner-line-enable-feature-hooks (feature &optional hook-alist)
   "Enable hooks of FEATURE HOOK-ALIST."
-  (when-let ((hook-alist (or hook-alist (manner-line-feature-value feature 'hook-alist))))
+  (when-let* ((hook-alist (or hook-alist (manner-line-feature-value feature 'hook-alist))))
     (pcase-dolist (`(,func . ,hooks) hook-alist)
       (dolist (hook hooks)
         (add-hook hook func)))
@@ -130,7 +130,7 @@
 
 (defun manner-line-disable-feature-hooks (feature)
   "Disable hooks of FEATURE."
-  (when-let ((hook-alist (alist-get feature manner-line--hooks-alist)))
+  (when-let* ((hook-alist (alist-get feature manner-line--hooks-alist)))
     (pcase-dolist (`(,func . ,hooks) hook-alist)
       (dolist (hook hooks)
         (remove-hook hook func)))
@@ -142,12 +142,12 @@
                 (let ((value (if (default-boundp symbol) (default-value symbol)
                                (symbol-value symbol))))
                   (cons symbol value))))
-    (when-let ((masked-symbols (or masked-symbols (manner-line-feature-value feature 'masked-symbols))))
+    (when-let* ((masked-symbols (or masked-symbols (manner-line-feature-value feature 'masked-symbols))))
       (push (cons feature (mapcar #'symbol-cell masked-symbols)) manner-line--symbols-alist))))
 
 (defun manner-line-disable-feature-mask (feature)
   "Disable FEATURE MASKED-SYMBOLS symbol mask."
-  (when-let ((masked-symbols (alist-get feature manner-line--symbols-alist)))
+  (when-let* ((masked-symbols (alist-get feature manner-line--symbols-alist)))
     (pcase-dolist (`(,symbol . ,value)  masked-symbols)
       (if (default-boundp symbol) (set-default symbol value)
         (set symbol value)))

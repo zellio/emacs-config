@@ -1,10 +1,10 @@
 ;;; progmodes.el --- site-lisp prog mode configuration -*- lexical-binding: t; coding: utf-8-unix; -*-
 
-;; Copyright (C) 2012-2024 Zachary Elliott
+;; Copyright (C) 2012-2025 Zachary Elliott
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott
-;; Version: 0.7.0
+;; Maintainer: Zachary Elliott <contact@zell.io>>
+;; Version: 0.8.0
 ;; Package-Requires: ((emacs "30.0"))
 ;; Homepage: https://github.com/zellio/emacs-config
 
@@ -30,6 +30,8 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'config/emacs)
+  (require 'rx)
   (declare-function ansi-color-apply-on-region "ansi-color")
   (declare-function eglot-format-buffer "eglot")
   (declare-function user/setq-local-hook "config/emacs"))
@@ -40,21 +42,17 @@
   (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
   (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
 
-  :hook
-  (c-ts-mode . eglot-ensure)
-
+  :hook (c-ts-mode . eglot-ensure)
   :custom
   (c-ts-mode-indent-offset user/indent-width)
   (c-ts-mode-indent-style 'linux)
   (c-ts-mode-emacs-sources-support nil))
 
 (use-package cc-vars
-  :custom
-  (c-require-final-newline nil))
+  :custom (c-require-final-newline nil))
 
 (use-package cmake-ts-mode
-  :custom
-  (cmake-ts-mode-indent-offset user/indent-width))
+  :custom (cmake-ts-mode-indent-offset user/indent-width))
 
 (use-package compile
   :preface
@@ -63,12 +61,10 @@
     (let ((buffer-read-only nil))
       (ansi-color-apply-on-region compilation-filter-start (point))))
 
-  :hook
-  (compilation-filter . user/ansi-color-compilation-filter))
+  :hook (compilation-filter . user/ansi-color-compilation-filter))
 
 (use-package eglot
-  :after (flycheck yasnippet)
-
+  :after flycheck yasnippet
   :preface
   (defun user/safe-eglot-format-buffer ()
     ""
@@ -77,18 +73,15 @@
 
   (defmacro user/add-eglot-workspace-config (server conf-plist)
     ""
-    `(with-eval-after-load 'eglot
-       (setq-default
-        eglot-workspace-configuration
-        (plist-put eglot-workspace-configuration ,server ',conf-plist))))
+    (let ((conf-plist-gensym (gensym "conf-plist")))
+      `(with-eval-after-load 'eglot
+         (let ((,conf-plist-gensym (quote ,conf-plist)))
+           (setq-default
+            eglot-workspace-configuration
+            (plist-put eglot-workspace-configuration ,server ,conf-plist-gensym))))))
 
-  :commands
-  eglot-managed-p
-  user/add-eglot-workspace-config
-
-  :hook
-  (before-save . user/safe-eglot-format-buffer)
-
+  :commands eglot-managed-p user/add-eglot-workspace-config
+  :hook (before-save . user/safe-eglot-format-buffer)
   :custom
   (eglot-connect-timeout 60)
   (eglot-sync-connect 3)
@@ -96,47 +89,34 @@
   (eglot-ignored-server-capabilities nil))
 
 (use-package etags
-  :custom
-  (tags-apropos-verbose t))
+  :custom (tags-apropos-verbose t))
 
 (use-package gdb-mi
-  :custom
-  (gdb-debug-log-max 5120))
+  :custom (gdb-debug-log-max 5120))
 
 (use-package go-ts-mode
-  :mode
-  ((rx ".go" line-end) . go-ts-mode)
-
-  :hook
-  (go-ts-mode . eglot-ensure)
-
-  :custom
-  (go-ts-mode-indent-offset user/indent-width)
-
+  :mode ((rx ".go" line-end) . go-ts-mode)
+  :hook (go-ts-mode . eglot-ensure)
+  :custom (go-ts-mode-indent-offset user/indent-width)
   :config
-  (user/add-eglot-workspace-config
-   :gopls (:usePlaceholders t)))
+  (user/add-eglot-workspace-config :gopls
+    (:usePlaceholders t)))
 
 (use-package java-ts-mode
-  :custom
-  (java-ts-mode-indent-offset user/indent-width))
+  :custom (java-ts-mode-indent-offset user/indent-width))
 
 (use-package js
-  :hook
-  (js-ts-mode . eglot-ensure)
-
+  :hook (js-ts-mode . eglot-ensure)
   :custom
   (js-indent-level 2)
   (js-indent-first-init 'dynamic))
 
 (use-package json-ts-mode
-  :mode
-  ((rx "." (or (sequence "js" (zero-or-one (in ?m ?x))) "har") line-end) . js-tx-mode)
-
-  :custom
-  (json-ts-mode-indent-offset 2))
+  :mode ((rx "." (or (sequence "js" (zero-or-one (in ?m ?x))) "har") line-end) . js-ts-mode)
+  :custom (json-ts-mode-indent-offset 2))
 
 (use-package python
+  :commands user/eglot-python-server
   :preface
   (defun user/eglot-python-server (_)
     (cond
@@ -146,15 +126,8 @@
       (list "pipenv" "run" "pylsp"))
      (t "pylsp")))
 
-  :mode
-  ((rx ".py" (zero-or-one (or ?i ?w)) line-end) . python-ts-mode)
-
-  :hook
-  (python-ts-mode . eglot-ensure)
-
-  :commands
-  user/eglot-python-server
-
+  :mode ((rx ".py" (zero-or-one (or ?i ?w)) line-end) . python-ts-mode)
+  :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-indent-offset 4)
   (python-shell-interpreter-args "-m IPython")
@@ -180,36 +153,36 @@
        :rope_autoimport (:enabled t :completions (:enabled t) :code_actions (:enabled t))
        :rope_completion (:enabled t :eager t)
        :yapf (:enabled :json-false))))
-
   (with-eval-after-load 'eglot
     (add-to-list
      'eglot-server-programs '(python-ts-mode . user/eglot-python-server))))
 
+(use-package proto-ts-mode
+  :mode ((rx ".proto" line-end) . proto-ts-mode))
+
 (use-package rust-ts-mode
-  :mode
-  ((rx ".rs" line-end) . rust-ts-mode)
+  :preface
+  (defvar user/eglot-rust-server
+    '((rust-ts-mode rust-mode) .
+      ("rust-analyzer"
+       :initializationOptions (:check (:command "clippy")))))
 
-  :hook
-  (rust-ts-mode . eglot-ensure)
-
+  :mode ((rx ".rs" line-end) . rust-ts-mode)
+  :hook (rust-ts-mode . eglot-ensure)
   :config
   (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '((rust-ts-mode rust-mode) .
-                   ("rust-analyzer"
-                    :initializationOptions (:check (:command "clippy")))))))
+    (add-to-list 'eglot-server-programs 'user/eglot-rust-server)))
 
 (use-package sh-script
   :preface
+  (user/defun-setq-local-hook user/enable-local-indent-tabs-mode
+   indent-tabs-mode t)
+
   (add-to-list 'major-mode-remap-alist '(sh-mode . bash-ts-mode))
 
-  :functions user/enable-local-indent-tabs-mode
-
-  :init
-  (fset 'user/enable-local-indent-tabs-mode (user/setq-local-hook indent-tabs-mode t))
-
-  (add-hook 'sh-mode-hook #'user/enable-local-indent-tabs-mode)
-  (add-hook 'bash-ts-mode-hook #'user/enable-local-indent-tabs-mode))
+  :hook
+  (sh-mode . user/enable-local-indent-tabs-mode)
+  (bash-ts-mode . user/enable-local-indent-tabs-mode))
 
 (use-package typescript-ts-mode
   :mode
@@ -224,8 +197,7 @@
   (typescript-ts-mode-indent-offset 2))
 
 (use-package xref
-  :after (consult)
-
+  :after consult
   :custom
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref))

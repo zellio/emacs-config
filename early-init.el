@@ -45,7 +45,7 @@
                        (tool-bar-lines . 0)
                        (menu-bar-lines . 0))
  package-enable-at-startup nil
- server-socket-dir "~/.cache/run/emacs")
+ server-socket-dir (expand-file-name "~/.cache/run/emacs"))
 
 (when (and (native-comp-available-p) (fboundp 'startup-redirect-eln-cache))
   (startup-redirect-eln-cache

@@ -37,61 +37,29 @@
       (push directory load-path)))
   (push lisp-directory load-path))
 
-;; Setup straight.el
-
-(defvar bootstrap-version)
-
-(let* ((straight-installer-url
-        "https://raw.githubusercontent.com/radian-software/straight.el/master/install.el")
-       (straight-bootstrap-file
-        (expand-file-name
-         "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-       (bootstrap-version 7))
-  (unless (file-readable-p straight-bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously straight-installer-url 'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (customize-set-variable 'straight-use-version-specific-build-dir t)
-  (load straight-bootstrap-file nil 'nomessage))
-
-(declare-function straight-use-package "straight")
-
-(customize-set-variable 'use-package-check-before-init t)
-
-(straight-use-package 'use-package)
-
-;; Load required vendor packages for setup
-
-(use-package no-littering
-  :straight t)
-
-(declare-function no-littering-expand-etc-file-name "no-littering")
-
-(use-package diminish
-  :straight t)
-
-(use-package general
-  :straight t)
-
 ;; Load user configuration
 
 (let* ((file-name-handler-alist nil))
+  (require 'config/bootstrap)
   (require 'config/environment)
   (require 'config/emacs)
-  (require 'config/general)
+  (require 'config/vendor/general)
   (require 'config/textmodes)
   (require 'config/progmodes)
-  (require 'config/vendor)
+  (customize-set-variable 'use-package-always-ensure t)
+  (require 'config/vendor/interface)
+  (require 'config/vendor/tools)
+  (require 'config/vendor/org)
+  (require 'config/vendor/textmodes)
+  (require 'config/vendor/progmodes)
   (require 'config/theme)
 
-  ;; Load user customization files
+  ;; Move user configuration file
   (use-package cus-edit
-    :straight nil
-
     :custom
     (custom-file (no-littering-expand-etc-file-name "custom.el")))
 
+  ;; Load custom and un-tracked site config
   (dolist (config-file (list custom-file (no-littering-expand-etc-file-name "site-config.el")))
     (when (file-readable-p config-file)
       (load config-file))))

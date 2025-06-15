@@ -1,10 +1,10 @@
 ;;; general.el --- User configured command bindings -*- lexical-binding: t; coding: utf-8-unix; -*-
 
-;; Copyright (C) 2012-2024 Zachary Elliott
+;; Copyright (C) 2012-2025 Zachary Elliott
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott
-;; Version: 0.7.0
+;; Maintainer: Zachary Elliott <contact@zell.io>>
+;; Version: 0.8.0
 ;; Package-Requires: ((emacs "30.0"))
 ;; Homepage: https://github.com/zellio/emacs-config
 
@@ -72,10 +72,7 @@
     (split-window-right)
     (other-window 1))
 
-  :functions
-  general-define-key
-  general-unbind
-
+  :functions general-define-key general-unbind
   :config
   (general-define-key
    ;;; Navidation
@@ -108,6 +105,6 @@
   (general-unbind
     "C-x f"))
 
-(provide 'config/general)
+(provide 'config/vendor/general)
 
 ;;; general.el ends here

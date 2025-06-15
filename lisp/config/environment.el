@@ -1,12 +1,11 @@
 ;;; environment.el --- Load shell environment cache -*- lexical-binding: t; coding: utf-8-unix; -*-
 
-;; Copyright (C) 2012-2024 Zachary Elliott
+;; Copyright (C) 2012-2025 Zachary Elliott
 
 ;; Author: Zachary Elliott <contact@zell.io>
-;; Maintainer: Zachary Elliott
-;; Version: 0.7.0
-;; Package-Requires: ((emacs "30.0")
-;;                    (no-littering "1.7.3"))
+;; Maintainer: Zachary Elliott <contact@zell.io>>
+;; Version: 0.8.0
+;; Package-Requires: ((emacs "30.0"))
 ;; Homepage: https://github.com/zellio/emacs-config
 
 ;; This file is not part of GNU Emacs
@@ -30,9 +29,9 @@
 
 ;;; Code:
 
-(use-package envmon
-  :straight nil
 
+(use-package envmon
+  :functions envmon-mode-enable
   :custom
   (envmon-mode-lighter nil)
   (envmon-shell-executable 'guess)
