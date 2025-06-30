@@ -33,8 +33,12 @@
   (require 'config/emacs))
 
 (use-package asdf-vm
-  :ensure nil
-  :hook (emacs-startup . asdf-vm-mode-enable))
+  :ensure nil (:host github :repo ("zellio/emacs-asdf-vm" . "asdf-vm"))
+  :hook (emacs-startup . asdf-vm-mode-enable)
+  :custom
+  (asdf-vm-path-injection-behaviour nil)
+  (asdf-vm-installer-src-dir "/Users/z.elliott/.local/share/asdf/downloads/asdf")
+  (asdf-vm-installer-bin-dir "/Users/z.elliott/.local/bin"))
 
 (use-package bazel
   :custom
