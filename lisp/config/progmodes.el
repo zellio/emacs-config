@@ -171,7 +171,7 @@
   :hook (rust-ts-mode . eglot-ensure)
   :config
   (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs 'user/eglot-rust-server)))
+    (add-to-list 'eglot-server-programs user/eglot-rust-server)))
 
 (use-package sh-script
   :preface
