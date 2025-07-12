@@ -48,6 +48,8 @@
   (dockerfile-use-buildkit t)
   (dockerfile-enable-auto-indent nil))
 
+(use-package fish-mode)
+
 (use-package gotmpl-ts-mode
   :ensure
   (:host github

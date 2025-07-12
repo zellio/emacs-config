@@ -271,7 +271,8 @@ guess for you set this value to `guess' or nil."
 (defvar envmon-shell-executable-default-arguments-alist
   '((bash . ("-l" "-i" "-c"))
     (dash . ("-l" "-i" "-c"))
-    (zsh . ("--login" "--interactive" "-c")))
+    (zsh . ("--login" "--interactive" "-c"))
+    (fish . ("--login" "--interactive" "--command")))
   "Default shell argument mapping for extracting environment variables.")
 
 (define-error
