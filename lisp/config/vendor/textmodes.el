@@ -29,6 +29,48 @@
 
 ;;; Code:
 
+(use-package auctex
+  :ensure (:repo "git://git.savannah.gnu.org/auctex.git"
+           :branch "main"
+           :pre-build (("make" "elpa"))
+           :build (:not elpaca--compile-info)
+           :files ("*.el" "doc/*.info" "etc" "images" "latex" "style")
+           :version (lambda (_) (require 'auctex) AUCTeX-version)))
+
+(use-package bib-cite
+  :ensure nil
+  :after auctex
+  :custom (bib-novice nil))
+
+(use-package latex
+  :ensure nil
+  :after auctex
+  :custom
+  (LaTeX-default-options "a4paper")
+  (LaTeX-insert-into-comments t)
+  (LaTeX-default-environment "itemize*")
+  (LaTeX-syntactic-comments nil)
+  (LaTeX-math-list '((?B "Beta" "Greek Uppercase" #x0392)
+                     (?H "Eta" "Greek Uppercase" #x0397)
+                     (?\C-u "sum" "Var Symbol" #x2211)
+                     (?\C-o "prod" "Var Symbol" #x220F)
+                     (?\C-r "sqrt" "Constructs" #x221A)
+                     (?v "vec" "Accents" #X20D7))))
+
+(use-package tex
+  :ensure nil
+  :after auctex
+  :custom
+  (TeX-engine 'luatex)
+  (TeX-master nil)
+  (TeX-parse-self t)
+  (TeX-complete-word nil)
+  (TeX-auto-save t)
+  (TeX-auto-untabify t)
+
+  :config
+  (setcdr (assoc 'output-pdf TeX-view-program-selection) '("PDF Tools")))
+
 (use-package jinx
   :hook (emacs-startup . global-jinx-mode)
   :general

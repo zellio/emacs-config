@@ -107,6 +107,24 @@
   :custom
   (magit-pull-or-fetch t))
 
+(use-package pdf-tools
+  :functions pdf-tools-install
+  :init (pdf-tools-install t t))
+
+(use-package pdf-info
+  :ensure nil
+  :after pdf-tools
+  :custom
+  (pdf-info-epdfinfo-error-filename
+   (expand-file-name
+    (format "epdfinfo-%s" (emacs-pid)) temporary-file-directory)))
+
+(use-package pdf-view
+  :ensure nil
+  :after pdf-tools
+  :custom
+  (pdf-view-use-imagemagick t))
+
 (use-package pipenv
   :after python-ts-mode
   :functions pipenv-project? pipenv-activate pipenv-deactivate
