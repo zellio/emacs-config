@@ -37,6 +37,11 @@
            :files ("*.el" "doc/*.info" "etc" "images" "latex" "style")
            :version (lambda (_) (require 'auctex) AUCTeX-version)))
 
+(use-package tex-site
+  :ensure nil
+  :after no-littering auctex
+  :custom (TeX-auto-global (no-littering-expand-var-file-name "auctex")))
+
 (use-package bib-cite
   :ensure nil
   :after auctex
@@ -45,6 +50,7 @@
 (use-package latex
   :ensure nil
   :after auctex
+
   :custom
   (LaTeX-default-options "a4paper")
   (LaTeX-insert-into-comments t)
@@ -60,9 +66,11 @@
 (use-package tex
   :ensure nil
   :after auctex
+
   :custom
   (TeX-engine 'luatex)
   (TeX-master nil)
+  (TeX-auto-local ".auctex-auto")
   (TeX-parse-self t)
   (TeX-complete-word nil)
   (TeX-auto-save t)
