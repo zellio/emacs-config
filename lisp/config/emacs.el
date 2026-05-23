@@ -100,6 +100,15 @@
     (unless (get-buffer "*scratch*")
       (user/scratch-buffer-respawn)))
 
+  (defun user/wsl-p ()
+    "Detect Microsoft WSL environment"
+    (or
+     (file-exists-p "/proc/sys/fs/binfmt_misc/WSLInterop")
+     (file-exists-p "/etc/wsl.conf")
+     (let ((kernel-release (string-trim (shell-command-to-string "uname -r")))
+           (case-fold-search t))
+       (string-match-p "\\(?:microsoft\\|wsl\\)" kernel-release))))
+
   :custom
   ;; c source
   (user-full-name "Zachary Elliott")
@@ -145,7 +154,8 @@
   :config
   (setq
    frame-title-format '("Emacs " emacs-version)
-   read-process-output-max #x10000)
+   read-process-output-max #x10000
+   select-active-regions nil)
 
   (prefer-coding-system 'utf-8)
   (prefer-coding-system 'utf-8-unix)
@@ -354,6 +364,12 @@
 (use-package select
   :custom (x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
+(use-package select
+  :if (user/wsl-p)
+  :custom
+  (select-enable-clipboard t)
+  (select-enable-primary nil))
+
 (use-package shell
   :custom (shell-has-auto-cd t))
 
@@ -382,6 +398,11 @@
   (track-eol t)
   (indent-tabs-mode nil)
   (read-extended-command-predicate #'command-completion-default-include-p))
+
+(use-package simple
+  :if (user/wsl-p)
+  :custom
+  (interprogram-cut-function #'gui-select-text))
 
 (use-package time-stamp
   :custom (time-stamp-format "%Y-%02m-%02d %02H:%02M:%02S%Z"))
