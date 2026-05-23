@@ -37,7 +37,7 @@
 
 ;;;###autoload
 (defmacro user/defun-setq-local-hook (name &rest varlist)
-  "Generate a hook named NAME which sets VARLIST locally."
+  "Generate a hook named NAME to set VARLIST locally."
   `(defun ,name ()
      ""
      ,@(mapcar
@@ -317,21 +317,6 @@
   ;; Force show-paren to act sanely
   (advice-add show-paren-data-function :around #'user/show-paren-data-function-around))
 
-(use-package recentf
-  :after no-littering
-  :preface (user/defun-enable-mode recentf-mode)
-  :hook (emacs-startup . enable-recentf-mode)
-  :general ("C-x C-r" 'recentf-open-files)
-  :custom
-  (recentf-max-saved-items 256)
-  (recentf-arrange-by-rules-min-items 1)
-  (recentf-auto-cleanup 'mode)
-  (recentf-menu-filter 'recentf-arrange-by-mode)
-
-  :config
-  (push 'no-littering-var-directory recentf-exclude)
-  (push 'no-littering-etc-directory recentf-exclude))
-
 (use-package register
   :after consult
   :custom (register-preview-delay 0.5)
@@ -468,14 +453,6 @@
         (error
          (let ((message (format "Failed to install language grammar for %s: %s" language error)))
            (display-warning 'user/treesit message)))))))
-
-(use-package uniquify
-  :custom
-  (uniquify-buffer-name-style 'forward)
-  (uniquify-after-kill-buffer-p t)
-  (uniquify-min-dir-content 0)
-  (uniquify-trailing-separator-p t)
-  (uniquify-strip-common-suffix t))
 
 (use-package windmove
   :hook (emacs-startup . windmove-default-keybindings)
