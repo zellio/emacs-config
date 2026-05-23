@@ -33,7 +33,6 @@
   (require 'config/emacs))
 
 (use-package asdf-vm
-  :ensure nil (:host github :repo ("zellio/emacs-asdf-vm" . "asdf-vm"))
   :hook (emacs-startup . asdf-vm-mode-enable)
   :custom
   (asdf-vm-path-injection-behaviour nil)
@@ -125,44 +124,9 @@
   :custom
   (pdf-view-use-imagemagick t))
 
-(use-package pipenv
-  :after python-ts-mode
-  :functions pipenv-project? pipenv-activate pipenv-deactivate
-  :preface
-  (defvar user/pipenv-dir-cache nil)
-
-  (defun user/pipenv-maybe-activate ()
-    ""
-    (interactive)
-    (when-let* ((pipenv-project (pipenv-project?)))
-      (unless (and (boundp 'user/pipenv-dir-cache)
-                   (string= pipenv-project user/pipenv-dir-cache))
-        (setq
-         user/pipenv-dir-cache pipenv-project)
-        (pipenv-deactivate)
-        (pipenv-activate))))
-
-  :hook (python-ts-mode . user/pipenv-maybe-activate)
-  :custom
-  (pipenv-executable (executable-find "pipenv"))
-  (pipenv-process-name "pipenv")
-  (pipenv-process-buffer-name "*pipenv*")
-  (pipenv-shell-buffer-name "pipenv shell")
-  (pipenv-projectile-after-switch-function nil))
-
-
-(use-package poetry
-  :after (python-ts-mode projectile)
-  :functions poetry-tracking-mode
-  :hook (python-ts-mode . enable-poetry-tracking-mode)
-  :preface (user/defun-enable-mode poetry-tracking-mode)
-  :commands (poetry-find-project-root)
-  :custom
-  (poetry-virtualenv-path (or (getenv "POETRY_VIRTUALENVS_PATH")
-                              (when-let* ((xdg-cache-dir (getenv "XDG_CACHE_DIR")))
-                                (expand-file-name "virtualenvs" xdg-cache-dir))
-                              (expand-file-name ".venv" (getenv "HOME"))))
-  (poetry-tracking-strategy 'projectile))
+(use-package pet
+  :config
+  (add-hook 'python-base-mode-hook 'pet-mode -10))
 
 (use-package s
   :preface

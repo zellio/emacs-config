@@ -117,45 +117,12 @@
 
 (use-package python
   :commands user/eglot-python-server
-  :preface
-  (defun user/eglot-python-server (_)
-    (cond
-     ((and (fboundp 'poetry-find-project-root) (poetry-find-project-root))
-      (list "poetry" "run" "pylsp"))
-     ((and (fboundp 'pipenv-project-p) (pipenv-project-p))
-      (list "pipenv" "run" "pylsp"))
-     (t "pylsp")))
-
   :mode ((rx ".py" (zero-or-one (or ?i ?w)) line-end) . python-ts-mode)
   :hook (python-ts-mode . eglot-ensure)
   :custom
   (python-indent-offset 4)
-  (python-shell-interpreter-args "-m IPython")
-
-  :config
-  (user/add-eglot-workspace-config :pylsp
-    (:plugins
-      (:autopep8 (:enabled :json-false)
-       :flake8 (:enabled :json-false)
-       :jedi (:auto_import_modules [] :env_vars nil :environment nil :extra_paths [])
-       :jedi_completion (:enabled t :eager t :fuzzy t :include_class_objects t :include_function_objects t :include_params t)
-       :jedi_definition (:enabled t :follow_builtin_definitions t :follow_builtin_imports t :follow_imports t)
-       :jedi_hover (:enabled t)
-       :jedi_references (:enabled t)
-       :jedi_signature_help (:enabled t)
-       :jedi_symbols (:enabled t :include_import_symbols t :all_scopes t)
-       :mccable (:enabled :json-false)
-       :preload (:enabled :json-false)
-       :pycodestyle (:enabled :json-false)
-       :pydocstyle (:enabled :json-false)
-       :pyflakes (:enabled :json-false)
-       :pylint (:enabled :json-false)
-       :rope_autoimport (:enabled t :completions (:enabled t) :code_actions (:enabled t))
-       :rope_completion (:enabled t :eager t)
-       :yapf (:enabled :json-false))))
-  (with-eval-after-load 'eglot
-    (add-to-list
-     'eglot-server-programs '(python-ts-mode . user/eglot-python-server))))
+  (python-indent-guess-indent-offset nil)
+  (python-shell-interpreter-args "-m IPython"))
 
 (use-package proto-ts-mode
   :mode ((rx ".proto" line-end) . proto-ts-mode))
