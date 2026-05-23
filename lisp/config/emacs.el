@@ -454,6 +454,14 @@
          (let ((message (format "Failed to install language grammar for %s: %s" language error)))
            (display-warning 'user/treesit message)))))))
 
+(use-package uniquify
+  :custom
+  (uniquify-buffer-name-style 'forward)
+  (uniquify-after-kill-buffer-p t)
+  (uniquify-min-dir-content 0)
+  (uniquify-trailing-separator-p t)
+  (uniquify-strip-common-suffix t))
+
 (use-package windmove
   :hook (emacs-startup . windmove-default-keybindings)
   :custom (windmove-wrap-around t))
