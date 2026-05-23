@@ -33,6 +33,7 @@
   (require 'rx))
 
 (use-package org
+  :ensure (:wait t)
   :mode ((rx ".org" line-end) . org-mode)
   :preface
   (defcustom user/org-directory
